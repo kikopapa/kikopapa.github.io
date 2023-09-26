@@ -1,0 +1,48 @@
+<!-- FB meta og 資料開始 -->
+
+<!-- og 所有頁面類型的，網址、標題、作者、出版者、頁面類型設定 -->
+<b:if cond='data:blog.url == data:blog.homepageUrl'> <!-- 如果以下資料 blog 網址在首頁網址的話 -->
+	<meta expr:content='data:blog.title + &quot;｜&quot; + &quot;跟著小樹一起成長&quot;' property='og:title'/>
+	<meta expr:content='data:blog.url' property='og:url'/>
+	<meta content='website' property='og:type'/>
+<b:else/>  <!-- 如果不在首頁的情況下 -->
+<b:if cond='data:blog.pageType == &quot;item&quot;'> <!-- 而以下資料為文章頁面 -->
+	<meta content='article' property='og:type'/>
+	<meta content='https://www.kikopapa.com/p/about-kikopapa.html' property='article:publisher'/>
+	<meta content='https://www.kikopapa.com/p/about-kikopapa.html' property='article:author'/>
+	<meta expr:content='data:blog.url' property='og:url'/> <!-- blog 網址顯示，og：文章網址 -->
+	<meta expr:content='data:blog.pageName + &quot;｜&quot; + data:blog.title' property='og:title'/> <!-- 文章頁面標題顯示，og：文章名稱｜網誌名稱 -->
+<b:else/>  <!-- 如果不在首頁又不在文章頁面的情況下 -->
+<b:if cond='data:blog.url'>  <!-- 如果以下內容是在 blog 網址 -->
+	<meta expr:content='data:blog.url' property='og:url'/> <!-- blog 網址顯示，og：當前網址 -->
+</b:if>
+<b:if cond='data:blog.pageName'>  <!-- 如果以下內容是顯示 blog 名稱 -->
+<meta expr:content='data:blog.pageName + &quot;｜&quot; + data:blog.title' property='og:title'/> <!-- 當前頁面標題顯示，og：當前頁面名稱｜網誌名稱 -->
+</b:if>
+<meta content='website' property='og:type'/><!-- 當前頁面，如果不在首頁又不在文章頁面的情況下，頁面類型皆顯示為，og：website ( 網站 ) -->
+</b:if>
+</b:if>
+
+<!-- og 所有頁面類型的圖片設定 -->
+<b:if cond='data:blog.postImageUrl'> <!-- 如果以下內容為文章圖片 ( 大圖 ) 網址 -->
+<meta expr:content='data:blog.postImageUrl' property='og:image'/> <!-- 文章圖片 ( 大圖 ) 顯示為，og：文章大圖 -->
+<b:else/>
+<b:if cond='data:blog.postImageThumbnailUrl'>
+<meta expr:content='data:blog.postImageThumbnailUrl' property='og:image'/>
+<b:else/>
+<meta content='https://raw.githubusercontent.com/kikopapa/kikopapa.github.io/main/kikopapa_img.png' property='og:image'/>
+</b:if>
+<b:else/>
+<meta content='https://raw.githubusercontent.com/kikopapa/kikopapa.github.io/main/kikopapa_img.png' property='og:image'/>
+</b:if>
+
+<!-- og 相關全域性設定，包含描述 -->
+<meta content='967548467773004' property='fb:app_id'/>
+<!-- <meta content='fb 使用者 號碼' property='fb:admins'/> -->
+<meta content='zh_TW' property='og:locale'/>
+<meta content='zh_CN' property='og:locale:alternate'/>
+<meta content='跟著小樹一起成長' property='og:site_name'/>  <!-- 網站名稱 -->
+<meta content='小樹爸爸' name='Author'/> <!-- Blogger 簡介或 G+ 作者名稱 -->
+<meta expr:content='data:blog.metaDescription' property='og:description'/> <!-- 中繼資料 -->
+
+<!-- FB meta og 資料結束 -->
