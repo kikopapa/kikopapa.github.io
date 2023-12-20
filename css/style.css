@@ -53,6 +53,7 @@ header {
     padding: 0 8px 8px;
     border-bottom: 5px #643d33 solid;
     /* font-weight: normal; */
+
 }
 
 /* 按鈕 */
@@ -264,7 +265,7 @@ aside p {
 #contact {
     background-image: url(../images/go-bg.jpg);
     min-height: 100vh;
-    background-color: rgba(96, 67, 51, 0.8);
+    background-color: rgba(96, 67, 51, 0.5);
     background-size: cover;
     background-blend-mode: multiply;
     /* #966751 */
@@ -374,6 +375,7 @@ footer p {
     }
     .main-nav li {
         margin: 0 20px;
+        visibility: hidden; /*選單隱藏*/
     }
 
     /* HOME */
