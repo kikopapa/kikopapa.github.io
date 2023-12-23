@@ -272,6 +272,10 @@ aside p {
   margin-bottom: 50px;
 }
 
+#divflex{
+    display:flex;
+}
+
 /* CONTACT
 ------------------------------- */
 #contact {
@@ -437,6 +441,14 @@ footer p {
     .menu-content {
         margin-top: 20%;
     }
+
+    #divflex{
+        flex-direction: column;
+    }
+    #divflex.wrapper {
+        text-align: center;
+    }
+
 
     /* CONTACT */
     #contact .page-title {
