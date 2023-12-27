@@ -20,7 +20,8 @@ img {
 }
 
 header {
-    background: #2C2F40;
+/*    background: #2C2F40;*/
+    background: rgba(215, 188, 167, 0.8);
     height: 100px;
     width: 100%;
 /*    position: fixed;*/
@@ -72,8 +73,11 @@ blockquote{
 .button {
     font-size: 1.375rem;
 /*    background: #0bd;*/
-    background: #2C2F40;
-    color: #fff;
+/*    background: #2C2F40;*/
+/*    color: #fff;*/
+    background: #D7BCA7;
+    color: black;
+
     border-radius: 5px;
     padding: 18px 32px;
 }
@@ -246,7 +250,7 @@ aside p {
 ------------------------------- */
 #menu {
    /* background-image: url(../images/go-bg.jpg); */
-   background-color: #2C2F40;
+/*   background-color: #2C2F40;*/
    min-height: 10vh;
 
 }
@@ -364,12 +368,13 @@ input[type="submit"] {
 /* 頁尾
 ------------------------------- */
 footer {
-    background: #2C2F40;
+/*    background: #2C2F40;*/
+    background: rgba(215, 188, 167, 0.8);
     text-align: center;
     padding: 26px 0;
 }
 footer p {
-    color: #fff;
+    color: black;
     font-size: 0.875rem;
 }
 
