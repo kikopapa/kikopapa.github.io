@@ -8,10 +8,17 @@ html {
 body{
     font-family: "微軟正黑體", "Microsoft JhengHei", "Yu Gothic Medium", YuGothic, sans-serif;
     line-height: 1.7;
-/*    color: #432;*/
+
 /*    color: black;*/
 /*    color: #2C2F40;*/
 }
+
+/*:root{
+    --primary-h:12°;
+    --primary-s:32%;
+    --primary-l:30%;
+}*/
+
 a {
     text-decoration: none;
 }
@@ -33,7 +40,11 @@ blockquote{
     font-weight:300;
     text-align:center;
     color:white;
-    background: #643d33; /*框框背景*/
+
+/*    background:hsl(16°, 33%, 35.1%);*/
+    background: #59342C; 
+    /*框框背景*/
+
     border: 2px; /*邊框粗細*/
         /*邊框格式及顏色*/
     padding: 20px 20%;/*框內文字距離框*/
@@ -64,7 +75,7 @@ blockquote{
 .sub-title {
     font-size: 20px;
     padding: 0 8px 8px;
-    border-bottom: 5px #643d33 solid;
+    border-bottom: 5px #59342C solid;
     /* font-weight: normal; */
 
 }
@@ -83,7 +94,8 @@ blockquote{
 }
 .button:hover {
     /* background: #6D8C3F; */
-    background: #643d33;
+    background: #59342C;
+    color: #fff;
 }
 
 /* iframe */
@@ -116,7 +128,7 @@ iframe {
 }
 .main-nav a:hover {
     /* color: #6D8C3F; */
-    color: #643d33
+    color: #59342C
 }
 
 /* HOME
@@ -183,7 +195,7 @@ article {
 }
 .post-date {
     /* background: #0bd; */
-    background: #643d33;
+    background: #59342C;
     border-radius: 50%;
     color: #fff;
     width: 100px;
@@ -240,7 +252,7 @@ aside {
 }
 .sub-menu a:hover {
     /* color: #0bd; */
-    color:#643d33;
+    color:#9A6852;
 }
 aside p {
     padding: 12px 10px;
