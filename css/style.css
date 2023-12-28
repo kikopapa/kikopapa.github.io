@@ -114,7 +114,7 @@ iframe {
     margin-top: 14px;
 }
 
-.menu{
+#TOP-MENU{
     display: none;
 }
 
@@ -407,16 +407,29 @@ footer p {
     }
 
     /* HEADER */
+
+
+    nav{
+        width: 100%;
+    }
+
     .main-nav {
-        font-size: 1rem;
-        margin-top: 10px;
+        flex-direction: column;
+        font-size: 1.125rem;
+        margin-top: 0;
+        background-color: rgba(215, 188, 167, 0.3);
+        width: 100%;
+        text-align: center;
+        /* visibility: hidden; */
+
     }
     .main-nav li {
         margin: 0 20px;
-        visibility: hidden; /*選單隱藏*/
+        /* visibility: hidden; 選單隱藏 */
+        
     }
 
-    .menu{
+    #TOP-MENU{
         display: block;
         background-color: transparent;
         color: white;
@@ -428,9 +441,10 @@ footer p {
         cursor: pointer;
     }
 
+ 
     /* HOME */
     .home-content {
-        margin-top: 20%;
+        margin-top: 40%;
     }
 
     /* NEWS */
