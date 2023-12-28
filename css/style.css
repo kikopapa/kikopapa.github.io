@@ -113,6 +113,11 @@ iframe {
     width: 210px;
     margin-top: 14px;
 }
+
+.menu{
+    display: none;
+}
+
 .main-nav {
     display: flex;
     font-size: 1.25rem;
@@ -409,6 +414,18 @@ footer p {
     .main-nav li {
         margin: 0 20px;
         visibility: hidden; /*選單隱藏*/
+    }
+
+    .menu{
+        display: block;
+        background-color: transparent;
+        color: white;
+        font-size: 35px;
+        position: absolute;
+        top:15px;
+        left:20px;
+        border:none;
+        cursor: pointer;
     }
 
     /* HOME */
