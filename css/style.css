@@ -40,6 +40,7 @@ blockquote{
     font-weight:300;
     text-align:center;
     color:white;
+    margin-bottom: ;
 
 /*    background:hsl(16°, 33%, 35.1%);*/
     background: #59342C; 
@@ -125,8 +126,10 @@ iframe {
     margin-top: 34px;
     list-style: none;
 }
+
 .main-nav li {
-    margin-left: 36px;
+    margin-left: 18px;
+    margin-right: 18px;
 }
 .main-nav a {
     color: white;
@@ -168,11 +171,15 @@ iframe {
 
 .about-name p {
     padding: 12px 10px;
+    margin-top: 1rem;
 }
 
 .about-us p {
     padding: 12px 10px;
+
 }
+
+
 
 
 /* NEWS
@@ -308,6 +315,8 @@ aside p {
 #contact {
     background-image: url(../images/go-bg.jpg);
     min-height: 100vh;
+/*    background: linear-gradient(#D7BCA7, #9A6852)*/;
+/*    background-color: rgba(215, 188, 167, 0.8);*/
     background-color: rgba(96, 67, 51, 0.5);
     background-size: cover;
     background-blend-mode: multiply;
