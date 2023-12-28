@@ -164,9 +164,15 @@ iframe {
     background-color:rgba(96, 67, 51, 0.3) ;
     height: auto;
     min-height: 50vh;
-
 }
 
+.about-name p {
+    padding: 12px 10px;
+}
+
+.about-us p {
+    padding: 12px 10px;
+}
 
 
 /* NEWS
@@ -493,7 +499,7 @@ footer p {
     #divflex{
         flex-direction: column;
     }
-    #divflex.wrapper {
+    #divflex .wrapper {
         text-align: center;
     }
 
