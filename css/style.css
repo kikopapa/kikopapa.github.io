@@ -9,8 +9,6 @@ body{
     font-family: "微軟正黑體", "Microsoft JhengHei", "Yu Gothic Medium", YuGothic, sans-serif;
     line-height: 1.7;
 
-/*    color: black;*/
-/*    color: #2C2F40;*/
 }
 
 /*:root{
@@ -40,7 +38,7 @@ blockquote{
     font-weight:300;
     text-align:center;
     color:white;
-    margin-bottom: ;
+    margin-bottom: 10px;
 
 /*    background:hsl(16°, 33%, 35.1%);*/
     background: #59342C; 
