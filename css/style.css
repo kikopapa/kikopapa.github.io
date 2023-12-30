@@ -466,6 +466,7 @@ footer p {
     }
 
     /* NEWS */
+    .img_container,
     .news-contents {
         flex-direction: column;
     }

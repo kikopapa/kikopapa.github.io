@@ -10,7 +10,21 @@
     <!-- CSS -->
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
         <link href="css/style.css" rel="stylesheet">
+
+        <style>
+            .img_container{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .img_container img{
+                padding: 2px;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -38,11 +52,24 @@
         <div class="news-contents wrapper">
             <article>
                 <header class="post-info">
-                    <h2 class="post-title" style="color: white;">級位甲組磨練賽</h2>
+                    <h2 class="post-title" style="color: #643d33;">級位甲組磨練賽</h2>
                     <p class="post-date">12/30 <span>2023</span></p>
-                    <p class="post-cat" style="color: white;">類別：比賽活動</p>
+                    <p class="post-cat" style="color: #643d33;">類別：比賽活動</p>
                 </header>
-                <img src="images/2022.jpg" alt="店內環境">
+
+            <div class="img_container">
+
+                <div>
+                    <a href="images/post-1.jpg" data-fancybox="gallery" data-caption="【圍棋活動】9路棋盤練習">
+                    <img src="images/post-1.jpg" alt="店內環境-1" width="640"></a>
+                </div>
+                <div>
+                    <a href="images/post-2.jpg" data-fancybox="gallery" data-caption="【圍棋活動】19路棋盤正式比賽">
+                    <img src="images/post-2.jpg" alt="店內環境-2" width="640"></a>
+                </div> 
+
+            </div>
+
                 <hr style="border: 2px solid #643d33"/>
                 <br/>
                 <p>大家好！歡迎來到我們的部落格，今天我們要和大家分享上週日舉辦的一場精彩圍棋比賽：級位甲組磨練賽。
@@ -85,6 +112,13 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="top-menu.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+        <script>
+            Fancybox.bind('[data-fancybox="gallery"]', {
+                //
+            });    
+        </script>
 
 
     </body>

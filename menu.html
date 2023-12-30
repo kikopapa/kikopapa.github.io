@@ -10,6 +10,7 @@
     <!-- CSS -->
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link href="https://fonts.googleapis.com/css?family=Philosopher" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
         <link href="css/style.css" rel="stylesheet">
     </head>
 
@@ -45,7 +46,9 @@
         <div class="wrapper">
                 <h3 class="sub-title">好友對弈</h3>
                 <br/>
-                <img src="images/services-1.jpg" alt="" width="400px">         
+                <a href="images/services-1.jpg" data-fancybox="gallery">
+                <img src="images/services-1.jpg" alt="" width="400px">
+                </a>         
                 <p>在這裡，您可以和您的好友們一同享受一場精彩的圍棋對局。不論您是初學者還是有經驗的棋手，這裡都是您磨練棋藝、挑戰自我的理想場所。不僅如此，我們還提供豐富的教學資源，助您提高技藝，與好友們一同成長。</p>
                 <br/>
         </div>
@@ -53,7 +56,9 @@
         <div class="wrapper">
                 <h3 class="sub-title">指導棋</h3>
                 <br/>
-                <img src="images/services-2.jpg" alt="" width="400px">         
+                <a href="images/services-2.jpg" data-fancybox="gallery">
+                <img src="images/services-2.jpg" alt="" width="400px">  
+                </a>       
                 <p>我們特別邀請到一群高段棋手和棋士，專程為您提供下棋指導服務。無論您是初學者還是有經驗的棋手，都能在這裡找到適合您的挑戰對手，並獲得高水平的指導。此外，我們還設置了相關研討會，讓您在樂趣中提升棋藝。</p>
                 <br/>
         </div>
@@ -61,7 +66,9 @@
         <div class="wrapper">
                 <h3 class="sub-title">聚會場地</h3>
                 <br/>
+                <a href="images/services-3.jpg" data-fancybox="gallery">
                 <img src="images/services-3.jpg" alt="" width="400px">
+                </a>
                 <p>提供優質場地舉辦聚會，不論是跟同學們一起聚會辦迎新活動、同學會、跟工作同事 Team Building 、同好線下聚會，或是跟家人於節日聚在一起，讓我們更靠近彼此。也是新世代年輕人休閒娛樂一個新的選擇。</p>
                 <br/>
         </div>
@@ -69,7 +76,9 @@
         <div class="wrapper">
                 <h3 class="sub-title">特調飲品</h3>
                 <br/>
+                <a href="images/services-4.jpg" data-fancybox="gallery">
                 <img src="images/services-4.jpg" alt="" width="400px">
+                </a>
                 <p>精心準備各種手沖咖啡飲品!<br/>
                 我們提供最新鮮、最美味的輕食和飲品選擇，滿足您的味蕾。無論您是健康飲食的愛好者，還是尋找美味小吃的美食家，這裡都是您的天堂。我們專注於創造新鮮、健康、美味的食品，為您帶來愉快的用餐體驗。</p>
                 <br/>
@@ -85,7 +94,12 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <script src="top-menu.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+        <script>
+            Fancybox.bind('[data-fancybox="gallery"]', {
+                //
+            });    
+        </script>
         
     </body>
 </html>
