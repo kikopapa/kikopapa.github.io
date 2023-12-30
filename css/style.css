@@ -403,14 +403,16 @@ input[type="submit"] {
 /* 頁尾
 ------------------------------- */
 footer {
-/*    background: #2C2F40;*/
-    background: rgba(215, 188, 167, 0.8);
+    background-image: url("../images/footer.jpg");
+    background-color: #DABEA7;
+    background-blend-mode: multiply;
+    background-repeat: repeat-x;
     text-align: center;
     padding: 26px 0;
 }
 footer p {
-    color: black;
-    font-size: 0.875rem;
+    color: #F1E8DE;
+    font-size: 1.125rem;
 }
 
 /* 手機版
