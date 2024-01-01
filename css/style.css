@@ -43,10 +43,7 @@ blockquote{
 /*    background:hsl(16°, 33%, 35.1%);*/
     background: #59342C; 
     /*框框背景*/
-
-    border: 2px; /*邊框粗細*/
-        /*邊框格式及顏色*/
-    padding: 20px 20%;/*框內文字距離框*/
+    padding: 20px 20%; /*框內文字距離框*/
 }
 
 .wrapper {
@@ -277,9 +274,12 @@ aside p {
 /* MENU
 ------------------------------- */
 #menu {
-   /* background-image: url(../images/go-bg.jpg); */
-/*   background-color: #2C2F40;*/
-   min-height: 10vh;
+    background-image: url(../images/menu-bg_v3.png); 
+    background-color: rgba(96, 67, 51, 0.8);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: multiply;
+    height: 50vh;
 
 }
 .menu-content {
