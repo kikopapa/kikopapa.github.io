@@ -39,9 +39,7 @@ blockquote{
     text-align:center;
     color:white;
     margin-bottom: 10px;
-
-/*    background:hsl(16°, 33%, 35.1%);*/
-    background: #59342C; 
+    background: hsla(11, 34%, 26%, 1); 
     /*框框背景*/
     padding: 20px 20%; /*框內文字距離框*/
 }
@@ -279,7 +277,7 @@ aside p {
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: multiply;
-    height: 50vh;
+    height: 30vh;
 
 }
 .menu-content {
@@ -315,7 +313,7 @@ aside p {
     min-height: 100vh;
 /*    background: linear-gradient(#D7BCA7, #9A6852)*/;
 /*    background-color: rgba(215, 188, 167, 0.8);*/
-    background-color: rgba(96, 67, 51, 0.5);
+    background-color: #f0e8de;
     background-size: cover;
     background-blend-mode: multiply;
     /* #966751 */
