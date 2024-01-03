@@ -438,7 +438,8 @@ footer p {
         background-color: rgba(215, 188, 167, 0.3);
         width: 100%;
         text-align: center;
-        /* visibility: hidden; */
+        visibility: hidden;
+        /*選單隱藏 */
 
     }
     .main-nav li {
