@@ -2,7 +2,7 @@
 
 目的: 提供給棋友或初學者
 
-1.免費資源
+1. 免費資源
 > 
 ### 小汪小喵學圍棋
 - https://www.youtube.com/watch?v=pDbEPUPJVZA&list=PLsa0pqmKPDNDSfeyuDQslJK1iljiqc1e7
@@ -25,7 +25,7 @@
 > * [段位教學影片](https://www.youtube.com/watch?v=s3OmJIXpKHE&list=PLmNLV9xdkV60tl-rK8KlV4eJidz_BpUD1)
 > * 適合: 有段棋友
 
-2.需要付費
+2. 需要付費
 ### [黑嘉嘉圍棋教室](https://www.heijiajia.com.tw/)
 
 ![黑嘉嘉圍棋教室-高階課]
