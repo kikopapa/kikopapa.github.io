@@ -2,7 +2,7 @@
 
 目的: 提供給棋友或初學者
 
-> 免費資源
+1.免費資源
 > 
 ### 小汪小喵學圍棋
 - https://www.youtube.com/watch?v=pDbEPUPJVZA&list=PLsa0pqmKPDNDSfeyuDQslJK1iljiqc1e7
@@ -18,14 +18,14 @@
 - https://www.youtube.com/@Happygo0517
 * 特色: 很像補習班老師的教學風格，以單元形式，講題目+練習題 來確認觀念是否吸收
 >
-> * 入門教學影片 適合: 26~30級
-> - https://www.youtube.com/watch?v=kmvOrG-WyoY&list=PLmNLV9xdkV62D9y2ylscxiPsoGqiC0d-N
-> * 初級教學影片 適合: 21~25級
-> - https://www.youtube.com/watch?v=GT-2CFGpG0g&list=PLmNLV9xdkV611dOKadNZWfgdMWP0NqMJJ
-> * 段位教學影片 適合: 有段棋友
-> - https://www.youtube.com/watch?v=s3OmJIXpKHE&list=PLmNLV9xdkV60tl-rK8KlV4eJidz_BpUD1
+> * [入門教學影片](https://www.youtube.com/watch?v=kmvOrG-WyoY&list=PLmNLV9xdkV62D9y2ylscxiPsoGqiC0d-N)
+> * 適合: 26~30級
+> * [初級教學影片](https://www.youtube.com/watch?v=GT-2CFGpG0g&list=PLmNLV9xdkV611dOKadNZWfgdMWP0NqMJJ)
+> * 適合: 21~25級
+> * [段位教學影片](https://www.youtube.com/watch?v=s3OmJIXpKHE&list=PLmNLV9xdkV60tl-rK8KlV4eJidz_BpUD1)
+> * 適合: 有段棋友
 
-> 需要付費
+2.需要付費
 ### [黑嘉嘉圍棋教室](https://www.heijiajia.com.tw/)
 
 ![黑嘉嘉圍棋教室-高階課]
