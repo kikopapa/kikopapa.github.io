@@ -2,7 +2,8 @@
 
 目的: 提供給棋友或初學者
 
-
+> 免費資源
+> 
 ### 小汪小喵學圍棋
 - https://www.youtube.com/watch?v=pDbEPUPJVZA&list=PLsa0pqmKPDNDSfeyuDQslJK1iljiqc1e7
 * 特色: 以動畫的形式介紹圍棋入門基本觀念，適合低年齡的小朋友
@@ -23,3 +24,10 @@
 > - https://www.youtube.com/watch?v=GT-2CFGpG0g&list=PLmNLV9xdkV611dOKadNZWfgdMWP0NqMJJ
 > * 段位教學影片 適合: 有段棋友
 > - https://www.youtube.com/watch?v=s3OmJIXpKHE&list=PLmNLV9xdkV60tl-rK8KlV4eJidz_BpUD1
+
+> 需要付費
+### [黑嘉嘉圍棋教室](https://www.heijiajia.com.tw/)
+
+![黑嘉嘉圍棋教室-高階課]
+![黑嘉嘉圍棋教室-大師課]
+
