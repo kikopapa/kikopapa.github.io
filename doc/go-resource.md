@@ -24,6 +24,9 @@
 > * [段位教學影片](https://www.youtube.com/watch?v=s3OmJIXpKHE&list=PLmNLV9xdkV60tl-rK8KlV4eJidz_BpUD1)
 > * 適合: 有段棋友
 
+### 柳澤理志の囲碁教室
+- https://www.youtube.com/@igoYanagi
+> * 適合: 級位、低段棋友
 ----
 
 # Need to Pay
