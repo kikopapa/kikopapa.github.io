@@ -27,6 +27,16 @@
 ### 柳澤理志の囲碁教室
 - https://www.youtube.com/@igoYanagi
 > * 適合: 級位、低段棋友
+
+### 相關好文
+
+> * [初學圍棋到達業餘1段，需要多久？](https://kknews.cc/sports/e6obe4z.html)
+> * 受挫能力
+> * 培養大局觀
+> * 培養理性思維
+> * 培養獨立性
+> * 批判性思維
+
 ----
 
 # Need to Pay
