@@ -36,7 +36,7 @@
 > * 培養理性思維
 > * 培養獨立性
 > * 批判性思維
-
+* [如何進入圍棋精密、創意的世界？──談奠基於精確「基本功」的圍棋思考能力](https://mindgo.com.tw/index.php?p=article&a=detail&pid=33&id=78)
 ----
 
 # Need to Pay
