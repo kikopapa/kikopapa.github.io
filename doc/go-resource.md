@@ -37,6 +37,10 @@
 > * 培養獨立性
 > * 批判性思維
 * [如何進入圍棋精密、創意的世界？──談奠基於精確「基本功」的圍棋思考能力](https://mindgo.com.tw/index.php?p=article&a=detail&pid=33&id=78)
+
+* [老棋手的話：一步之差也許一輩子都追不到](https://www.storm.mg/lifestyle/51228?fbclid=IwAR1vD48-2CYPP0YBU1UyhhLQT-XBMiVxEDT6VOrzfmc-rsj6XPdeewtZDSU)
+* [隨想 #87 — 桌遊之夜 —攻殺只是手段，圍棋給我的 3 個領悟](https://medium.com/%E8%8F%AF%E7%94%B0%E5%A3%AB%E5%A4%9A/%E9%9A%A8%E6%83%B3-87-%E6%A1%8C%E9%81%8A%E4%B9%8B%E5%A4%9C-%E6%94%BB%E6%AE%BA%E5%8F%AA%E6%98%AF%E6%89%8B%E6%AE%B5-%E5%9C%8D%E6%A3%8B%E7%B5%A6%E6%88%91%E7%9A%84-3-%E5%80%8B%E9%A0%98%E6%82%9F-5cf36b788af2)
+* [黑白異世界](https://brightedyu.com/go-game/?fbclid=IwAR1wlU4_auBupcg4RP3HTOZQGJbh4WiJxNHoalAq0kH6Ypb6TR9SmR3DgQE)
 ----
 
 # Need to Pay
