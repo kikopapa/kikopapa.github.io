@@ -66,6 +66,8 @@ https://app.heijiajia.com.tw/?utm_source=fb&utm_medium=banner&utm_campaign=2404_
 
 ### [黑嘉嘉圍棋教室](https://www.heijiajia.com.tw/)
 
+#### 高階課
 ![黑嘉嘉圍棋教室-高階課](https://cdn.jsdelivr.net/gh/kikopapa/picx-images-hosting@master/20240125/黑嘉嘉圍棋教室-高階課.567cio8oy6o0.webp)
+#### 大師課
 ![黑嘉嘉圍棋教室-大師課](https://cdn.jsdelivr.net/gh/kikopapa/picx-images-hosting@master/20240125/%E9%BB%91%E5%98%89%E5%98%89%E5%9C%8D%E6%A3%8B%E6%95%99%E5%AE%A4-%E5%A4%A7%E5%B8%AB%E8%AA%B2.3y063l3xbcq0.webp)
 
