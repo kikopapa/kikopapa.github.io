@@ -9,6 +9,9 @@
 * 特色: 以動畫的形式介紹圍棋入門基本觀念，適合低年齡的小朋友
 > Youtube上我目前找到26集，如果有更多歡迎補充提供，謝謝
 
+###　入門教學
+[OGS入門教材](https://online-go.com/puzzle/1868 )
+
 ### 台北市兒童圍棋教育發展協會
 - https://www.tpkidsgoedu.com/#/
 * 特色: 以遊戲關卡的形式，便於初學者一步一步學習掌握圍棋基本技巧
@@ -48,6 +51,15 @@
 * [壓力、衝力與自我挑戰](https://mindgo.com.tw/index.php?p=article&a=detail&pid=32&id=68&fbclid=IwZXh0bgNhZW0CMTAAAR1bS4YAev1dTvINiZaWeVx9cI4llFlcHBTtj8dEs9vSTw4-79LH4rpVM2g_aem_AbClzByU8OD4yTpWmAh1vgedDaJ3ljQLh7uRUSoZKGvxBlFg_SmkokNQyQMhyf9Encgpucfc3cpq3fdmoihTcUWP)
 * 免費棋力測驗by黑嘉嘉圍棋教室
 https://app.heijiajia.com.tw/?utm_source=fb&utm_medium=banner&utm_campaign=2404_mobilegameNEWCTA_quiz&fbclid=IwAR2pBnoJgaQ6dJANWlzIAxBlZLDZ9OUCR_8pvvzAaTe3d-F_FjJq3qdg9NA&mibextid=NOb6eG#/quick-test/
+
+### 影片
+[黑嘉嘉 - 學圍棋的好處](https://www.heijiajia.com.tw/_nuxt/videos/v-home.c7f3f92.mp4)
+* 獨立思考的能力 
+* 面對挫折的能力
+
+### 常見題目
+* [烏龜不出頭](https://online-go.com/puzzle/53449)
+
 ----
 
 # Need to Pay
