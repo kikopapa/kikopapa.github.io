@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從零開始的 FIRE 實踐指南</title>
+    <style>
+        /* 全域設定 */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --accent-color: #e67e22;
+            --link-color: #2980b9;
+            --bg-light: #f8f9fa;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        body {
+            background-color: #fdfdfd;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 92%; /* 手機端兩側保留一點點留白 */
+            margin: 40px auto;
+        }
+
+        /* 頂部 Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            padding: 5px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(10deg);
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
+
+        /* 引用區塊 */
+        blockquote {
+            background: var(--bg-light);
+            border-left: 8px solid var(--primary-color);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 15px 15px 0;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* 圖片與圖說 */
+        .main-image-wrapper {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        figcaption {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.1), rgba(0,0,0,0));
+            margin: 50px 0;
+        }
+
+        /* 章節設定 */
+        section {
+            background: #ffffff;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            padding-left: 15px;
+            margin-top: 0;
+            font-size: 1.4em;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .s1 h2 { border-left: 8px solid var(--primary-color); }
+        .s2 h2 { border-left: 8px solid var(--secondary-color); }
+        .s3 h2 { border-left: 8px solid var(--accent-color); }
+
+        .section-desc {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+
+        /* 列表優化 */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        /* 底部行動呼籲 */
+        .cta-box {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            box-shadow: 0 10px 25px rgba(44,62,80,0.2);
+        }
+
+        .btn {
+            background-color: white;
+            color: var(--primary-color);
+            padding: 16px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 🚀 響應式核心：手機端調整 */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+            }
+            
+            h1 { font-size: 1.5em; }
+            
+            section {
+                padding: 20px; /* 減少內距，讓文字寬度增加 */
+            }
+
+            blockquote {
+                padding: 15px;
+                font-size: 0.95em;
+            }
+
+            h2 { font-size: 1.2em; }
+
+            .btn {
+                width: 80%; /* 按鈕在手機上稍微加寬方便點擊 */
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxH_TvUQtMQKk-unqcpKvH2M9mxITb-b73cAVgIYkEliXTiT3ae9nnBGewu04EV-jOFBoXfH3RSJ1dY5GFCm5uUf9nfS262xZyqN6gwsbL1hRHJcbzxAPn7fwyo5mNQB1076KvYkQJpfryybc22okP-vtuPOi7-gSzgPAppjO1EiWhJgbZ7IZJv8yXDOpn/s1600-rw/GreenLogo_center_KIKOPAPA.png" alt="KIKOPAPA Logo" class="logo">
+        <h1>從零開始的 FIRE 實踐指南 🚀</h1>
+    </header>
+
+    <blockquote>
+        <p style="margin: 0;">這不是理論，而是一位工程師兼圍棋老師的<strong>四年實戰紀錄</strong>。我將理財拆解為 10 個具體步驟，陪伴你一步步奪回人生的主導權。</p>
+    </blockquote>
+
+    <div class="main-image-wrapper">
+        <img alt="我的理財之路 10 步驟全紀錄" src="images/fire-roadmap.png" class="main-image" />
+        <figcaption>▲ FIRE 實踐進化路徑圖：我的理財之路全紀錄</figcaption> 
+    </div>
+
+    <hr />
+
+    <section class="s1">
+        <h2>📌 階段一：建立理財底層邏輯</h2>
+        <p class="section-desc">理財的第一步不是投資，而是「覺察」。透過整理身邊的小物，建立與金錢的正確關係。</p>
+        <ul>
+            <li><strong>📚 STEP 01.</strong> <a href="https://kikopapa-tw.blogspot.com/2021/02/spending-book.html">學會記帳</a>：看見金錢流向，奪回控制權。</li>
+            <li><strong>💰 STEP 02.</strong> <a href="https://kikopapa-tw.blogspot.com/2021/04/manage-multiple-bank-accounts.html">分離帳戶管理</a>：用系統代替意志力。</li>
+            <li><strong>👛 STEP 03.</strong> <a href="https://kikopapa-tw.blogspot.com/2021/09/organize-wallet.html">整理錢包</a>：從小空間開始優化理財環境。</li>
+        </ul>
+    </section>
+
+    <section class="s2">
+        <h2>📌 階段二：精準攻守轉換</h2>
+        <p class="section-desc">有了基礎後，我們需要透過精確的支出控管，提煉出未來的「投資資本」。</p>
+        <ul>
+            <li><strong>🛡️ STEP 04.</strong> <a href="https://kikopapa-tw.blogspot.com/2022/05/money-saving-practices.html">高效存錢實踐</a>：累積第一桶金。</li>
+            <li><strong>🛒 STEP 05.</strong> <a href="https://kikopapa-tw.blogspot.com/2022/07/track-expense.html">支出精算</a>：優化生活成本，分清想要與需要。</li>
+            <li><strong>🎯 STEP 06.</strong> <a href="https://kikopapa-tw.blogspot.com/2022/07/financial-goal-setting.html">設定目標</a>：理財是為了通往理想生活。</li>
+        </ul>
+    </section>
+
+    <section class="s3">
+        <h2>📌 階段三：啟動財富加速器</h2>
+        <p class="section-desc">最終目標是建立「黃金三角」收入流，讓資產與能力為你持續產生價值。</p>
+        <ul>
+            <li><strong>📈 STEP 07.</strong> <a href="https://kikopapa-tw.blogspot.com/2022/09/investment-strategy.html">長期投資策略</a>：穩健參與市場換取複利。</li>
+            <li><strong>🔄 STEP 08.</strong> <a href="https://kikopapa-tw.blogspot.com/2022/11/3-tips-for-managing-your-cash-flow.html">現金流管理</a>：確保系統穩健應對波動。</li>
+            <li><strong>💳 STEP 09.</strong> <a href="https://kikopapa-tw.blogspot.com/2023/03/tips-for-using-credit-cards.html">信用卡工具</a>：轉化信用負擔為推力。</li>
+            <li><strong>🌈 STEP 10.</strong> <a href="https://kikopapa-tw.blogspot.com/2023/08/multiple-income-streams.html">創造多元收入</a>：達成財務自由。</li>
+        </ul>
+    </section>
+
+    <div class="cta-box">
+        <h3>🌿 想要設計專屬於你的 FIRE 地圖嗎？</h3>
+        <p style="opacity: 0.9;">理財之路因人而異，如果你感到迷惘，歡迎預約諮詢。</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSebDOWMv0WtzOafXWhTVsFZ9S30508RGqIbitc9hfLkKnpr9w/viewform" class="btn">👉 立即預約 [生涯設計諮詢]</a>
+    </div>
+
+</div>
+
+</body>
+</html>
