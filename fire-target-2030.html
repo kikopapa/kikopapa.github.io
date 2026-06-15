@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2030 願景畫布 v2</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #f0f6fc;
+            --accent-color: #f1c40f; 
+            --sub-color: #8b949e;
+            --progress-bg: #21262d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* 核心大目標 */
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 30px rgba(241, 196, 15, 0.2);
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* 進度條區塊 */
+        .progress-section {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background-color: var(--progress-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #f1c40f);
+            width: 0; /* 由 JS 控制長度 */
+            border-radius: 6px;
+            transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1); /* 平滑滑入動畫 */
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+
+        /* 月份倒數 */
+        .countdown {
+            font-size: 1.3rem;
+            color: var(--sub-color);
+            margin-top: 50px;
+            border-top: 1px solid #21262d;
+            padding-top: 25px;
+            letter-spacing: 1px;
+        }
+
+        .time-num {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin: 0 4px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.4rem; }
+            .countdown { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 核心目標 -->
+        <h1>我在 2030 年</h1>
+        <div class="subtitle">
+            累積淨資產達 <span class="highlight">5000 萬</span><br>
+            年被動收入達 <span class="highlight">200 萬</span>
+        </div>
+
+        <!-- 微型進度條區塊 -->
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>淨資產進度</span>
+                <span id="asset-percent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="asset-bar"></div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>年被動收入進度</span>
+                <span id="income-percent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="income-bar"></div>
+            </div>
+        </div>
+
+        <!-- 月份倒數 -->
+        <div class="countdown" id="timer">
+            距離目標實現，大約還剩 <span class="time-num" id="months-left">00</span> 個月份
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 【自訂進度設定】請在此處填入你目前的實際數據
+        // ==========================================
+        const currentAsset = 3000;       // 目前淨資產（單位：萬）
+        const targetAsset = 5000;        // 目標淨資產（單位：萬）
+
+        const currentIncome = 110;        // 目前年被動收入（單位：萬）
+        const targetIncome = 200;        // 目標年被動收入（單位：萬）
+
+        // ==========================================
+        // 邏輯運算核心
+        // ==========================================
+        
+        // 1. 計算進度條
+        const assetPercent = Math.min(Math.round((currentAsset / targetAsset) * 100), 100);
+        const incomePercent = Math.min(Math.round((currentIncome / targetIncome) * 100), 100);
+
+        // 觸發進度條與文字顯示（利用 setTimeout 確保開頁面時有動畫）
+        setTimeout(() => {
+            document.getElementById('asset-bar').style.width = assetPercent + '%';
+            document.getElementById('asset-percent').innerText = assetPercent + '%';
+
+            document.getElementById('income-bar').style.width = incomePercent + '%';
+            document.getElementById('income-percent').innerText = incomePercent + '%';
+        }, 300);
+
+        // 2. 計算剩餘月份
+        function calculateMonthsLeft() {
+            const now = new Date();
+            const targetDate = new Date('January 1, 2030 00:00:00');
+            
+            // 計算年份差與月份差
+            let months = (targetDate.getFullYear() - now.getFullYear()) * 12;
+            months += targetDate.getMonth() - now.getMonth();
+            
+            // 如果當月還沒過完，可以視作包含當月（此處採無條件進位，代表還涵蓋這個月）
+            if (months <= 0) {
+                document.getElementById('timer').innerHTML = "願景實現的時間已到！";
+            } else {
+                document.getElementById('months-left').innerText = months;
+            }
+        }
+
+        calculateMonthsLeft();
+    </script>
+</body>
+</html>
