@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2030 願景畫布 v2</title>
+    <title>2030 願景畫布</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -125,6 +125,7 @@
         <div class="subtitle">
             累積淨資產達 <span class="highlight">5000 萬</span><br>
             年被動收入達 <span class="highlight">200 萬</span>
+            累積網誌文章達 <span class="highlight"> 100 篇</span>
         </div>
 
         <!-- 微型進度條區塊 -->
@@ -147,7 +148,15 @@
                 <div class="progress-bar" id="income-bar"></div>
             </div>
         </div>
-
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>網誌進度</span>
+                <span id="weblog-percent">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="weblog-bar"></div>
+            </div>
+        </div>
         <!-- 月份倒數 -->
         <div class="countdown" id="timer">
             距離目標實現，大約還剩 <span class="time-num" id="months-left">00</span> 個月份
@@ -164,6 +173,9 @@
         const currentIncome = 110;        // 目前年被動收入（單位：萬）
         const targetIncome = 200;        // 目標年被動收入（單位：萬）
 
+        const currentWeblog = 59;
+        const targetWeblog = 100;   
+
         // ==========================================
         // 邏輯運算核心
         // ==========================================
@@ -171,7 +183,8 @@
         // 1. 計算進度條
         const assetPercent = Math.min(Math.round((currentAsset / targetAsset) * 100), 100);
         const incomePercent = Math.min(Math.round((currentIncome / targetIncome) * 100), 100);
-
+        const weblogPercent = Math.min(Math.round((currentWeblog / targetWeblog) * 100), 100);
+        
         // 觸發進度條與文字顯示（利用 setTimeout 確保開頁面時有動畫）
         setTimeout(() => {
             document.getElementById('asset-bar').style.width = assetPercent + '%';
@@ -179,6 +192,9 @@
 
             document.getElementById('income-bar').style.width = incomePercent + '%';
             document.getElementById('income-percent').innerText = incomePercent + '%';
+
+            document.getElementById('weblog-bar').style.width = incomePercent + '%';
+            document.getElementById('weblog-percent').innerText = incomePercent + '%';
         }, 300);
 
         // 2. 計算剩餘月份
