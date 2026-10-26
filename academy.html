@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIKOPAPA圍棋數位教材庫 | www.kikopapa.com</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#FAF7F2',
+                        board: '#EFECE6',
+                        forest: {
+                            DEFAULT: '#2C5E3B',
+                            dark: '#1E4229',
+                            light: '#E8F2EB'
+                        },
+                        stone: {
+                            black: '#1E1E1E',
+                            white: '#FDFDFD'
+                        },
+                        amber: {
+                            gold: '#D97706',
+                            light: '#FEF3C7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Subtle Go Board Grid Pattern */
+        body {
+            background-color: #FAF7F2;
+            background-image: 
+                linear-gradient(to right, rgba(44, 94, 59, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(44, 94, 59, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Custom Scrollbar for Modals */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #EFECE6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2C5E3B;
+            border-radius: 4px;
+        }
+
+        /* Go Stone 3D effect */
+        .stone-black {
+            background: radial-gradient(circle at 30% 30%, #4a4a4a, #141414);
+            box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.35);
+        }
+        .stone-white {
+            background: radial-gradient(circle at 30% 30%, #ffffff, #e0dcd3);
+            box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.2), inset -1px -1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Touch active bounce */
+        .touch-card {
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .touch-card:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col text-stone-black">
+
+    <!-- ================= 1. TOP HEADER BAR ================= -->
+    <header class="h-[78px] shrink-0 bg-white/95 backdrop-blur border-b-2 border-forest/15 px-5 flex items-center justify-between shadow-sm z-20">
+        <!-- Left: Brand Identity -->
+        <div class="flex items-center gap-3.5 cursor-pointer" onclick="resetToHome()">
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-forest text-white shadow-md">
+                <i class="ph-fill ph-tree text-3xl"></i>
+                <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full stone-black border border-white"></span>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-2xl font-black tracking-tight text-forest-dark">小樹爸爸圍棋數位教材庫</h1>
+                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-forest-light text-forest border border-forest/20">教室觸控系統</span>
+                </div>
+                <p class="text-xs text-stone-500 font-medium tracking-wide">兒童圍棋系統化課程 · 互動式教學入口</p>
+            </div>
+        </div>
+
+        <!-- Center: Search & Today's Pinned Basket -->
+        <div class="flex items-center gap-3">
+            <!-- Quick Search -->
+            <div class="relative w-56 xl:w-72">
+                <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-lg"></i>
+                <input 
+                    id="searchInput" 
+                    type="text" 
+                    placeholder="搜尋全部 68 堂主題 (如: 征子、劫)..." 
+                    class="w-full pl-10 pr-9 py-2.5 bg-paper border-2 border-stone-200 rounded-xl text-sm font-bold text-stone-800 placeholder-stone-400 focus:outline-none focus:border-forest transition"
+                    oninput="handleSearch(this.value)"
+                >
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1">
+                    <i class="ph-fill ph-x-circle text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Filter: Has Video Only -->
+            <button id="filterHasVideoBtn" onclick="toggleHasVideoFilter()" class="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white border-2 border-stone-200 text-stone-600 font-bold text-sm hover:border-forest active:scale-95 transition shadow-sm" title="切換顯示全部或僅顯示已有影片的單元">
+                <i class="ph-fill ph-video-camera text-lg text-forest"></i>
+                <span class="hidden xl:inline">已有影片</span>
+                <span id="totalVideoCountBadge" class="px-1.5 py-0.5 text-xs rounded-full bg-forest-light text-forest font-black">11</span>
+            </button>
+
+            <!-- Today's Lesson Basket Button -->
+            <button onclick="toggleBasketModal()" class="relative flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-light border-2 border-amber-gold/40 text-amber-900 font-bold text-sm hover:bg-amber-200/70 active:scale-95 transition shadow-sm">
+                <i class="ph-fill ph-push-pin text-lg text-amber-gold"></i>
+                <span>今日課程籃</span>
+                <span id="basketCountBadge" class="px-2 py-0.5 text-xs rounded-full bg-amber-gold text-white font-black">0</span>
+            </button>
+        </div>
+
+        <!-- Right: Brand URL, QR Code & URL Settings -->
+        <div class="flex items-center gap-2.5">
+            <button onclick="openQrModal()" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-forest-light border border-forest/30 text-forest-dark font-bold text-sm hover:bg-forest hover:text-white active:scale-95 transition">
+                <i class="ph-bold ph-qr-code text-lg"></i>
+                <span class="hidden sm:inline">🌐 www.kikopapa.com</span>
+            </button>
+
+            <button onclick="openUrlManagerModal()" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-stone-800 text-white font-bold text-sm hover:bg-stone-700 active:scale-95 transition shadow-sm">
+                <i class="ph-bold ph-code text-lg text-amber-400"></i>
+                <span>網址管理 / 匯出HTML</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= 2. LEVEL NAVIGATION BAR (GROUPED STAGES) ================= -->
+    <nav class="shrink-0 bg-board/90 border-b border-stone-300/80 px-5 py-2.5 flex items-center justify-between gap-4 z-10">
+        <div class="flex items-center gap-6 overflow-x-auto no-scrollbar">
+            
+            <!-- Stage 1: 兒童啟蒙課 (G19) -->
+            <div class="flex flex-col">
+                <div class="flex items-center gap-1.5 text-xs font-extrabold text-forest mb-1 px-1">
+                    <span>🌱 兒童啟蒙課</span>
+                    <span class="text-[11px] font-semibold text-stone-500">(4堂)</span>
+                </div>
+                <div class="flex items-center">
+                    <button id="tab-G19" onclick="switchLevel('G19')" class="level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center">
+                        G19
+                    </button>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="h-12 w-[2px] bg-stone-300/80 self-end mb-0.5"></div>
+
+            <!-- Stage 2: 兒童基礎課 (G18 ~ G15) -->
+            <div class="flex flex-col">
+                <div class="flex items-center gap-1.5 text-xs font-extrabold text-forest-dark mb-1 px-1">
+                    <span>🌳 兒童基礎課</span>
+                    <span class="text-[11px] font-semibold text-stone-500">(每級16堂 · 共64堂)</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <button id="tab-G18" onclick="switchLevel('G18')" class="level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center">
+                        G18
+                    </button>
+                    <button id="tab-G17" onclick="switchLevel('G17')" class="level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center">
+                        G17
+                    </button>
+                    <button id="tab-G16" onclick="switchLevel('G16')" class="level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center">
+                        G16
+                    </button>
+                    <button id="tab-G15" onclick="switchLevel('G15')" class="level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center">
+                        G15
+                    </button>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="h-12 w-[2px] bg-stone-300/80 self-end mb-0.5"></div>
+
+            <!-- Stage 3: 進階修煉殿堂 (G14 ~ G1) -->
+            <div class="flex flex-col">
+                <div class="flex items-center gap-1.5 text-xs font-extrabold text-stone-500 mb-1 px-1">
+                    <span>🔒 進階修煉殿堂</span>
+                </div>
+                <button onclick="openAdvancedModal()" class="h-12 px-5 rounded-xl bg-stone-200/90 hover:bg-stone-300/80 border-2 border-dashed border-stone-400 text-stone-600 font-black text-base tracking-wide flex items-center gap-2 active:scale-95 transition">
+                    <i class="ph-fill ph-lock-key text-amber-gold text-lg"></i>
+                    <span>G14 ~ G1</span>
+                    <i class="ph-bold ph-caret-right text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right side level progress & quick actions -->
+        <div class="hidden lg:flex items-center gap-3 bg-white/80 px-4 py-2 rounded-xl border border-stone-200/90">
+            <div class="text-right">
+                <div class="text-xs font-bold text-stone-500">本級完課進度</div>
+                <div id="levelProgressText" class="text-sm font-black text-forest">0 / 16 堂</div>
+            </div>
+            <button onclick="resetCurrentLevelCompleted()" title="重置本級勾選狀態" class="p-2 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition">
+                <i class="ph-bold ph-arrow-counter-clockwise text-lg"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ================= 3. MAIN CLASSROOM TOUCH GRID ================= -->
+    <main class="flex-1 p-4 md:p-5 overflow-y-auto md:overflow-hidden flex flex-col">
+        <!-- Search Filter Banner (Hidden by default) -->
+        <div id="searchBanner" class="hidden mb-3 px-4 py-2 bg-amber-light border border-amber-gold/40 rounded-xl flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-sm">
+                <i class="ph-fill ph-funnel text-lg"></i>
+                <span id="searchBannerText">搜尋結果：</span>
+            </div>
+            <button onclick="clearSearch()" class="text-xs font-black px-3 py-1 bg-white rounded-lg border border-amber-gold/30 text-amber-900 hover:bg-amber-50">
+                返回分級課綱 ✖
+            </button>
+        </div>
+
+        <!-- Dynamic Grid Container -->
+        <div id="courseGrid" class="flex-1 grid gap-3.5 md:gap-4 w-full h-full">
+            <!-- Populated by JS -->
+        </div>
+    </main>
+
+    <!-- ================= 4. THEATER VIDEO PLAYER MODAL ================= -->
+    <div id="videoModal" class="hidden fixed inset-0 z-50 bg-stone-950/90 backdrop-blur-md flex flex-col justify-between p-4 md:p-6">
+        <!-- Modal Top Header -->
+        <div class="flex items-center justify-between bg-stone-900/90 border border-stone-700 px-5 py-3.5 rounded-2xl text-white shrink-0">
+            <div class="flex items-center gap-3.5">
+                <span id="modalLevelBadge" class="px-3.5 py-1 rounded-xl bg-forest text-white font-black text-lg tracking-wider">G19 - 01</span>
+                <span id="modalStageTag" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-stone-800 text-amber-400 border border-amber-500/30">兒童啟蒙課</span>
+                <h2 id="modalLessonTitle" class="text-2xl md:text-3xl font-black tracking-wide text-white">氣盡提取</h2>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <a id="externalYoutubeLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-300 text-sm font-bold border border-red-500/40 transition">
+                    <i class="ph-fill ph-youtube-logo text-lg text-red-400"></i>
+                    <span>在 YouTube 開啟</span>
+                    <i class="ph-bold ph-arrow-square-out text-xs"></i>
+                </a>
+                <button onclick="promptQuickUrlEdit()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-sm font-bold border border-stone-600 transition">
+                    <i class="ph-bold ph-pencil-simple text-amber-400"></i>
+                    <span>修改網址</span>
+                </button>
+                <button onclick="closeVideoModal()" class="w-11 h-11 rounded-xl bg-red-600/90 hover:bg-red-600 text-white flex items-center justify-center text-2xl font-bold transition shadow-lg">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Center Video Stage -->
+        <div class="flex-1 my-3.5 relative bg-black rounded-2xl overflow-hidden border-2 border-stone-800 shadow-2xl flex items-center justify-center">
+            <!-- YouTube Iframe Container -->
+            <div id="iframeWrapper" class="w-full h-full hidden">
+                <iframe id="youtubeIframe" class="w-full h-full" src="" title="小樹爸爸圍棋教學影片" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+            <!-- Interactive Empty / Setup State when URL is not linked yet -->
+            <div id="emptyVideoState" class="max-w-xl w-full mx-4 p-8 rounded-3xl bg-stone-900/95 border border-stone-700 text-center text-white flex flex-col items-center">
+                <div class="w-20 h-20 rounded-2xl bg-forest/30 border-2 border-forest flex items-center justify-center mb-4 text-emerald-400">
+                    <i class="ph-fill ph-youtube-logo text-5xl"></i>
+                </div>
+                <p class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-1">小樹爸爸圍棋數位教材庫 · 影片準備區</p>
+                <h3 id="emptyStateTitle" class="text-2xl font-black mb-2">[G19 - 01] 氣盡提取</h3>
+                <p class="text-stone-400 text-sm mb-6 leading-relaxed">
+                    此單元尚未綁定您的專屬 YouTube 影片連結。<br>您可以直接在下方貼上網址立即播放，或先啟動示範教學畫面測試大螢幕效果。
+                </p>
+
+                <!-- Quick URL Input Box inside Theater -->
+                <div class="w-full flex gap-2 mb-4">
+                    <input id="quickUrlInput" type="text" placeholder="貼上此課堂的 YouTube 影片網址 (watch?v=... 或 youtu.be/...)" class="flex-1 px-4 py-3 rounded-xl bg-stone-800 border border-stone-600 text-white text-sm focus:outline-none focus:border-amber-400">
+                    <button onclick="saveQuickUrlFromTheater()" class="px-5 py-3 rounded-xl bg-forest hover:bg-forest-dark text-white font-black text-sm shrink-0 transition">
+                        儲存並播放
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3 w-full justify-center pt-2 border-t border-stone-800">
+                    <button onclick="playDemoBoardSimulation()" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-gold/20 hover:bg-amber-gold/30 text-amber-300 border border-amber-500/40 font-bold text-sm transition">
+                        <i class="ph-fill ph-checkerboard text-lg"></i>
+                        <span>開啟互動式示範棋盤 (大螢幕講解板)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Built-in Classroom Interactive Go Board (Fallback / Teaching Tool inside Theater) -->
+            <div id="classroomDemoBoard" class="hidden w-full h-full bg-[#E3B778] flex flex-col items-center justify-center p-4 relative">
+                <div class="absolute top-4 left-4 bg-stone-900/85 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-3 shadow-lg">
+                    <span>🎯 教室隨堂互動演示棋盤 (點擊交叉點擺子)</span>
+                    <button onclick="setDemoStoneColor('black')" id="btnBlackStone" class="px-2.5 py-1 rounded-lg bg-stone-950 border-2 border-amber-400 text-white">⚫ 黑子</button>
+                    <button onclick="setDemoStoneColor('white')" id="btnWhiteStone" class="px-2.5 py-1 rounded-lg bg-stone-200 text-stone-900">⚪ 白子</button>
+                    <button onclick="setDemoStoneColor('alt')" id="btnAltStone" class="px-2.5 py-1 rounded-lg bg-stone-700 text-white">🔄 黑白輪流</button>
+                    <button onclick="clearDemoBoard()" class="px-2.5 py-1 rounded-lg bg-red-600 text-white">清除棋盤</button>
+                </div>
+                <canvas id="goBoardCanvas" width="560" height="560" class="max-h-[92%] max-w-[92%] aspect-square shadow-2xl rounded-lg cursor-pointer bg-[#DCB35C] border-4 border-[#6B4423]"></canvas>
+            </div>
+        </div>
+
+        <!-- Modal Bottom Classroom Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-stone-900/90 border border-stone-700 px-5 py-3 rounded-2xl shrink-0">
+            <button id="prevLessonBtn" onclick="navigateModalLesson(-1)" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-black text-base active:scale-95 transition">
+                <i class="ph-bold ph-caret-left text-xl"></i>
+                <span id="prevLessonLabel">上一堂</span>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <button id="modalBoardToggleBtn" onclick="playDemoBoardSimulation()" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-amber-300 border border-stone-600 font-bold text-base active:scale-95 transition">
+                    <i class="ph-bold ph-grid-four text-xl"></i>
+                    <span>隨堂演示棋盤</span>
+                </button>
+
+                <button id="modalPinBtn" onclick="toggleModalPin()" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-base active:scale-95 transition">
+                    <i class="ph-fill ph-push-pin text-xl"></i>
+                    <span id="modalPinText">加入今日課程</span>
+                </button>
+
+                <button id="modalCompleteBtn" onclick="toggleModalComplete()" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-base active:scale-95 transition">
+                    <i class="ph-bold ph-check-circle text-xl"></i>
+                    <span id="modalCompleteText">標記已教完</span>
+                </button>
+
+                <button onclick="closeVideoModal()" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-stone-700 hover:bg-stone-600 text-white font-black text-base active:scale-95 transition">
+                    <i class="ph-bold ph-squares-four text-xl"></i>
+                    <span>關閉返回列表</span>
+                </button>
+            </div>
+
+            <button id="nextLessonBtn" onclick="navigateModalLesson(1)" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-forest hover:bg-forest-dark text-white font-black text-base active:scale-95 transition shadow-md">
+                <span id="nextLessonLabel">下一堂</span>
+                <i class="ph-bold ph-caret-right text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 5. TODAY'S PINNED BASKET MODAL ================= -->
+    <div id="basketModal" class="hidden fixed inset-0 z-40 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-paper w-full max-w-2xl rounded-3xl shadow-2xl border-2 border-forest/20 overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="bg-forest text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i class="ph-fill ph-push-pin text-2xl text-amber-300"></i>
+                    <div>
+                        <h3 class="text-xl font-black">今日課程籃 (跨級別備課清單)</h3>
+                        <p class="text-xs text-emerald-100">將今天要上的不同等級單元釘選於此，上課時一鍵點播</p>
+                    </div>
+                </div>
+                <button onclick="toggleBasketModal()" class="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+            <div id="basketListContainer" class="p-6 overflow-y-auto space-y-3 flex-1">
+                <!-- Populated by JS -->
+            </div>
+            <div class="px-6 py-4 bg-board border-t border-stone-200 flex items-center justify-between">
+                <button onclick="clearBasket()" class="text-sm font-bold text-red-600 hover:underline flex items-center gap-1">
+                    <i class="ph-bold ph-trash"></i> 清空全部釘選
+                </button>
+                <button onclick="toggleBasketModal()" class="px-6 py-2.5 rounded-xl bg-forest text-white font-bold text-sm">
+                    繼續上課
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 6. QR CODE BRAND MODAL (www.kikopapa.com) ================= -->
+    <div id="qrModal" class="hidden fixed inset-0 z-40 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-paper w-full max-w-md rounded-3xl shadow-2xl border-2 border-forest/20 p-6 text-center relative">
+            <button onclick="closeQrModal()" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-stone-200 hover:bg-stone-300 flex items-center justify-center text-stone-700">
+                <i class="ph-bold ph-x text-xl"></i>
+            </button>
+            <div class="w-16 h-16 rounded-2xl bg-forest text-white flex items-center justify-center mx-auto mb-3 shadow-md">
+                <i class="ph-fill ph-tree text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-black text-forest-dark">小樹爸爸官方網誌</h3>
+            <p class="text-sm text-stone-500 font-medium mt-1 mb-5">歡迎家長手機掃描，閱讀更多兒童圍棋教育與成長分享</p>
+            
+            <div class="bg-white p-5 rounded-2xl shadow-inner border border-stone-200 inline-block mb-4">
+                <img 
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://www.kikopapa.com&color=1E4229&bgcolor=FFFFFF" 
+                    alt="www.kikopapa.com QR Code" 
+                    class="w-56 h-56 mx-auto rounded-lg"
+                    onerror="this.src='https://placehold.co/240x240/2C5E3B/FFFFFF?text=kikopapa.com'"
+                >
+            </div>
+
+            <div class="bg-forest-light border border-forest/20 rounded-xl py-2.5 px-4 mb-4">
+                <span class="text-lg font-black text-forest-dark tracking-wide">www.kikopapa.com</span>
+            </div>
+
+            <button onclick="closeQrModal()" class="w-full py-3 rounded-xl bg-forest text-white font-black text-base">
+                關閉視窗
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 7. ADVANCED G14 ~ G1 PYRAMID PREVIEW MODAL ================= -->
+    <div id="advancedModal" class="hidden fixed inset-0 z-40 bg-stone-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-paper w-full max-w-2xl rounded-3xl shadow-2xl border-2 border-forest/20 overflow-hidden">
+            <div class="bg-stone-900 text-white px-6 py-5 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-11 h-11 rounded-xl bg-amber-gold flex items-center justify-center text-white text-2xl">
+                        <i class="ph-fill ph-trophy"></i>
+                    </span>
+                    <div>
+                        <h3 class="text-xl font-black">小樹爸爸 19 階圍棋修煉體系 (G19 ～ G1)</h3>
+                        <p class="text-xs text-stone-400">循序漸進的兒童圍棋學習藍圖</p>
+                    </div>
+                </div>
+                <button onclick="closeAdvancedModal()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="p-4 rounded-2xl bg-forest-light border-2 border-forest">
+                        <div class="text-xs font-black text-forest mb-1">STAGE 1 · 已開放</div>
+                        <div class="text-lg font-black text-stone-900">🌱 兒童啟蒙課</div>
+                        <div class="text-2xl font-black text-forest mt-1">G19</div>
+                        <p class="text-xs text-stone-600 mt-2">共 4 堂核心入門，認識氣盡提取、虎口禁著點、叫吃與征子。</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-forest-light border-2 border-forest">
+                        <div class="text-xs font-black text-forest mb-1">STAGE 2 · 已開放</div>
+                        <div class="text-lg font-black text-stone-900">🌳 兒童基礎課</div>
+                        <div class="text-2xl font-black text-forest mt-1">G18 ～ G15</div>
+                        <p class="text-xs text-stone-600 mt-2">共 64 堂標準課綱，涵蓋攻殺比氣、破眼死活、官子與實戰手筋。</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-amber-light/70 border-2 border-dashed border-amber-gold">
+                        <div class="text-xs font-black text-amber-800 mb-1">STAGE 3 · 陸續製作中</div>
+                        <div class="text-lg font-black text-stone-900">🏆 進階與段位殿堂</div>
+                        <div class="text-2xl font-black text-amber-700 mt-1">G14 ～ G1</div>
+                        <p class="text-xs text-stone-600 mt-2">定石選擇、全局佈局、中盤戰鬥與高階死活，帶領孩子邁向段位殿堂！</p>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-white border border-stone-200 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="ph-fill ph-sparkle text-2xl text-amber-gold"></i>
+                        <p class="text-sm font-bold text-stone-700">完成 G19 ～ G15 的小棋士，即可解鎖下一階段進階挑戰！</p>
+                    </div>
+                    <button onclick="closeAdvancedModal()" class="px-5 py-2.5 rounded-xl bg-forest text-white font-black text-sm shrink-0">
+                        返回課程表
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 8. YOUTUBE URL MANAGER MODAL ================= -->
+    <div id="urlManagerModal" class="hidden fixed inset-0 z-50 bg-stone-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-paper w-full max-w-5xl rounded-3xl shadow-2xl border-2 border-forest/20 overflow-hidden flex flex-col h-[88vh]">
+            <!-- Header -->
+            <div class="bg-stone-900 text-white px-6 py-4 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                    <i class="ph-bold ph-link text-2xl text-amber-400"></i>
+                    <div>
+                        <h3 class="text-xl font-black">YouTube 教學影片網址管理中心 (共 68 堂)</h3>
+                        <p class="text-xs text-stone-400">已將您提供的 11 支影片寫死於程式碼中 · 您也可以在此新增網址並一鍵匯出永久寫死的新 HTML 檔</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="downloadHardcodedHtmlFile()" class="px-4 py-2 rounded-xl bg-amber-gold hover:bg-amber-600 text-white text-xs font-black shadow-md flex items-center gap-1.5 transition">
+                        <i class="ph-bold ph-file-html text-base"></i> 💾 下載寫死網址的完整 HTML 檔
+                    </button>
+                    <button onclick="exportUrlsJson()" class="px-3 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-bold border border-stone-600 flex items-center gap-1.5">
+                        <i class="ph-bold ph-download-simple"></i> 匯出 JSON
+                    </button>
+                    <label class="px-3 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-bold border border-stone-600 flex items-center gap-1.5 cursor-pointer">
+                        <i class="ph-bold ph-upload-simple"></i> 匯入 JSON
+                        <input type="file" accept=".json" class="hidden" onchange="importUrlsJson(event)">
+                    </label>
+                    <button onclick="closeUrlManagerModal()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white ml-1">
+                        <i class="ph-bold ph-x text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Bar inside URL Manager -->
+            <div class="px-6 py-3 bg-board border-b border-stone-300 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-stone-600 mr-1">篩選等級：</span>
+                    <button onclick="renderUrlManagerList('ALL')" id="urlFilter-ALL" class="px-3 py-1 rounded-lg text-xs font-black bg-forest text-white">全部 (68)</button>
+                    <button onclick="renderUrlManagerList('G19')" id="urlFilter-G19" class="px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700">G19</button>
+                    <button onclick="renderUrlManagerList('G18')" id="urlFilter-G18" class="px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700">G18</button>
+                    <button onclick="renderUrlManagerList('G17')" id="urlFilter-G17" class="px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700">G17</button>
+                    <button onclick="renderUrlManagerList('G16')" id="urlFilter-G16" class="px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700">G16</button>
+                    <button onclick="renderUrlManagerList('G15')" id="urlFilter-G15" class="px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700">G15</button>
+                </div>
+                <div id="urlConfiguredSummary" class="text-xs font-bold text-forest-dark">已綁定 0 / 68 支影片</div>
+            </div>
+
+            <!-- Scrollable List of 68 Lessons -->
+            <div id="urlManagerList" class="p-6 overflow-y-auto space-y-2.5 flex-1">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 bg-white border-t border-stone-200 flex items-center justify-between shrink-0">
+                <span class="text-xs text-stone-500">💡 提示：貼上網址後點選右上角「💾 下載寫死網址的完整 HTML 檔」，即可直接把新檔案複製到任何教室電腦使用！</span>
+                <div class="flex items-center gap-2.5">
+                    <button onclick="downloadHardcodedHtmlFile()" class="px-4 py-2.5 rounded-xl bg-amber-light border border-amber-gold/50 text-amber-900 hover:bg-amber-200/70 font-black text-sm flex items-center gap-1.5">
+                        <i class="ph-bold ph-file-html text-lg text-amber-gold"></i> 儲存並下載完整 HTML 檔
+                    </button>
+                    <button onclick="saveAllUrlsFromManager()" class="px-6 py-2.5 rounded-xl bg-forest hover:bg-forest-dark text-white font-black text-sm shadow-md">
+                        儲存設定並返回
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotice" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-300 bg-stone-900 text-white px-5 py-3 rounded-2xl shadow-xl border border-stone-700 flex items-center gap-2.5 text-sm font-bold">
+        <i class="ph-fill ph-check-circle text-emerald-400 text-xl"></i>
+        <span id="toastMessage">已更新設定</span>
+    </div>
+
+    <!-- ================= APPLICATION LOGIC ================= -->
+    <script>
+        // =========================================================================
+        // 🌳 小樹爸爸圍棋數位教材庫 — 固定課綱與影片網址設定區 (COURSE_DATABASE)
+        // 已直接將您提供的 YouTube 影片網址寫死於下方 url 欄位中，任何電腦打開皆可直接播放！
+        // =========================================================================
+        /*__COURSE_DATABASE_START__*/
+        const COURSE_DATABASE = {
+            "G19": {
+                stage: "兒童啟蒙課",
+                lessons: [
+                    { no: 1,  title: "氣盡提取",               url: "https://www.youtube.com/watch?v=dnJoj3JITJQ" },
+                    { no: 2,  title: "虎口、禁著點",           url: "https://www.youtube.com/watch?v=xOHh72-r6L8" },
+                    { no: 3,  title: "叫吃與雙叫吃",           url: "https://www.youtube.com/watch?v=ACDRtJXOFXk" },
+                    { no: 4,  title: "征子",                   url: "https://www.youtube.com/watch?v=0KOGUeJ0aJI" }
+                ]
+            },
+            "G18": {
+                stage: "兒童基礎課",
+                lessons: [
+                    { no: 1,  title: "如何終局",               url: "https://www.youtube.com/watch?v=NxMMv82Qa9s" },
+                    { no: 2,  title: "勝負計算",               url: "https://www.youtube.com/watch?v=aOYEwD2kFvA" },
+                    { no: 3,  title: "吃子的判斷",             url: "" },
+                    { no: 4,  title: "逃跑的判斷",             url: "" },
+                    { no: 5,  title: "叫吃",                   url: "" },
+                    { no: 6,  title: "雙叫吃",                 url: "" },
+                    { no: 7,  title: "門封",                   url: "" },
+                    { no: 8,  title: "征子",                   url: "" },
+                    { no: 9,  title: "撲與反提",               url: "" },
+                    { no: 10, title: "接不歸",                 url: "" },
+                    { no: 11, title: "劫",                     url: "" },
+                    { no: 12, title: "連接",                   url: "" },
+                    { no: 13, title: "切斷",                   url: "" },
+                    { no: 14, title: "認識運子",               url: "" },
+                    { no: 15, title: "認識眼睛",               url: "" },
+                    { no: 16, title: "認識大眼睛",             url: "" }
+                ]
+            },
+            "G17": {
+                stage: "兒童基礎課",
+                lessons: [
+                    { no: 1,  title: "叫吃接技應用",           url: "https://www.youtube.com/watch?v=XBEO3toVKy8" },
+                    { no: 2,  title: "攻殺比氣 - 緊氣",         url: "" },
+                    { no: 3,  title: "攻殺比氣 - 長氣",         url: "" },
+                    { no: 4,  title: "攻殺比氣 - 綜合判斷",     url: "" },
+                    { no: 5,  title: "連接 - 虎連、雙連",       url: "" },
+                    { no: 6,  title: "切斷 - 衝擋斷",           url: "" },
+                    { no: 7,  title: "破眼五招 - 點、擠、長",   url: "" },
+                    { no: 8,  title: "破眼五招 - 撲、扳、長",   url: "" },
+                    { no: 9,  title: "破眼五招 - 細算三步",     url: "https://www.youtube.com/watch?v=OVYinS_rFyo" },
+                    { no: 10, title: "大眼睛 - 活型講解",       url: "" },
+                    { no: 11, title: "大眼睛 - 死型講解",       url: "" },
+                    { no: 12, title: "大眼睛 - 送吃型講解",     url: "" },
+                    { no: 13, title: "運子 - 認識斷扳長黏",     url: "" },
+                    { no: 14, title: "運子 - 斷扳長黏的運用",   url: "" },
+                    { no: 15, title: "地盤概念 - 擋哪邊",       url: "" },
+                    { no: 16, title: "地盤概念 - 扳擋黏黏",     url: "" }
+                ]
+            },
+            "G16": {
+                stage: "兒童基礎課",
+                lessons: [
+                    { no: 1,  title: "中階死活技巧(1)",         url: "" },
+                    { no: 2,  title: "中階死活技巧(2)",         url: "" },
+                    { no: 3,  title: "中階攻殺技巧(1)",         url: "" },
+                    { no: 4,  title: "中階攻殺技巧(2)",         url: "" },
+                    { no: 5,  title: "四死六活 - 角",           url: "" },
+                    { no: 6,  title: "六死八活 - 邊",           url: "https://www.youtube.com/watch?v=Ejvg0JXimbQ" },
+                    { no: 7,  title: "大場的判斷",             url: "https://www.youtube.com/watch?v=GZEK5q5i6Yc" },
+                    { no: 8,  title: "急場的判斷",             url: "https://www.youtube.com/watch?v=NaoO1PTAkEE" },
+                    { no: 9,  title: "無眼雙活",               url: "" },
+                    { no: 10, title: "角上的板六",             url: "" },
+                    { no: 11, title: "寬氣征子",               url: "" },
+                    { no: 12, title: "門封與飛封",             url: "" },
+                    { no: 13, title: "認識先手與後手",         url: "" },
+                    { no: 14, title: "大眼睛的氣",             url: "" },
+                    { no: 15, title: "基礎官子 (官子概念)",     url: "" },
+                    { no: 16, title: "官子進階 (先手官與後手官)", url: "" }
+                ]
+            },
+            "G15": {
+                stage: "兒童基礎課",
+                lessons: [
+                    { no: 1,  title: "強弱判斷",               url: "" },
+                    { no: 2,  title: "手拔的判斷",             url: "" },
+                    { no: 3,  title: "要子與屑子",             url: "" },
+                    { no: 4,  title: "劫活(殺)",               url: "" },
+                    { no: 5,  title: "連接手筋",               url: "" },
+                    { no: 6,  title: "切斷手筋",               url: "" },
+                    { no: 7,  title: "金雞獨立",               url: "" },
+                    { no: 8,  title: "碰的手筋",               url: "" },
+                    { no: 9,  title: "老鼠偷油",               url: "" },
+                    { no: 10, title: "相思斷",                 url: "" },
+                    { no: 11, title: "死活基本功 - 角",         url: "" },
+                    { no: 12, title: "死活基本功 - 邊",         url: "" },
+                    { no: 13, title: "左右同型",               url: "" },
+                    { no: 14, title: "攻殺技巧",               url: "" },
+                    { no: 15, title: "挖的手筋",               url: "" },
+                    { no: 16, title: "跨的手筋",               url: "" }
+                ]
+            }
+        };
+        /*__COURSE_DATABASE_END__*/
+
+        const CURRICULUM_DATA = COURSE_DATABASE;
+        const LEVEL_ORDER = ["G19", "G18", "G17", "G16", "G15"];
+
+        // 2. APPLICATION STATE & LOCALSTORAGE KEYS
+        const STORAGE_KEYS = {
+            URLS: 'kikopapa_go_urls_v1',
+            COMPLETED: 'kikopapa_go_completed_v1',
+            PINNED: 'kikopapa_go_pinned_v1'
+        };
+
+        let currentLevel = "G19";
+        let currentSearchQuery = "";
+        let filterHasVideoOnly = false;
+        let activeModalLesson = { level: "G19", no: 1 };
+        let currentUrlManagerFilter = "ALL";
+
+        let customUrls = {};
+        let completedMap = {};
+        let pinnedList = [];
+
+        // Initialize state: Merge hardcoded COURSE_DATABASE URLs with any localStorage overrides
+        function loadStorageState() {
+            // First load hardcoded URLs from COURSE_DATABASE
+            LEVEL_ORDER.forEach(lvl => {
+                CURRICULUM_DATA[lvl].lessons.forEach(item => {
+                    if (item.url && item.url.trim()) {
+                        customUrls[getLessonKey(lvl, item.no)] = item.url.trim();
+                    }
+                });
+            });
+
+            try {
+                const savedUrls = localStorage.getItem(STORAGE_KEYS.URLS);
+                if (savedUrls) {
+                    const parsed = JSON.parse(savedUrls);
+                    // Merge saved URLs without wiping out newly hardcoded URLs
+                    Object.keys(parsed).forEach(k => {
+                        if (parsed[k] && parsed[k].trim()) {
+                            customUrls[k] = parsed[k].trim();
+                        }
+                    });
+                }
+
+                const savedCompleted = localStorage.getItem(STORAGE_KEYS.COMPLETED);
+                if (savedCompleted) completedMap = JSON.parse(savedCompleted);
+
+                const savedPinned = localStorage.getItem(STORAGE_KEYS.PINNED);
+                if (savedPinned) pinnedList = JSON.parse(savedPinned);
+            } catch (err) {
+                console.error("Failed to read localStorage:", err);
+            }
+        }
+
+        function saveStorageState() {
+            // Also sync back into COURSE_DATABASE in memory
+            LEVEL_ORDER.forEach(lvl => {
+                CURRICULUM_DATA[lvl].lessons.forEach(item => {
+                    const k = getLessonKey(lvl, item.no);
+                    item.url = customUrls[k] ? customUrls[k].trim() : "";
+                });
+            });
+
+            try {
+                localStorage.setItem(STORAGE_KEYS.URLS, JSON.stringify(customUrls));
+                localStorage.setItem(STORAGE_KEYS.COMPLETED, JSON.stringify(completedMap));
+                localStorage.setItem(STORAGE_KEYS.PINNED, JSON.stringify(pinnedList));
+            } catch (err) {
+                console.error("Failed to save localStorage:", err);
+            }
+        }
+
+        function getLessonKey(level, no) {
+            return `${level}-${no}`;
+        }
+
+        function getEffectiveUrl(level, no) {
+            const key = getLessonKey(level, no);
+            if (customUrls[key] && customUrls[key].trim()) return customUrls[key].trim();
+            const lesson = CURRICULUM_DATA[level]?.lessons.find(x => x.no === no);
+            return (lesson && lesson.url) ? lesson.url.trim() : "";
+        }
+
+        function countTotalConfiguredVideos() {
+            let count = 0;
+            LEVEL_ORDER.forEach(lvl => {
+                CURRICULUM_DATA[lvl].lessons.forEach(item => {
+                    if (getEffectiveUrl(lvl, item.no)) count++;
+                });
+            });
+            return count;
+        }
+
+        function formatNo(no) {
+            return String(no).padStart(2, '0');
+        }
+
+        // Convert any YouTube URL into an embed URL
+        function parseYoutubeEmbedUrl(rawUrl) {
+            if (!rawUrl || typeof rawUrl !== 'string') return null;
+            const trimmed = rawUrl.trim();
+            if (!trimmed) return null;
+
+            let videoId = null;
+            try {
+                // Match youtu.be/ID, youtube.com/watch?v=ID, youtube.com/embed/ID, youtube.com/shorts/ID
+                const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+                const match = trimmed.match(regExp);
+                if (match && match[1]) {
+                    videoId = match[1];
+                }
+            } catch (e) {
+                return null;
+            }
+
+            if (!videoId) return null;
+            return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
+        }
+
+        // 3. LEVEL NAVIGATION & MAIN GRID RENDERING
+        function switchLevel(level) {
+            currentLevel = level;
+            if (currentSearchQuery || filterHasVideoOnly) {
+                clearSearch(false);
+            }
+            updateTabStyles();
+            renderCourseGrid();
+        }
+
+        function resetToHome() {
+            clearSearch(false);
+            switchLevel('G19');
+        }
+
+        function toggleHasVideoFilter() {
+            filterHasVideoOnly = !filterHasVideoOnly;
+            const btn = document.getElementById('filterHasVideoBtn');
+            if (filterHasVideoOnly) {
+                btn.className = "flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-forest text-white border-2 border-forest font-bold text-sm active:scale-95 transition shadow-sm";
+                document.getElementById('totalVideoCountBadge').className = "px-1.5 py-0.5 text-xs rounded-full bg-white text-forest font-black";
+            } else {
+                btn.className = "flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white border-2 border-stone-200 text-stone-600 font-bold text-sm hover:border-forest active:scale-95 transition shadow-sm";
+                document.getElementById('totalVideoCountBadge').className = "px-1.5 py-0.5 text-xs rounded-full bg-forest-light text-forest font-black";
+            }
+            updateTabStyles();
+            renderCourseGrid();
+        }
+
+        function updateTabStyles() {
+            LEVEL_ORDER.forEach(lvl => {
+                const btn = document.getElementById(`tab-${lvl}`);
+                if (!btn) return;
+                if (lvl === currentLevel && !currentSearchQuery && !filterHasVideoOnly) {
+                    btn.className = "level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-md flex items-center justify-center bg-forest text-white ring-4 ring-forest/25 scale-[1.03]";
+                } else {
+                    btn.className = "level-tab min-w-[110px] h-12 px-6 rounded-xl font-black text-xl tracking-wider transition-all shadow-sm flex items-center justify-center bg-white text-stone-700 hover:bg-forest-light hover:text-forest border border-stone-300";
+                }
+            });
+        }
+
+        function renderCourseGrid() {
+            const grid = document.getElementById('courseGrid');
+            const searchBanner = document.getElementById('searchBanner');
+            const searchBannerText = document.getElementById('searchBannerText');
+
+            // Update basket & total video badges
+            document.getElementById('basketCountBadge').textContent = pinnedList.length;
+            document.getElementById('totalVideoCountBadge').textContent = countTotalConfiguredVideos();
+
+            // Update current level progress counter
+            const levelLessons = CURRICULUM_DATA[currentLevel].lessons;
+            let completedInLevel = 0;
+            levelLessons.forEach(item => {
+                if (completedMap[getLessonKey(currentLevel, item.no)]) completedInLevel++;
+            });
+            document.getElementById('levelProgressText').textContent = `${completedInLevel} / ${levelLessons.length} 堂`;
+
+            // Check if searching or filtering across all levels
+            if (currentSearchQuery.trim() !== "" || filterHasVideoOnly) {
+                const q = currentSearchQuery.trim().toLowerCase();
+                const matched = [];
+                LEVEL_ORDER.forEach(lvl => {
+                    CURRICULUM_DATA[lvl].lessons.forEach(item => {
+                        const hasVideo = !!getEffectiveUrl(lvl, item.no);
+                        const matchesQuery = !q ||
+                            item.title.toLowerCase().includes(q) ||
+                            lvl.toLowerCase().includes(q) ||
+                            String(item.no) === q;
+                        const matchesVideoFilter = !filterHasVideoOnly || hasVideo;
+
+                        if (matchesQuery && matchesVideoFilter) {
+                            matched.push({ level: lvl, stage: CURRICULUM_DATA[lvl].stage, ...item });
+                        }
+                    });
+                });
+
+                searchBanner.classList.remove('hidden');
+                if (filterHasVideoOnly && !q) {
+                    searchBannerText.textContent = `🎬 目前顯示「已綁定 YouTube 影片」的課綱單元，共 ${matched.length} 堂：`;
+                } else {
+                    searchBannerText.textContent = `搜尋「${currentSearchQuery}」共找到 ${matched.length} 堂課（跨等級結果）：`;
+                }
+
+                grid.className = "flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-fr gap-3.5 md:gap-4 w-full h-full overflow-y-auto";
+
+                if (matched.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full flex flex-col items-center justify-center bg-white/80 rounded-3xl border-2 border-dashed border-stone-300 p-10 text-center">
+                            <i class="ph-duotone ph-magnifying-glass text-5xl text-stone-400 mb-2"></i>
+                            <p class="text-xl font-black text-stone-700">找不到符合條件的課綱主題</p>
+                            <button onclick="clearSearch()" class="mt-4 px-5 py-2.5 bg-forest text-white rounded-xl font-bold text-sm">返回課表</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = matched.map(item => buildLessonCardHTML(item.level, item.no, item.title, false, true)).join('');
+                return;
+            }
+
+            // Standard Level Mode
+            searchBanner.classList.add('hidden');
+            const isG19 = currentLevel === "G19";
+
+            // G19 uses 2x2 oversized touch cards; G18~G15 use 4x4 grid fitting the screen without scrolling
+            if (isG19) {
+                grid.className = "flex-1 grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-5 md:gap-6 w-full h-full";
+            } else {
+                grid.className = "flex-1 grid grid-cols-2 sm:grid-cols-4 sm:grid-rows-4 gap-3 md:gap-3.5 w-full h-full";
+            }
+
+            grid.innerHTML = levelLessons.map(item => buildLessonCardHTML(currentLevel, item.no, item.title, isG19, false)).join('');
+        }
+
+        function buildLessonCardHTML(level, no, title, isOversized, showLevelPrefix) {
+            const key = getLessonKey(level, no);
+            const isCompleted = !!completedMap[key];
+            const isPinned = pinnedList.includes(key);
+            const hasUrl = !!getEffectiveUrl(level, no);
+
+            const cardBg = isCompleted 
+                ? "bg-forest-light/90 border-forest/50" 
+                : (hasUrl ? "bg-white border-forest/35 hover:border-forest shadow-sm" : "bg-white/85 hover:bg-white border-stone-200/90 hover:border-stone-400");
+
+            const badgeClass = isCompleted
+                ? "bg-forest text-white"
+                : (no % 2 === 1 ? "stone-black text-white" : "stone-white text-stone-900 border border-stone-300");
+
+            const titleSize = isOversized 
+                ? "text-3xl md:text-4xl lg:text-5xl font-black tracking-wide" 
+                : "text-xl md:text-2xl xl:text-[26px] font-black tracking-tight leading-snug";
+
+            const numberBadgeSize = isOversized
+                ? "w-12 h-12 text-lg"
+                : "w-9 h-9 text-sm";
+
+            return `
+                <div onclick="openVideoModal('${level}', ${no})" 
+                     class="touch-card cursor-pointer rounded-2xl border-2 ${cardBg} hover:shadow-md p-3.5 md:p-4 flex flex-col justify-between relative group overflow-hidden">
+                    
+                    <!-- Top Row: Number Badge + Pin & Check Actions -->
+                    <div class="flex items-center justify-between z-10">
+                        <div class="flex items-center gap-2">
+                            <span class="${numberBadgeSize} rounded-full ${badgeClass} font-black flex items-center justify-center shrink-0">
+                                ${formatNo(no)}
+                            </span>
+                            ${showLevelPrefix ? `<span class="px-2.5 py-0.5 rounded-lg bg-forest text-white font-black text-xs">${level}</span>` : ''}
+                            ${isOversized ? `<span class="px-3 py-1 rounded-full bg-amber-light text-amber-900 font-bold text-xs border border-amber-gold/30">🌱 兒童啟蒙必修</span>` : ''}
+                        </div>
+
+                        <div class="flex items-center gap-1.5">
+                            <!-- Pin to Today's Basket -->
+                            <button onclick="togglePinCard(event, '${level}', ${no})" 
+                                    title="加入今日課程籃"
+                                    class="w-9 h-9 rounded-xl flex items-center justify-center transition ${isPinned ? 'bg-amber-gold text-white shadow-sm' : 'bg-stone-100 text-stone-400 hover:text-stone-700 hover:bg-stone-200'}">
+                                <i class="ph-fill ph-push-pin text-lg"></i>
+                            </button>
+                            <!-- Mark Completed -->
+                            <button onclick="toggleCompleteCard(event, '${level}', ${no})" 
+                                    title="標記已教完"
+                                    class="w-9 h-9 rounded-xl flex items-center justify-center transition ${isCompleted ? 'bg-forest text-white shadow-sm' : 'bg-stone-100 text-stone-400 hover:text-stone-700 hover:bg-stone-200'}">
+                                <i class="ph-bold ph-check text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Center Lesson Title -->
+                    <div class="my-auto py-1 text-center px-2 z-10">
+                        <h3 class="${titleSize} ${isCompleted ? 'text-forest-dark' : 'text-stone-900'} group-hover:text-forest transition-colors">
+                            ${title}
+                        </h3>
+                    </div>
+
+                    <!-- Bottom Row: Status & Play Indicator -->
+                    <div class="flex items-center justify-between text-xs font-bold z-10 pt-1">
+                        <span class="${isCompleted ? 'text-forest font-extrabold' : 'text-stone-400'}">
+                            ${isCompleted ? '✓ 已授課' : `${level} · 第 ${no} 堂`}
+                        </span>
+                        ${hasUrl ? `
+                        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-forest-light text-forest border border-forest/20">
+                            <span class="text-[11px] font-black">▶️ 可播放</span>
+                        </div>
+                        ` : `
+                        <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-stone-400">
+                            <span class="text-[11px] font-bold">🎬 待補影片</span>
+                        </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 4. CARD QUICK ACTIONS (PIN & COMPLETE)
+        function togglePinCard(event, level, no) {
+            event.stopPropagation();
+            const key = getLessonKey(level, no);
+            const idx = pinnedList.indexOf(key);
+            if (idx > -1) {
+                pinnedList.splice(idx, 1);
+                showToast(`已從今日課程籃移除 [${level}-${formatNo(no)}]`);
+            } else {
+                pinnedList.push(key);
+                showToast(`📌 已加入今日課程籃 [${level}-${formatNo(no)}]`);
+            }
+            saveStorageState();
+            renderCourseGrid();
+        }
+
+        function toggleCompleteCard(event, level, no) {
+            event.stopPropagation();
+            const key = getLessonKey(level, no);
+            completedMap[key] = !completedMap[key];
+            if (!completedMap[key]) delete completedMap[key];
+            saveStorageState();
+            renderCourseGrid();
+        }
+
+        function resetCurrentLevelCompleted() {
+            const lessons = CURRICULUM_DATA[currentLevel].lessons;
+            lessons.forEach(item => {
+                delete completedMap[getLessonKey(currentLevel, item.no)];
+            });
+            saveStorageState();
+            renderCourseGrid();
+            showToast(`已重置 ${currentLevel} 的完課勾選紀錄`);
+        }
+
+        // 5. SEARCH FILTERING
+        function handleSearch(val) {
+            currentSearchQuery = val;
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (val.trim() !== "") {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            updateTabStyles();
+            renderCourseGrid();
+        }
+
+        function clearSearch(rerender = true) {
+            currentSearchQuery = "";
+            filterHasVideoOnly = false;
+            document.getElementById('searchInput').value = "";
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            const filterBtn = document.getElementById('filterHasVideoBtn');
+            if (filterBtn) {
+                filterBtn.className = "flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white border-2 border-stone-200 text-stone-600 font-bold text-sm hover:border-forest active:scale-95 transition shadow-sm";
+                document.getElementById('totalVideoCountBadge').className = "px-1.5 py-0.5 text-xs rounded-full bg-forest-light text-forest font-black";
+            }
+            updateTabStyles();
+            if (rerender) renderCourseGrid();
+        }
+
+        // 6. THEATER VIDEO MODAL
+        function openVideoModal(level, no) {
+            activeModalLesson = { level, no };
+            const lessonObj = CURRICULUM_DATA[level].lessons.find(x => x.no === no);
+            if (!lessonObj) return;
+
+            const rawUrl = getEffectiveUrl(level, no);
+            const embedUrl = parseYoutubeEmbedUrl(rawUrl);
+
+            // Header Info
+            document.getElementById('modalLevelBadge').textContent = `${level} - ${formatNo(no)}`;
+            document.getElementById('modalStageTag').textContent = CURRICULUM_DATA[level].stage;
+            document.getElementById('modalLessonTitle').textContent = lessonObj.title;
+            document.getElementById('emptyStateTitle').textContent = `[${level} - ${formatNo(no)}] ${lessonObj.title}`;
+            document.getElementById('quickUrlInput').value = rawUrl;
+
+            // External YouTube fallback link
+            const extLink = document.getElementById('externalYoutubeLink');
+            if (rawUrl) {
+                extLink.href = rawUrl;
+                extLink.classList.remove('hidden');
+                extLink.classList.add('flex');
+            } else {
+                extLink.classList.add('hidden');
+                extLink.classList.remove('flex');
+            }
+
+            // Hide demo board by default when switching lessons
+            document.getElementById('classroomDemoBoard').classList.add('hidden');
+
+            // Toggle Iframe vs Setup State
+            const iframeWrapper = document.getElementById('iframeWrapper');
+            const youtubeIframe = document.getElementById('youtubeIframe');
+            const emptyState = document.getElementById('emptyVideoState');
+
+            if (embedUrl) {
+                youtubeIframe.src = embedUrl;
+                iframeWrapper.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+            } else {
+                youtubeIframe.src = "";
+                iframeWrapper.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            }
+
+            updateModalControlButtons();
+            document.getElementById('videoModal').classList.remove('hidden');
+        }
+
+        function updateModalControlButtons() {
+            const { level, no } = activeModalLesson;
+            const key = getLessonKey(level, no);
+            const lessons = CURRICULUM_DATA[level].lessons;
+
+            // Pin button state
+            const isPinned = pinnedList.includes(key);
+            const pinBtn = document.getElementById('modalPinBtn');
+            const pinText = document.getElementById('modalPinText');
+            if (isPinned) {
+                pinBtn.className = "flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-gold text-white font-bold text-base active:scale-95 transition";
+                pinText.textContent = "已釘選今日課程";
+            } else {
+                pinBtn.className = "flex items-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-base active:scale-95 transition";
+                pinText.textContent = "加入今日課程";
+            }
+
+            // Complete button state
+            const isCompleted = !!completedMap[key];
+            const compBtn = document.getElementById('modalCompleteBtn');
+            const compText = document.getElementById('modalCompleteText');
+            if (isCompleted) {
+                compBtn.className = "flex items-center gap-2 px-5 py-3 rounded-xl bg-forest text-white font-bold text-base active:scale-95 transition";
+                compText.textContent = "已標記教完";
+            } else {
+                compBtn.className = "flex items-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-base active:scale-95 transition";
+                compText.textContent = "標記已教完";
+            }
+
+            // Prev / Next lesson buttons
+            const prevBtn = document.getElementById('prevLessonBtn');
+            const nextBtn = document.getElementById('nextLessonBtn');
+            const prevLesson = lessons.find(x => x.no === no - 1);
+            const nextLesson = lessons.find(x => x.no === no + 1);
+
+            if (prevLesson) {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('opacity-40', 'pointer-events-none');
+                document.getElementById('prevLessonLabel').textContent = `上一堂：${prevLesson.title}`;
+            } else {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('prevLessonLabel').textContent = `本級第一堂`;
+            }
+
+            if (nextLesson) {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('opacity-40', 'pointer-events-none');
+                document.getElementById('nextLessonLabel').textContent = `下一堂：${nextLesson.title}`;
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('nextLessonLabel').textContent = `本級最後一堂`;
+            }
+        }
+
+        function navigateModalLesson(delta) {
+            const { level, no } = activeModalLesson;
+            const targetNo = no + delta;
+            const exists = CURRICULUM_DATA[level].lessons.some(x => x.no === targetNo);
+            if (exists) {
+                openVideoModal(level, targetNo);
+            }
+        }
+
+        function toggleModalPin() {
+            const { level, no } = activeModalLesson;
+            const key = getLessonKey(level, no);
+            const idx = pinnedList.indexOf(key);
+            if (idx > -1) {
+                pinnedList.splice(idx, 1);
+            } else {
+                pinnedList.push(key);
+            }
+            saveStorageState();
+            updateModalControlButtons();
+            renderCourseGrid();
+        }
+
+        function toggleModalComplete() {
+            const { level, no } = activeModalLesson;
+            const key = getLessonKey(level, no);
+            completedMap[key] = !completedMap[key];
+            if (!completedMap[key]) delete completedMap[key];
+            saveStorageState();
+            updateModalControlButtons();
+            renderCourseGrid();
+        }
+
+        function saveQuickUrlFromTheater() {
+            const inputVal = document.getElementById('quickUrlInput').value.trim();
+            const { level, no } = activeModalLesson;
+            const key = getLessonKey(level, no);
+
+            if (!inputVal) {
+                delete customUrls[key];
+                saveStorageState();
+                renderCourseGrid();
+                openVideoModal(level, no);
+                showToast("已清除此堂影片連結");
+                return;
+            }
+
+            const embed = parseYoutubeEmbedUrl(inputVal);
+            if (!embed) {
+                showToast("⚠️ 請輸入有效的 YouTube 網址 (例如 watch?v=... 或 youtu.be/...)");
+                return;
+            }
+
+            customUrls[key] = inputVal;
+            saveStorageState();
+            renderCourseGrid();
+            openVideoModal(level, no);
+            showToast("✔ 已成功綁定並載入 YouTube 教學影片！");
+        }
+
+        function promptQuickUrlEdit() {
+            // Show the setup state so teacher can paste/edit the URL directly
+            document.getElementById(' youtubeIframe')?.setAttribute('src', '');
+            document.getElementById('iframeWrapper').classList.add('hidden');
+            document.getElementById('classroomDemoBoard').classList.add('hidden');
+            document.getElementById('emptyVideoState').classList.remove('hidden');
+            document.getElementById('quickUrlInput').focus();
+        }
+
+        function closeVideoModal() {
+            document.getElementById('youtubeIframe').src = "";
+            document.getElementById('videoModal').classList.add('hidden');
+        }
+
+        // 7. BUILT-IN CLASSROOM 9x9 DEMO GO BOARD (Interactive Canvas for Teaching)
+        let boardState = Array.from({ length: 9 }, () => Array(9).fill(null));
+        let stoneMode = 'alt'; // 'black', 'white', 'alt'
+        let nextTurnColor = 'black';
+
+        function playDemoBoardSimulation() {
+            const boardDiv = document.getElementById('classroomDemoBoard');
+            const isHidden = boardDiv.classList.contains('hidden');
+            if (isHidden) {
+                document.getElementById('youtubeIframe').src = "";
+                document.getElementById('iframeWrapper').classList.add('hidden');
+                document.getElementById('emptyVideoState').classList.add('hidden');
+                boardDiv.classList.remove('hidden');
+                drawGoBoard();
+            } else {
+                openVideoModal(activeModalLesson.level, activeModalLesson.no);
+            }
+        }
+
+        function setDemoStoneColor(mode) {
+            stoneMode = mode;
+            document.getElementById('btnBlackStone').className = `px-2.5 py-1 rounded-lg bg-stone-950 text-white ${mode === 'black' ? 'border-2 border-amber-400' : ''}`;
+            document.getElementById('btnWhiteStone').className = `px-2.5 py-1 rounded-lg bg-stone-200 text-stone-900 ${mode === 'white' ? 'border-2 border-amber-400' : ''}`;
+            document.getElementById('btnAltStone').className = `px-2.5 py-1 rounded-lg bg-stone-700 text-white ${mode === 'alt' ? 'border-2 border-amber-400' : ''}`;
+        }
+
+        function clearDemoBoard() {
+            boardState = Array.from({ length: 9 }, () => Array(9).fill(null));
+            nextTurnColor = 'black';
+            drawGoBoard();
+        }
+
+        function drawGoBoard() {
+            const canvas = document.getElementById('goBoardCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const padding = 48;
+            const gridSpan = size - padding * 2;
+            const cell = gridSpan / 8;
+
+            ctx.clearRect(0, 0, size, size);
+
+            // Board background
+            ctx.fillStyle = '#DCB35C';
+            ctx.fillRect(0, 0, size, size);
+
+            // Grid lines
+            ctx.strokeStyle = '#2B1D0E';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 9; i++) {
+                const pos = padding + i * cell;
+                ctx.beginPath();
+                ctx.moveTo(padding, pos);
+                ctx.lineTo(size - padding, pos);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(pos, padding);
+                ctx.lineTo(pos, size - padding);
+                ctx.stroke();
+            }
+
+            // Star points (9x9: (2,2), (6,2), (4,4), (2,6), (6,6))
+            const stars = [[2,2],[6,2],[4,4],[2,6],[6,6]];
+            ctx.fillStyle = '#2B1D0E';
+            stars.forEach(([gx, gy]) => {
+                ctx.beginPath();
+                ctx.arc(padding + gx * cell, padding + gy * cell, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Draw stones
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
+                    const color = boardState[r][c];
+                    if (!color) continue;
+                    const cx = padding + c * cell;
+                    const cy = padding + r * cell;
+                    const radius = cell * 0.44;
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+                    ctx.shadowBlur = 6;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 3;
+
+                    const grad = ctx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, radius * 0.1, cx, cy, radius);
+                    if (color === 'black') {
+                        grad.addColorStop(0, '#555555');
+                        grad.addColorStop(1, '#111111');
+                    } else {
+                        grad.addColorStop(0, '#FFFFFF');
+                        grad.addColorStop(1, '#DCD8CF');
+                    }
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+        }
+
+        document.getElementById('goBoardCanvas').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const scaleX = this.width / rect.width;
+            const scaleY = this.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            const padding = 48;
+            const cell = (this.width - padding * 2) / 8;
+
+            const col = Math.round((x - padding) / cell);
+            const row = Math.round((y - padding) / cell);
+
+            if (row >= 0 && row < 9 && col >= 0 && col < 9) {
+                if (boardState[row][col]) {
+                    // Clicking an existing stone removes it
+                    boardState[row][col] = null;
+                } else {
+                    if (stoneMode === 'black') {
+                        boardState[row][col] = 'black';
+                    } else if (stoneMode === 'white') {
+                        boardState[row][col] = 'white';
+                    } else {
+                        boardState[row][col] = nextTurnColor;
+                        nextTurnColor = nextTurnColor === 'black' ? 'white' : 'black';
+                    }
+                }
+                drawGoBoard();
+            }
+        });
+
+        // 8. TODAY'S PINNED BASKET MODAL
+        function toggleBasketModal() {
+            const modal = document.getElementById('basketModal');
+            const isHidden = modal.classList.contains('hidden');
+            if (isHidden) {
+                renderBasketList();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function renderBasketList() {
+            const container = document.getElementById('basketListContainer');
+            if (pinnedList.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-stone-400">
+                        <i class="ph-duotone ph-push-pin text-5xl mb-2"></i>
+                        <p class="font-bold text-stone-600">今日課程籃目前是空的</p>
+                        <p class="text-xs mt-1">點擊課綱卡片右上角的「📌」即可將不同等級的單元加入此處</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pinnedList.map(key => {
+                const [level, noStr] = key.split('-');
+                const no = parseInt(noStr, 10);
+                const lesson = CURRICULUM_DATA[level]?.lessons.find(x => x.no === no);
+                if (!lesson) return '';
+                return `
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-white border-2 border-stone-200 hover:border-forest transition shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded-xl bg-forest text-white font-black text-sm">${level} - ${formatNo(no)}</span>
+                            <span class="text-lg font-black text-stone-900">${lesson.title}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="playFromBasket('${level}', ${no})" class="px-4 py-2 rounded-xl bg-forest hover:bg-forest-dark text-white font-bold text-sm flex items-center gap-1.5">
+                                <i class="ph-fill ph-play"></i> 立即播放
+                            </button>
+                            <button onclick="removeFromBasket('${key}')" class="p-2 rounded-xl bg-stone-100 hover:bg-red-100 text-stone-500 hover:text-red-600">
+                                <i class="ph-bold ph-trash text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function playFromBasket(level, no) {
+            document.getElementById('basketModal').classList.add('hidden');
+            openVideoModal(level, no);
+        }
+
+        function removeFromBasket(key) {
+            pinnedList = pinnedList.filter(k => k !== key);
+            saveStorageState();
+            renderBasketList();
+            renderCourseGrid();
+        }
+
+        function clearBasket() {
+            pinnedList = [];
+            saveStorageState();
+            renderBasketList();
+            renderCourseGrid();
+            showToast("已清空今日課程籃");
+        }
+
+        // 9. QR CODE & ADVANCED PYRAMID MODALS
+        function openQrModal() {
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+        function openAdvancedModal() {
+            document.getElementById('advancedModal').classList.remove('hidden');
+        }
+        function closeAdvancedModal() {
+            document.getElementById('advancedModal').classList.add('hidden');
+        }
+
+        // 10. YOUTUBE URL MANAGER MODAL
+        function openUrlManagerModal() {
+            renderUrlManagerList('ALL');
+            document.getElementById('urlManagerModal').classList.remove('hidden');
+        }
+
+        function closeUrlManagerModal() {
+            document.getElementById('urlManagerModal').classList.add('hidden');
+        }
+
+        function renderUrlManagerList(filterLevel) {
+            currentUrlManagerFilter = filterLevel;
+            ['ALL', ...LEVEL_ORDER].forEach(lvl => {
+                const btn = document.getElementById(`urlFilter-${lvl}`);
+                if (!btn) return;
+                if (lvl === filterLevel) {
+                    btn.className = "px-3 py-1 rounded-lg text-xs font-black bg-forest text-white";
+                } else {
+                    btn.className = "px-3 py-1 rounded-lg text-xs font-black bg-white text-stone-700 border border-stone-300";
+                }
+            });
+
+            document.getElementById('urlConfiguredSummary').textContent = `已綁定 ${countTotalConfiguredVideos()} / 68 支影片`;
+
+            const listContainer = document.getElementById('urlManagerList');
+            const targetLevels = filterLevel === 'ALL' ? LEVEL_ORDER : [filterLevel];
+
+            const rows = [];
+            targetLevels.forEach(lvl => {
+                CURRICULUM_DATA[lvl].lessons.forEach(item => {
+                    const key = getLessonKey(lvl, item.no);
+                    const val = getEffectiveUrl(lvl, item.no);
+                    const hasVideo = !!val;
+                    rows.push(`
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2.5 p-3 rounded-xl ${hasVideo ? 'bg-forest-light/60 border-forest/30' : 'bg-white border-stone-200'} border">
+                            <div class="sm:w-64 flex items-center gap-2.5 shrink-0">
+                                <span class="px-2.5 py-1 rounded-lg ${hasVideo ? 'bg-forest text-white' : 'bg-stone-100 text-stone-700'} font-black text-xs">${lvl} - ${formatNo(item.no)}</span>
+                                <span class="font-bold text-sm text-stone-800 truncate">${item.title}</span>
+                            </div>
+                            <input 
+                                type="text" 
+                                data-lesson-key="${key}"
+                                value="${val.replace(/"/g, '&quot;')}" 
+                                placeholder="貼上 YouTube 影片連結 (https://www.youtube.com/watch?v=...)"
+                                class="url-manager-input flex-1 px-3.5 py-2 rounded-lg bg-white border border-stone-300 text-xs font-medium focus:outline-none focus:border-forest"
+                            >
+                        </div>
+                    `);
+                });
+            });
+
+            listContainer.innerHTML = rows.join('');
+        }
+
+        function syncInputsToState() {
+            const inputs = document.querySelectorAll('.url-manager-input');
+            inputs.forEach(inp => {
+                const key = inp.getAttribute('data-lesson-key');
+                const val = inp.value.trim();
+                if (val) {
+                    customUrls[key] = val;
+                } else {
+                    delete customUrls[key];
+                }
+            });
+            saveStorageState();
+        }
+
+        function saveAllUrlsFromManager() {
+            syncInputsToState();
+            renderCourseGrid();
+            closeUrlManagerModal();
+            showToast("✔ 已儲存所有 YouTube 影片網址設定！");
+        }
+
+        // Generate and download a brand-new standalone HTML file with all current URLs hardcoded in COURSE_DATABASE
+        function downloadHardcodedHtmlFile() {
+            syncInputsToState();
+            renderCourseGrid();
+
+            // Build fresh COURSE_DATABASE JS code block
+            const dbObject = {};
+            LEVEL_ORDER.forEach(lvl => {
+                dbObject[lvl] = {
+                    stage: CURRICULUM_DATA[lvl].stage,
+                    lessons: CURRICULUM_DATA[lvl].lessons.map(item => ({
+                        no: item.no,
+                        title: item.title,
+                        url: getEffectiveUrl(lvl, item.no)
+                    }))
+                };
+            });
+
+            const newDbCode = `/*__COURSE_DATABASE_START__*/\n        const COURSE_DATABASE = ${JSON.stringify(dbObject, null, 12)};\n        /*__COURSE_DATABASE_END__*/`;
+
+            let fullHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const regex = /\/\*__COURSE_DATABASE_START__\*\/[\s\S]*?\/\*__COURSE_DATABASE_END__\*\//;
+            if (regex.test(fullHtml)) {
+                fullHtml = fullHtml.replace(regex, newDbCode);
+            }
+
+            const blob = new Blob([fullHtml], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "小樹爸爸圍棋數位教材庫_index.html";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+
+            showToast("💾 已下載包含最新寫死網址的完整 HTML 檔案！");
+        }
+
+        function saveAllUrlsFromManager() {
+            const inputs = document.querySelectorAll('.url-manager-input');
+            inputs.forEach(inp => {
+                const key = inp.getAttribute('data-lesson-key');
+                const val = inp.value.trim();
+                if (val) {
+                    customUrls[key] = val;
+                } else {
+                    delete customUrls[key];
+                }
+            });
+            saveStorageState();
+            renderCourseGrid();
+            closeUrlManagerModal();
+            showToast("✔ 已儲存所有 YouTube 影片網址設定！");
+        }
+
+        function exportUrlsJson() {
+            // Save current visible inputs first
+            const inputs = document.querySelectorAll('.url-manager-input');
+            inputs.forEach(inp => {
+                const key = inp.getAttribute('data-lesson-key');
+                const val = inp.value.trim();
+                if (val) customUrls[key] = val;
+                else delete customUrls[key];
+            });
+            saveStorageState();
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(customUrls, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "kikopapa_youtube_urls.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            showToast("已匯出網址設定備份檔");
+        }
+
+        function importUrlsJson(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (typeof parsed === 'object' && parsed !== null) {
+                        customUrls = { ...customUrls, ...parsed };
+                        saveStorageState();
+                        renderUrlManagerList(currentUrlManagerFilter);
+                        renderCourseGrid();
+                        showToast("✔ 已成功匯入影片網址備份檔！");
+                    }
+                } catch (err) {
+                    showToast("⚠️ 檔案格式錯誤，請確認為 JSON 備份檔");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // 11. TOAST HELPER
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toastNotice');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-2');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+            }, 2600);
+        }
+
+        // Initialize on Window Load
+        window.onload = function() {
+            loadStorageState();
+            switchLevel('G19');
+        };
+    </script>
+</body>
+</html>
