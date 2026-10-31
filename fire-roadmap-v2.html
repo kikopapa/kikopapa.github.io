@@ -152,7 +152,64 @@
         li a:hover {
             text-decoration: underline;
         }
+        
+        /* 關於筆者簽名檔設定 */
+        .author-box {
+            background-color: var(--bg-light);
+            border: 1px solid #e9ecef;
+            border-left: 6px solid var(--secondary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 45px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+        }
 
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--secondary-color);
+            padding: 3px;
+            background-color: #fff;
+            flex-shrink: 0;
+        }
+
+        .author-content {
+            flex: 1;
+        }
+
+        .author-title {
+            margin: 0 0 12px 0;
+            font-size: 1.25em;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-content p {
+            margin: 0 0 12px 0;
+            font-size: 0.95em;
+            color: #444;
+        }
+
+        .author-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .author-link {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .author-link:hover {
+            text-decoration: underline;
+        }
+        
         /* 底部行動呼籲 */
         .cta-box {
             background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
@@ -257,6 +314,17 @@
             <li><strong>🌈 STEP 10.</strong> <a href="https://kikopapa-tw.blogspot.com/2023/08/multiple-income-streams.html">創造多元收入</a>：達成財務自由。</li>
         </ul>
     </section>
+    <!-- 關於筆者簽名檔開始 -->
+    <div class="author-box">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxH_TvUQtMQKk-unqcpKvH2M9mxITb-b73cAVgIYkEliXTiT3ae9nnBGewu04EV-jOFBoXfH3RSJ1dY5GFCm5uUf9nfS262xZyqN6gwsbL1hRHJcbzxAPn7fwyo5mNQB1076KvYkQJpfryybc22okP-vtuPOi7-gSzgPAppjO1EiWhJgbZ7IZJv8yXDOpn/s1600-rw/GreenLogo_center_KIKOPAPA.png" alt="小樹爸爸 KIKOPAPA" class="author-avatar">
+        <div class="author-content">
+            <h3 class="author-title">✍️ 關於筆者</h3>
+            <p>我是<strong>小樹爸爸（ KIKOPAPA ）</strong>，<strong>KIKO Journey</strong> 的創作者。我的經歷涵蓋產品開發、軟硬體整合、專案管理與圍棋教學，也持續關注理財、科技、個人成長及 AI 應用。</p>
+            <p>我希望透過這個網站，分享自己在生活與工作中的實踐經驗，整理有用的知識與工具，讓讀者能從中找到值得參考的觀點與方法。</p>
+            <p>如果想進一步了解我的人生歷程，歡迎閱讀 👉 <a href="https://www.kikopapa.com/p/about-me.html" class="author-link">我的故事：從科技業走向第二人生</a></p>
+        </div>
+    </div>
+    <!-- 關於筆者簽名檔結束 -->
 
     <div class="cta-box">
         <h3>🌿 想要設計專屬於你的 FIRE 地圖嗎？</h3>
