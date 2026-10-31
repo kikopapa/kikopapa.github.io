@@ -7,6 +7,7 @@
     <style>
         :root {
             --bg-color: #0d1117;
+            --card-bg: #161b22;
             --text-color: #f0f6fc;
             --accent-color: #f1c40f; 
             --sub-color: #8b949e;
@@ -105,6 +106,52 @@
             margin: 0 4px;
         }
 
+        /* 關於筆者簽名檔設定（深色主題適配版） */
+        .author-box {
+            background-color: var(--card-bg);
+            border: 1px solid #30363d;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 45px;
+            text-align: left;
+            line-height: 1.75;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-title {
+            margin: 0 0 12px 0;
+            font-size: 1.25rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-content p {
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+        }
+
+        .author-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .author-content strong {
+            color: var(--text-color);
+        }
+
+        .author-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .author-link:hover {
+            text-decoration: underline;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -114,6 +161,8 @@
             h1 { font-size: 2.5rem; }
             .subtitle { font-size: 1.4rem; }
             .countdown { font-size: 1.1rem; }
+            .author-box { padding: 20px; }
+            .author-title { font-size: 1.15rem; }
         }
     </style>
 </head>
@@ -125,7 +174,7 @@
         <div class="subtitle">
             累積淨資產達 <span class="highlight">5000 萬</span>
             年被動收入達 <span class="highlight">200 萬</span><br>
-            累積網誌文章達 <span class="highlight"> 100 篇</span>
+            累積網誌文章達 <span class="highlight">150 篇</span>
         </div>
 
         <!-- 微型進度條區塊 -->
@@ -148,6 +197,7 @@
                 <div class="progress-bar" id="income-bar"></div>
             </div>
         </div>
+
         <div class="progress-section">
             <div class="progress-label">
                 <span>網誌進度</span>
@@ -157,35 +207,37 @@
                 <div class="progress-bar" id="weblog-bar"></div>
             </div>
         </div>
+
         <!-- 月份倒數 -->
         <div class="countdown" id="timer">
             距離目標實現，大約還剩 <span class="time-num" id="months-left">00</span> 個月份
         </div>
+
+        <!-- 關於筆者簽名檔開始 -->
+        <div class="author-box">
+            <div class="author-content">
+                <h3 class="author-title">✍️ 關於筆者</h3>
+                <p>我是<strong>小樹爸爸（ KIKOPAPA ）</strong>，<a href="https://www.kikopapa.com" class="author-link">KIKO Journey</a> 的創作者。我的經歷涵蓋產品開發、軟硬體整合、專案管理與圍棋教學，也持續關注理財、科技、個人成長及 AI 應用。</p>
+                <p>如果想進一步了解我的人生歷程，歡迎閱讀 👉 <a href="https://www.kikopapa.com/p/about-me.html" class="author-link">我的故事：從科技業走向第二人生</a></p>
+            </div>
+        </div>
+        <!-- 關於筆者簽名檔結束 -->
     </div>
 
     <script>
-        // ==========================================
-        // 【自訂進度設定】請在此處填入你目前的實際數據
-        // ==========================================
-        const currentAsset = 3000;       // 目前淨資產（單位：萬）
-        const targetAsset = 5000;        // 目標淨資產（單位：萬）
+        const currentAsset = 3000;
+        const targetAsset = 5000;
 
-        const currentIncome = 110;        // 目前年被動收入（單位：萬）
-        const targetIncome = 200;        // 目標年被動收入（單位：萬）
+        const currentIncome = 110;
+        const targetIncome = 200;
 
-        const currentWeblog = 59;
-        const targetWeblog = 100;   
+        const currentWeblog = 68;
+        const targetWeblog = 150;
 
-        // ==========================================
-        // 邏輯運算核心
-        // ==========================================
-        
-        // 1. 計算進度條
         const assetPercent = Math.min(Math.round((currentAsset / targetAsset) * 100), 100);
         const incomePercent = Math.min(Math.round((currentIncome / targetIncome) * 100), 100);
         const weblogPercent = Math.min(Math.round((currentWeblog / targetWeblog) * 100), 100);
         
-        // 觸發進度條與文字顯示（利用 setTimeout 確保開頁面時有動畫）
         setTimeout(() => {
             document.getElementById('asset-bar').style.width = assetPercent + '%';
             document.getElementById('asset-percent').innerText = assetPercent + '%';
@@ -193,20 +245,17 @@
             document.getElementById('income-bar').style.width = incomePercent + '%';
             document.getElementById('income-percent').innerText = incomePercent + '%';
 
-            document.getElementById('weblog-bar').style.width = incomePercent + '%';
-            document.getElementById('weblog-percent').innerText = incomePercent + '%';
+            document.getElementById('weblog-bar').style.width = weblogPercent + '%';
+            document.getElementById('weblog-percent').innerText = weblogPercent + '%';
         }, 300);
 
-        // 2. 計算剩餘月份
         function calculateMonthsLeft() {
             const now = new Date();
             const targetDate = new Date('January 1, 2030 00:00:00');
             
-            // 計算年份差與月份差
             let months = (targetDate.getFullYear() - now.getFullYear()) * 12;
             months += targetDate.getMonth() - now.getMonth();
             
-            // 如果當月還沒過完，可以視作包含當月（此處採無條件進位，代表還涵蓋這個月）
             if (months <= 0) {
                 document.getElementById('timer').innerHTML = "願景實現的時間已到！";
             } else {
