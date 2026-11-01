@@ -45,6 +45,7 @@
         .highlight {
             background: linear-gradient(45deg, #f1c40f, #f39c12);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0px 0px 30px rgba(241, 196, 15, 0.2);
             font-weight: bold;
@@ -104,6 +105,62 @@
             font-weight: bold;
             font-size: 1.8rem;
             margin: 0 4px;
+        }
+
+        /* 4% 提領率說明 */
+        .rule-section {
+            margin-top: 45px;
+            text-align: left;
+        }
+
+        .rule-section h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.25rem;
+            color: var(--text-color);
+        }
+
+        .rule-section p {
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: #c9d1d9;
+        }
+
+        .rule-section .eq {
+            padding: 12px 16px;
+            border-left: 4px solid var(--accent-color);
+            background-color: var(--card-bg);
+            border-radius: 0 8px 8px 0;
+            color: var(--text-color);
+        }
+
+        /* 達成路徑（新增樣式：原本沒有對應 CSS，會被繼承成置中＋預設項目符號） */
+        .path-section {
+            margin-top: 45px;
+            text-align: left;
+        }
+
+        .path-section h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.25rem;
+            color: var(--text-color);
+        }
+
+        .path-section .plain {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .path-section .plain li {
+            padding: 10px 0;
+            border-bottom: 1px solid #21262d;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+        }
+
+        .path-section .plain li span {
+            color: var(--sub-color);
         }
 
         /* 關於筆者簽名檔設定（深色主題適配版） */
@@ -213,6 +270,25 @@
             距離目標實現，大約還剩 <span class="time-num" id="months-left">00</span> 個月份
         </div>
 
+        <!-- 4% 提領率說明 -->
+        <section class="rule-section" aria-labelledby="rule-h">
+            <h2 id="rule-h">為什麼是這三個數字</h2>
+            <p class="eq">年被動收入 200 萬 ÷ 淨資產 5000 萬 = 4%</p>
+            <p>4% 提領率是長線投資常用的參考原則：每年從資產中提領約 4% 作為生活費，本金在長期下較有機會維持，不會被提領耗盡。</p>
+            <p>150 篇是另一條線：把理財、財商教育與圍棋教學的經驗寫成可查的記錄，讓寫作本身成為成果。</p>
+        </section>
+
+        <!-- 達成路徑 -->
+        <section class="path-section" aria-labelledby="path-h">
+            <h2 id="path-h">達成路徑</h2>
+            <ul class="plain">
+                <li>每年投入金額：<span>未定</span></li>
+                <li>長期報酬率假設：<span>6%</span></li>
+                <li>資產配置原則：<span>指數化、分批投入、不做短線</span></li>
+                <li>寫作節奏：<span>例如每月至少 1 篇</span></li>
+            </ul>
+        </section>
+
         <!-- 關於筆者簽名檔開始 -->
         <div class="author-box">
             <div class="author-content">
@@ -251,7 +327,8 @@
 
         function calculateMonthsLeft() {
             const now = new Date();
-            const targetDate = new Date('January 1, 2030 00:00:00');
+            // 倒數終點：2030 年底（即 2031/1/1 之前）
+            const targetDate = new Date(2031, 0, 1);
             
             let months = (targetDate.getFullYear() - now.getFullYear()) * 12;
             months += targetDate.getMonth() - now.getMonth();
