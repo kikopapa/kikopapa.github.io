@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>兒童圍棋學習地圖：G18 ～ G15 冒險旅程總覽｜小樹爸爸 KIKOPAPA</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+            display: ['Zen Maru Gothic', 'Noto Sans TC', 'sans-serif'],
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-6px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { boxShadow: '0 0 0 0 rgba(250, 204, 21, 0.5)' },
+              '50%': { boxShadow: '0 0 0 12px rgba(250, 204, 21, 0)' },
+            }
+          },
+          animation: {
+            float: 'float 2.4s ease-in-out infinite',
+            pulseGlow: 'pulseGlow 2s infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 棋盤格線背景紋理 */
+    .bg-goban-dark {
+      background-color: #0b1120;
+      background-image: 
+        linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .bg-goban-light {
+      background-color: #fef9ef;
+      background-image: 
+        linear-gradient(to right, rgba(180, 130, 70, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(180, 130, 70, 0.12) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    /* 隱藏捲軸但保留滾動 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* 平滑捲動 */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body id="app-body" class="bg-goban-dark text-slate-100 min-h-screen transition-colors duration-300">
+
+  <!-- ==================== 頂部固定導航與里程碑儀表板 ==================== -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-slate-900/90 border-b border-slate-700/70 shadow-2xl transition-colors duration-300" id="main-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      
+      <!-- 第一列：標題 + 等級徽章 + 模式切換 -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800/80" id="header-top-row">
+        <!-- 左側品牌標題 -->
+        <div class="flex items-center gap-3">
+          <a href="https://www.kikopapa.com" target="_blank" rel="noopener noreferrer" title="前往 小樹爸爸 KIKOPAPA 官網" class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950 border border-slate-600 hover:border-amber-400 shadow-inner transition-transform hover:scale-105 shrink-0">
+            <span class="w-4 h-4 rounded-full bg-white shadow-md inline-block -mr-1"></span>
+            <span class="w-4 h-4 rounded-full bg-slate-950 border border-slate-400 shadow-md inline-block"></span>
+          </a>
+          <div>
+            <h1 class="font-display text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2">
+              <span>兒童圍棋學習冒險地圖</span>
+              <span class="hidden md:inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                G18 ～ G15 全階 64 堂
+              </span>
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400 font-medium" id="subtitle-text">
+              點擊任一關卡可「放大投影」或設定「📍 我們目前在這裡」
+            </p>
+          </div>
+        </div>
+
+        <!-- 右側：當前稱號徽章 & 功能按鈕 -->
+        <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <!-- 當前段位稱號膠囊 -->
+          <div id="rank-badge-pill" class="flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 shadow-lg">
+            <i class="fa-solid fa-shield-halved text-base animate-pulse" id="rank-icon"></i>
+            <div class="text-left">
+              <div class="text-[10px] uppercase tracking-wider opacity-75 font-bold">目前修練稱號</div>
+              <div class="text-xs sm:text-sm font-black tracking-wide" id="rank-title-text">G18 綠林小棋士</div>
+            </div>
+          </div>
+
+          <!-- 定位目前進度按鈕 -->
+          <button onclick="scrollToCurrentLesson()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition transform active:scale-95">
+            <i class="fa-solid fa-location-dot animate-bounce"></i>
+            <span>定位目前位置</span>
+          </button>
+
+          <!-- 亮暗模式切換 -->
+          <button onclick="toggleTheme()" id="theme-toggle-btn" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition" title="切換星空暗色 / 明亮棋盤模式">
+            <i class="fa-solid fa-sun text-base text-amber-300" id="theme-icon"></i>
+          </button>
+
+          <!-- 重置按鈕 -->
+          <button onclick="openResetModal()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-rose-950/80 text-slate-400 hover:text-rose-300 border border-slate-700 transition" title="重置學習進度">
+            <i class="fa-solid fa-rotate-right text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二列：總體進度條 + 快速篩選跳轉 -->
+      <div class="pt-3 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+        
+        <!-- 進度條區塊 -->
+        <div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <div class="flex items-center justify-between sm:justify-start gap-2 min-w-fit">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">總冒險進度</span>
+            <span class="font-display text-base sm:text-lg font-black text-amber-400" id="progress-count-text">4 / 64 堂 (6%)</span>
+          </div>
+          <!-- 4色分段進度軌道 -->
+          <div class="flex-1 h-4 bg-slate-800/90 rounded-full overflow-hidden p-0.5 border border-slate-700/80 shadow-inner relative">
+            <div id="overall-progress-bar" class="h-full rounded-full bg-gradient-to-r from-emerald-500 via-sky-500 via-amber-500 to-purple-500 transition-all duration-500 relative" style="width: 6%;">
+              <span class="absolute right-1 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow"></span>
+            </div>
+          </div>
+          <!-- 目前所在課堂小提示 -->
+          <div id="current-lesson-indicator" class="text-xs font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-lg whitespace-nowrap">
+            <i class="fa-solid fa-location-dot mr-1 animate-bounce"></i>目前位置：G18 第 05 堂・叫吃
+          </div>
+        </div>
+
+        <!-- 等級區域篩選與快速跳轉 -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          <button onclick="filterZone('ALL')" data-zone-btn="ALL" class="zone-filter-btn px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap bg-white text-slate-900 shadow ring-2 ring-amber-400 scale-105">
+            🗺️ 全部展開 (64)
+          </button>
+          <button onclick="filterZone('G18')" data-zone-btn="G18" class="zone-filter-btn px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900">
+            🟢 G18 基礎形狀 (<span id="nav-count-G18">4</span>/16)
+          </button>
+          <button onclick="filterZone('G17')" data-zone-btn="G17" class="zone-filter-btn px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap bg-sky-950/80 text-sky-300 border border-sky-500/40 hover:bg-sky-900">
+            🔵 G17 攻殺死活 (<span id="nav-count-G17">0</span>/16)
+          </button>
+          <button onclick="filterZone('G16')" data-zone-btn="G16" class="zone-filter-btn px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap bg-amber-950/80 text-amber-300 border border-amber-500/40 hover:bg-amber-900">
+            🟠 G16 常型視野 (<span id="nav-count-G16">0</span>/16)
+          </button>
+          <button onclick="filterZone('G15')" data-zone-btn="G15" class="zone-filter-btn px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap bg-purple-950/80 text-purple-300 border border-purple-500/40 hover:bg-purple-900">
+            🟣 G15 高階手筋 (<span id="nav-count-G15">0</span>/16)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 頂部操作引導橫幅 (可收合或一目了然) ==================== -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+    <div id="guide-banner" class="rounded-2xl bg-gradient-to-r from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-slate-700/80 p-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shrink-0">
+          <i class="fa-solid fa-compass text-2xl animate-spin" style="animation-duration: 12s;"></i>
+        </div>
+        <div>
+          <h2 class="font-display text-base sm:text-lg font-black text-white flex items-center gap-2" id="guide-title">
+            <span>如何使用這張圍棋冒險地圖？</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5 leading-relaxed" id="guide-desc">
+            <span class="inline-flex items-center gap-1 font-bold text-amber-300"><i class="fa-solid fa-location-dot"></i> 點擊「設為目前進度」</span>：自動將前面所有關卡標為已過關，並插上旗幟！
+            <span class="mx-1.5 opacity-40">|</span>
+            <span class="inline-flex items-center gap-1 font-bold text-sky-300"><i class="fa-solid fa-expand"></i> 點擊「卡片任一處」</span>：開啟教室大螢幕投影字卡！
+          </p>
+        </div>
+      </div>
+
+      <!-- 圖例說明 -->
+      <div class="flex items-center gap-3 self-end md:self-center text-xs font-bold shrink-0">
+        <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          <i class="fa-solid fa-circle-check"></i> 已過關
+        </span>
+        <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400/50">
+          <i class="fa-solid fa-location-dot animate-bounce"></i> 我們在這裡
+        </span>
+        <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">
+          <i class="fa-solid fa-lock"></i> 待挑戰
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 四大等級大陸地圖主容器 ==================== -->
+  <main id="roadmap-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12"></main>
+
+  <!-- ==================== 底部榮譽結業殿堂 & 個人品牌簽名檔 ==================== -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-4">
+    <div id="finale-card" class="rounded-3xl bg-gradient-to-br from-slate-900 via-purple-950/60 to-slate-900 border-2 border-purple-500/40 p-8 text-center shadow-2xl relative overflow-hidden">
+      <div class="max-w-xl mx-auto relative z-10">
+        <div class="w-16 h-16 rounded-2xl bg-amber-400/20 border border-amber-400/40 text-amber-300 flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <i class="fa-solid fa-trophy text-3xl"></i>
+        </div>
+        <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-2" id="finale-title">
+          終極目標：完成 64 堂修練・榮登紫金小棋王！
+        </h3>
+        <p class="text-sm sm:text-base text-slate-300 font-medium mb-6" id="finale-desc">
+          一步一腳印，從認識氣與吃子開始，邁向自由寬廣的圍棋大師之路！
+        </p>
+        <div class="inline-flex flex-wrap justify-center gap-3">
+          <button onclick="scrollToCurrentLesson()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-lg transition">
+            <i class="fa-solid fa-location-crosshairs mr-1.5"></i> 回到目前上課位置
+          </button>
+          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm border border-slate-600 transition">
+            <i class="fa-solid fa-arrow-up mr-1.5"></i> 回到地圖頂端
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 個人品牌專屬簽名檔 -->
+    <div id="brand-signature-footer" class="mt-10 pt-8 border-t border-slate-800/80 text-center">
+      <div id="brand-signature-card" class="inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-6 py-4 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-lg transition-colors">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 text-slate-950 flex items-center justify-center font-black text-lg shadow-md shrink-0">
+            <i class="fa-solid fa-tree"></i>
+          </div>
+          <div class="text-left">
+            <div class="font-display text-sm sm:text-base font-black text-white flex items-center gap-2" id="footer-brand-title">
+              <span>小樹爸爸 圍棋數位教材庫</span>
+              
+            </div>
+            <div class="text-xs text-slate-400 font-medium mt-0.5" id="footer-brand-curator">
+              Curated by <strong class="text-slate-200" id="footer-author-name">KIKOPAPA</strong> ｜ 專注兒童圍棋思維與數位工具開發
+            </div>
+          </div>
+        </div>
+        <div class="h-6 w-px bg-slate-800 hidden sm:block" id="footer-divider"></div>
+        <a href="https://www.kikopapa.com" target="_blank" rel="noopener noreferrer" 
+           class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-amber-300 text-xs font-black border border-slate-700 transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-globe"></i>
+          <span>www.kikopapa.com</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </a>
+      </div>
+      <p class="text-[11px] text-slate-500 font-medium mt-4">
+        © 2026 小樹爸爸 (KIKOPAPA). All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== 課堂大螢幕聚焦彈窗 (Big-Screen Spotlight Modal) ==================== -->
+  <div id="spotlight-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md transition-opacity">
+    <div id="spotlight-card" class="relative w-full max-w-5xl rounded-3xl border-4 shadow-2xl overflow-hidden transition-all transform scale-100 p-6 sm:p-12 md:p-16 flex flex-col justify-between min-h-[480px] sm:min-h-[560px]">
+      
+      <!-- 頂部列：等級堂數標籤 + 狀態膠囊 + 關閉鈕 -->
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <div class="flex items-center gap-3 flex-wrap">
+          <span id="modal-level-badge" class="px-4 py-1.5 rounded-full text-lg sm:text-2xl font-black tracking-wider uppercase shadow">
+            G18 • 第 01 堂
+          </span>
+          <span id="modal-status-badge" class="px-4 py-1.5 rounded-full text-sm sm:text-lg font-black flex items-center gap-2">
+            📍 目前在這堂
+          </span>
+        </div>
+
+        <button onclick="closeSpotlightModal()" class="w-12 h-12 rounded-2xl bg-slate-900/20 hover:bg-slate-900/40 text-current flex items-center justify-center text-2xl font-bold transition" title="關閉視窗 (Esc)">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 中央超大主標題與核心口訣 (專為教室大螢幕後排設計) -->
+      <div class="my-auto py-8 sm:py-12 text-left">
+        <div id="modal-global-step" class="text-sm sm:text-base font-bold opacity-75 mb-2 tracking-widest uppercase">
+          全階冒險進度：第 1 / 64 站
+        </div>
+        <h2 id="modal-lesson-title" class="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[82px] font-black leading-tight tracking-tight mb-6">
+          如何終局
+        </h2>
+        <p id="modal-lesson-desc" class="text-xl sm:text-3xl md:text-4xl font-bold leading-snug opacity-90">
+          認識對局結束的標誌與停著（Pass）時機
+        </p>
+      </div>
+
+      <!-- 底部互動控制列：設為目前進度 / 單堂切換 / 上一堂 / 下一堂 -->
+      <div class="pt-6 border-t border-current/15 flex flex-wrap items-center justify-between gap-4">
+        <!-- 左側進度設定按鈕 -->
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="modal-set-current-btn" onclick="setCurrentFromModal()" class="px-5 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-lg flex items-center gap-2 transition transform active:scale-95">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>📍 設為目前進度 (我們在這裡)</span>
+          </button>
+
+          <button id="modal-toggle-done-btn" onclick="toggleDoneFromModal()" class="px-4 py-3 rounded-2xl bg-slate-900/80 hover:bg-slate-900 text-white font-bold text-sm sm:text-base shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-check"></i>
+            <span id="modal-toggle-done-text">標記為已過關</span>
+          </button>
+        </div>
+
+        <!-- 右側上下堂切換 -->
+        <div class="flex items-center gap-2.5 ml-auto">
+          <button id="modal-prev-btn" onclick="navigateModal(-1)" class="px-4 py-3 rounded-2xl bg-slate-900/15 hover:bg-slate-900/30 font-black text-sm sm:text-base flex items-center gap-2 transition disabled:opacity-30">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>上一堂</span>
+          </button>
+          <button id="modal-next-btn" onclick="navigateModal(1)" class="px-4 py-3 rounded-2xl bg-slate-900/15 hover:bg-slate-900/30 font-black text-sm sm:text-base flex items-center gap-2 transition disabled:opacity-30">
+            <span>下一堂</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== 重置進度確認彈窗 (取代原生 confirm) ==================== -->
+  <div id="reset-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl">
+      <div class="w-14 h-14 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="font-display text-xl font-black text-white mb-2">確定要重置冒險地圖進度嗎？</h3>
+      <p class="text-sm text-slate-400 mb-6">
+        重置後，將會把目前位置調回「G18 第 01 堂：如何終局」，並清除所有過關紀錄喔！
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <button onclick="closeResetModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm transition">
+          取消返回
+        </button>
+        <button onclick="confirmResetProgress()" class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-sm shadow-lg transition">
+          確定重置
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 輕量提示 Toast ==================== -->
+  <div id="toast-box" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="px-4 py-3 rounded-2xl bg-slate-900/95 border border-amber-400/50 text-white shadow-2xl flex items-center gap-2.5 text-sm font-bold">
+      <i class="fa-solid fa-circle-check text-amber-400 text-base"></i>
+      <span id="toast-message">已更新學習位置！</span>
+    </div>
+  </div>
+
+  <!-- ==================== JavaScript 完整課程資料與互動邏輯 ==================== -->
+  <script>
+    // 1. 四大等級與 64 堂課完整校訂資料
+    const LEVELS_DATA = [
+      {
+        id: 'G18',
+        name: 'G18 基礎吃子與形狀認知',
+        islandTitle: '第一大陸：綠林初心島 (G18)',
+        rankTitle: 'G18 綠林小棋士',
+        subtitle: '建立基本勝負觀念、棋子生死判定與初階吃子戰術。',
+        icon: 'fa-seedling',
+        theme: {
+          badgeBg: 'bg-emerald-500',
+          badgeText: 'text-slate-950',
+          zoneBorder: 'border-emerald-500/40',
+          zoneHeaderBg: 'from-emerald-950/90 via-emerald-900/60 to-slate-900/90',
+          cardDoneBg: 'bg-emerald-950/60 border-emerald-500/60 hover:border-emerald-400',
+          cardDoneLightBg: 'bg-emerald-50 border-emerald-400 hover:border-emerald-600',
+          accentText: 'text-emerald-400',
+          accentLightText: 'text-emerald-700',
+          modalBg: 'bg-[#f0fdf4] text-[#14532d] border-[#16a34a]',
+          modalBadge: 'bg-[#16a34a] text-white'
+        },
+        lessons: [
+          { no: 1, title: '如何終局', desc: '認識對局結束的標誌與停著（Pass）時機' },
+          { no: 2, title: '勝負計算', desc: '初步學會數子與點算地盤大小' },
+          { no: 3, title: '吃子的判斷', desc: '評估是否該動手吃子，避免盲目追擊' },
+          { no: 4, title: '逃跑的判斷', desc: '辨識危險棋子該救或該棄' },
+          { no: 5, title: '叫吃', desc: '掌握向對手發出提子預警的基本手勢' },
+          { no: 6, title: '雙叫吃', desc: '一子同時威脅兩處的雙重攻擊法' },
+          { no: 7, title: '門封', desc: '關上大門堵截敵子退路的包夾技巧' },
+          { no: 8, title: '征子', desc: '羊角狀步步緊逼的連續叫吃追擊' },
+          { no: 9, title: '撲與反提', desc: '故意送子入虎口的縮氣與反吃手筋' },
+          { no: 10, title: '接不歸', desc: '讓對手即使接上也逃不掉的連續提子' },
+          { no: 11, title: '劫', desc: '理解禁止立即反提的「打劫」規則' },
+          { no: 12, title: '連接', desc: '把自己的部隊手牽手連成一體' },
+          { no: 13, title: '切斷', desc: '分割對手的陣型，製造攻擊目標' },
+          { no: 14, title: '認識運子', desc: '初步掌握棋子在盤上的基本行棋方向' },
+          { no: 15, title: '認識眼睛', desc: '學習真眼與假眼，理解活棋基礎' },
+          { no: 16, title: '認識大眼睛', desc: '認識包含 3 目（格）以上的較大眼位空間' }
+        ]
+      },
+      {
+        id: 'G17',
+        name: 'G17 攻殺比氣與死活進階',
+        islandTitle: '第二大陸：湛藍算氣灣 (G17)',
+        rankTitle: 'G17 藍焰破陣手',
+        subtitle: '強化氣數計算、破眼組合拳，以及棋盤地盤邊界的建立。',
+        icon: 'fa-water',
+        theme: {
+          badgeBg: 'bg-sky-400',
+          badgeText: 'text-slate-950',
+          zoneBorder: 'border-sky-500/40',
+          zoneHeaderBg: 'from-sky-950/90 via-sky-900/60 to-slate-900/90',
+          cardDoneBg: 'bg-sky-950/60 border-sky-500/60 hover:border-sky-400',
+          cardDoneLightBg: 'bg-sky-50 border-sky-400 hover:border-sky-600',
+          accentText: 'text-sky-400',
+          accentLightText: 'text-sky-700',
+          modalBg: 'bg-[#eff6ff] text-[#0c4a6e] border-[#0284c7]',
+          modalBadge: 'bg-[#0284c7] text-white'
+        },
+        lessons: [
+          { no: 1, title: '叫吃接技應用', desc: '綜合運用各類叫吃技巧進行連續攻擊' },
+          { no: 2, title: '攻殺比氣 - 緊氣', desc: '對殺時主動縮減對方外氣的技巧' },
+          { no: 3, title: '攻殺比氣 - 長氣', desc: '對殺時為己方部隊延展呼吸長度的方法' },
+          { no: 4, title: '攻殺比氣 - 綜合判斷', desc: '評估雙方氣數快慢，決定對殺策略' },
+          { no: 5, title: '連接 - 虎連、雙連', desc: '掌握虎口連接與雙重連接的高效形狀' },
+          { no: 6, title: '切斷 - 衝擋斷', desc: '運用標準三部曲強力切開敵方防線' },
+          { no: 7, title: '破眼五招 - 點、擠、長', desc: '精準破壞對方眼位的要害破壞法（上篇）' },
+          { no: 8, title: '破眼五招 - 撲、扳、長', desc: '利用撲子與扳縮小對手眼位的技巧（下篇）' },
+          { no: 9, title: '破眼五招 - 細算三步', desc: '結合破眼手筋進行深層三手棋計算' },
+          { no: 10, title: '大眼睛 - 活型講解', desc: '直四、曲四等天然活棋眼位判別' },
+          { no: 11, title: '大眼睛 - 死型講解', desc: '刀把五、梅花六等被對手「點中要害即死」的眼位形狀' },
+          { no: 12, title: '大眼睛 - 送吃型講解', desc: '運用特異形狀誘敵提子後再點殺' },
+          { no: 13, title: '運子 - 認識斷扳長黏', desc: '系統學習圍棋基本行棋四字訣' },
+          { no: 14, title: '運子 - 斷扳長黏的運用', desc: '在實戰接觸戰中靈活切換運子手法' },
+          { no: 15, title: '地盤概念 - 擋哪邊', desc: '遭遇敵方碰觸時，判斷防守阻擋的方向' },
+          { no: 16, title: '地盤概念 - 扳擋黏黏', desc: '邊界封口時的標準定式化運子順序' }
+        ]
+      },
+      {
+        id: 'G16',
+        name: 'G16 死活常型與大局視野',
+        islandTitle: '第三大陸：琥珀戰略城 (G16)',
+        rankTitle: 'G16 琥珀戰略家',
+        subtitle: '掌握角邊死活鐵律、大場急場判斷，以及先後手觀念。',
+        icon: 'fa-fire',
+        theme: {
+          badgeBg: 'bg-amber-400',
+          badgeText: 'text-slate-950',
+          zoneBorder: 'border-amber-500/40',
+          zoneHeaderBg: 'from-amber-950/90 via-amber-900/60 to-slate-900/90',
+          cardDoneBg: 'bg-amber-950/60 border-amber-500/60 hover:border-amber-400',
+          cardDoneLightBg: 'bg-amber-50 border-amber-400 hover:border-amber-600',
+          accentText: 'text-amber-400',
+          accentLightText: 'text-amber-800',
+          modalBg: 'bg-[#fffbeb] text-[#7c2d12] border-[#ea580c]',
+          modalBadge: 'bg-[#ea580c] text-white'
+        },
+        lessons: [
+          { no: 1, title: '中階死活技巧 (1)', desc: '二之一路上多妙手：鎖定角部關鍵死活要點' },
+          { no: 2, title: '中階死活技巧 (2)', desc: '擴大空間做眼：主動爭取最大眼位空間以做活' },
+          { no: 3, title: '中階攻殺技巧 (1)', desc: '一口乾、滾打、撲等連續緊氣與包圍技巧' },
+          { no: 4, title: '中階攻殺技巧 (2)', desc: '利用「牆壁好朋友」（一線與邊緣）的借力殺棋術' },
+          { no: 5, title: '四死六活 - 角', desc: '牢記角部二線折線死活的經典口訣與變化' },
+          { no: 6, title: '六死八活 - 邊', desc: '牢記邊線二線爬行死活的經典界線' },
+          { no: 7, title: '大場的判斷', desc: '哪裡地盤最大就去哪裡：搶佔空曠的黃金地皮' },
+          { no: 8, title: '急場的判斷', desc: '「先救火，再蓋房子」：辨識哪裡著火了要先搶救' },
+          { no: 9, title: '無眼雙活', desc: '雙方均無眼卻互相牽制共存的特殊棋型' },
+          { no: 10, title: '角上的板六', desc: '角部板六看外氣與斷點，掌握死、活、劫的變化' },
+          { no: 11, title: '寬氣征子', desc: '面對氣數較長的敵子進行長距離征殺計算' },
+          { no: 12, title: '門封與飛封', desc: '靈活運用壓制手法封鎖對手出頭通路' },
+          { no: 13, title: '認識先手與後手', desc: '理解棋權價值，學會爭奪主動權' },
+          { no: 14, title: '大眼睛的氣', desc: '正確計算三目至六目大眼所含的內氣手數' },
+          { no: 15, title: '基礎官子 (官子概念)', desc: '學習邊界收束時的目數計算原理' },
+          { no: 16, title: '官子進階 (先手官與後手官)', desc: '區分雙先、單先與雙後手官子的價值排序' }
+        ]
+      },
+      {
+        id: 'G15',
+        name: 'G15 高階手筋與攻防判斷',
+        islandTitle: '第四大陸：紫金手筋殿 (G15)',
+        rankTitle: 'G15 紫金手筋王',
+        subtitle: '精熟實戰妙手（手筋）、棋筋取捨，邁入行棋自由境界。',
+        icon: 'fa-wand-magic-sparkles',
+        theme: {
+          badgeBg: 'bg-purple-400',
+          badgeText: 'text-slate-950',
+          zoneBorder: 'border-purple-500/40',
+          zoneHeaderBg: 'from-purple-950/90 via-purple-900/60 to-slate-900/90',
+          cardDoneBg: 'bg-purple-950/60 border-purple-500/60 hover:border-purple-400',
+          cardDoneLightBg: 'bg-purple-50 border-purple-400 hover:border-purple-600',
+          accentText: 'text-purple-300',
+          accentLightText: 'text-purple-800',
+          modalBg: 'bg-[#faf5ff] text-[#581c87] border-[#9333ea]',
+          modalBadge: 'bg-[#9333ea] text-white'
+        },
+        lessons: [
+          { no: 1, title: '強弱判斷', desc: '隨時評估盤上各塊部隊的厚薄與生息狀態' },
+          { no: 2, title: '手拔的判斷', desc: '學會脫先不理，搶佔全局更大價值的要點' },
+          { no: 3, title: '要子與屑子', desc: '辨識牽涉全域生死的「棋筋」與無關緊要的「殘子」' },
+          { no: 4, title: '劫活 (殺)', desc: '劣勢下製造劫爭以求生或屠龍的逆轉戰術' },
+          { no: 5, title: '連接手筋', desc: '運用跳、飛、夾等妙手完成精妙連線' },
+          { no: 6, title: '切斷手筋', desc: '穿象眼、跨斷、扭斷等精準分斷技巧' },
+          { no: 7, title: '金雞獨立', desc: '利用氣緊讓對方兩邊均無法落子的奇妙殺法' },
+          { no: 8, title: '碰的手筋', desc: '貼身靠擊以借力打力、騰挪做活的妙手' },
+          { no: 9, title: '老鼠偷油', desc: '二路透點與穿透敵方空隙的特殊破空手法' },
+          { no: 10, title: '相思斷', desc: '雙方互斷後牽制各方的經典接觸戰術' },
+          { no: 11, title: '死活基本功 - 角', desc: '精熟角部各類經典手筋與死穴（點、撲、立）' },
+          { no: 12, title: '死活基本功 - 邊', desc: '熟練邊路常型死活：掌握邊線攻防的關鍵要點與夾殺技巧' },
+          { no: 13, title: '左右同型', desc: '「左右同型走中央」，對稱圖形的破形要領' },
+          { no: 14, title: '攻殺技巧', desc: '結合手筋與緊氣的最高階實戰對殺手法' },
+          { no: 15, title: '挖的手筋', desc: '鑽入敵子間隙造成兩翼斷點的破壞妙手' },
+          { no: 16, title: '跨的手筋', desc: '橫跨對方二子之間阻斷聯絡的高級戰法' }
+        ]
+      }
+    ];
+
+    // 建立扁平化 64 堂索引 (globalIdx: 0 ~ 63)
+    const ALL_LESSONS = [];
+    LEVELS_DATA.forEach((lvl, lIdx) => {
+      lvl.lessons.forEach((les, idx) => {
+        ALL_LESSONS.push({
+          globalIdx: ALL_LESSONS.length,
+          globalNo: ALL_LESSONS.length + 1,
+          levelId: lvl.id,
+          levelName: lvl.name,
+          levelIdx: lIdx,
+          lessonNo: les.no,
+          title: les.title,
+          desc: les.desc,
+          theme: lvl.theme
+        });
+      });
+    });
+
+    // 2. 狀態管理與 LocalStorage 儲存
+    const STORAGE_KEY = 'weiqi_kids_map_state_v1';
+    let appState = {
+      currentGlobalIdx: 0,       // 目前正在挑戰的課堂 (0 ~ 63)
+      completedMap: {},          // 已完成的課堂 { 0: true, 1: true ... }
+      activeZoneFilter: 'ALL',   // 'ALL' | 'G18' | 'G17' | 'G16' | 'G15'
+      isDarkMode: true,          // 預設暗色星空模式
+      modalGlobalIdx: 0          // 目前彈窗檢視的課堂
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState.currentGlobalIdx = typeof parsed.currentGlobalIdx === 'number' ? parsed.currentGlobalIdx : 0;
+          appState.completedMap = parsed.completedMap || {};
+          appState.isDarkMode = parsed.isDarkMode !== undefined ? parsed.isDarkMode : true;
+        } else {
+          // 預設示範進度：假設已完成前 4 堂，目前在第 5 堂
+          appState.currentGlobalIdx = 4;
+          appState.completedMap = { 0: true, 1: true, 2: true, 3: true };
+        }
+      } catch (e) {
+        console.warn('無法讀取進度，使用預設值', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          currentGlobalIdx: appState.currentGlobalIdx,
+          completedMap: appState.completedMap,
+          isDarkMode: appState.isDarkMode
+        }));
+      } catch (e) {
+        console.warn('無法儲存進度', e);
+      }
+    }
+
+    // 3. 渲染主題配色 (暗色星空 vs 明亮棋盤)
+    function applyTheme() {
+      const body = document.getElementById('app-body');
+      const header = document.getElementById('main-header');
+      const themeIcon = document.getElementById('theme-icon');
+      const guideBanner = document.getElementById('guide-banner');
+      const guideTitle = document.getElementById('guide-title');
+      const guideDesc = document.getElementById('guide-desc');
+      const subtitleText = document.getElementById('subtitle-text');
+      const sigFooter = document.getElementById('brand-signature-footer');
+      const sigCard = document.getElementById('brand-signature-card');
+      const footerBrandTitle = document.getElementById('footer-brand-title');
+      const footerBrandCurator = document.getElementById('footer-brand-curator');
+      const footerAuthorName = document.getElementById('footer-author-name');
+      const footerDivider = document.getElementById('footer-divider');
+
+      if (appState.isDarkMode) {
+        document.documentElement.classList.add('dark');
+        body.className = 'bg-goban-dark text-slate-100 min-h-screen transition-colors duration-300';
+        header.className = 'sticky top-0 z-40 backdrop-blur-xl bg-slate-900/90 border-b border-slate-700/70 shadow-2xl transition-colors duration-300';
+        themeIcon.className = 'fa-solid fa-sun text-base text-amber-300';
+        guideBanner.className = 'rounded-2xl bg-gradient-to-r from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-slate-700/80 p-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl';
+        guideTitle.className = 'font-display text-base sm:text-lg font-black text-white flex items-center gap-2';
+        guideDesc.className = 'text-xs sm:text-sm text-slate-300 mt-0.5 leading-relaxed';
+        subtitleText.className = 'text-xs sm:text-sm text-slate-400 font-medium';
+        if (sigCard) {
+          sigFooter.className = 'mt-10 pt-8 border-t border-slate-800/80 text-center';
+          sigCard.className = 'inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-6 py-4 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-lg transition-colors';
+          footerBrandTitle.className = 'font-display text-sm sm:text-base font-black text-white flex items-center gap-2';
+          footerBrandCurator.className = 'text-xs text-slate-400 font-medium mt-0.5';
+          footerAuthorName.className = 'text-slate-200';
+          footerDivider.className = 'h-6 w-px bg-slate-800 hidden sm:block';
+        }
+      } else {
+        document.documentElement.classList.remove('dark');
+        body.className = 'bg-goban-light text-slate-900 min-h-screen transition-colors duration-300';
+        header.className = 'sticky top-0 z-40 backdrop-blur-xl bg-[#fffdf7]/95 border-b border-amber-900/15 shadow-md transition-colors duration-300';
+        themeIcon.className = 'fa-solid fa-moon text-base text-slate-700';
+        guideBanner.className = 'rounded-2xl bg-white/95 border-2 border-amber-900/15 p-4 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-md';
+        guideTitle.className = 'font-display text-base sm:text-lg font-black text-slate-900 flex items-center gap-2';
+        guideDesc.className = 'text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed';
+        subtitleText.className = 'text-xs sm:text-sm text-slate-600 font-medium';
+        if (sigCard) {
+          sigFooter.className = 'mt-10 pt-8 border-t border-amber-900/15 text-center';
+          sigCard.className = 'inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 px-6 py-4 rounded-2xl bg-white/95 border-2 border-amber-900/15 shadow-md transition-colors';
+          footerBrandTitle.className = 'font-display text-sm sm:text-base font-black text-slate-900 flex items-center gap-2';
+          footerBrandCurator.className = 'text-xs text-slate-600 font-medium mt-0.5';
+          footerAuthorName.className = 'text-slate-900';
+          footerDivider.className = 'h-6 w-px bg-slate-200 hidden sm:block';
+        }
+      }
+    }
+
+    function toggleTheme() {
+      appState.isDarkMode = !appState.isDarkMode;
+      saveState();
+      applyTheme();
+      renderRoadmap();
+      showToast(appState.isDarkMode ? '🌙 已切換為「暗色星空模式」' : '☀️ 已切換為「明亮棋盤模式」');
+    }
+
+    // 4. 更新頂部儀表板統計
+    function updateDashboard() {
+      const total = ALL_LESSONS.length; // 64
+      const completedCount = Object.keys(appState.completedMap).filter(k => appState.completedMap[k]).length;
+      const pct = Math.round((completedCount / total) * 100);
+
+      document.getElementById('progress-count-text').textContent = `${completedCount} / ${total} 堂 (${pct}%)`;
+      document.getElementById('overall-progress-bar').style.width = `${Math.max(pct, 2)}%`;
+
+      // 目前所在課堂資訊
+      const curLesson = ALL_LESSONS[appState.currentGlobalIdx] || ALL_LESSONS[0];
+      const padNo = String(curLesson.lessonNo).padStart(2, '0');
+      document.getElementById('current-lesson-indicator').innerHTML = 
+        `<i class="fa-solid fa-location-dot mr-1 animate-bounce"></i>目前位置：${curLesson.levelId} 第 ${padNo} 堂・${curLesson.title}`;
+
+      // 更新目前等級稱號
+      const curLevelObj = LEVELS_DATA[curLesson.levelIdx];
+      document.getElementById('rank-title-text').textContent = curLevelObj.rankTitle;
+
+      // 各等級完成數統計
+      LEVELS_DATA.forEach((lvl, lIdx) => {
+        let count = 0;
+        for (let i = lIdx * 16; i < (lIdx + 1) * 16; i++) {
+          if (appState.completedMap[i]) count++;
+        }
+        const navSpan = document.getElementById(`nav-count-${lvl.id}`);
+        if (navSpan) navSpan.textContent = count;
+      });
+
+      // 更新篩選按鈕高亮狀態
+      document.querySelectorAll('.zone-filter-btn').forEach(btn => {
+        const z = btn.getAttribute('data-zone-btn');
+        if (z === appState.activeZoneFilter) {
+          btn.classList.add('ring-2', 'ring-amber-400', 'scale-105');
+        } else {
+          btn.classList.remove('ring-2', 'ring-amber-400', 'scale-105');
+        }
+      });
+    }
+
+    // 5. 渲染四大等級大陸與 64 堂路徑卡片
+    function renderRoadmap() {
+      const container = document.getElementById('roadmap-container');
+      container.innerHTML = '';
+
+      LEVELS_DATA.forEach((lvl, lIdx) => {
+        if (appState.activeZoneFilter !== 'ALL' && appState.activeZoneFilter !== lvl.id) {
+          return;
+        }
+
+        // 計算該區完成數
+        let zoneDone = 0;
+        const startGlobal = lIdx * 16;
+        for (let i = startGlobal; i < startGlobal + 16; i++) {
+          if (appState.completedMap[i]) zoneDone++;
+        }
+        const zonePct = Math.round((zoneDone / 16) * 100);
+
+        const section = document.createElement('section');
+        section.id = `zone-${lvl.id}`;
+        section.className = `rounded-3xl border-2 ${lvl.theme.zoneBorder} ${
+          appState.isDarkMode ? 'bg-slate-900/65' : 'bg-white/90 shadow-xl'
+        } overflow-hidden transition-all`;
+
+        // 大陸橫幅 Header
+        const headerHtml = `
+          <div class="p-5 sm:p-7 bg-gradient-to-r ${
+            appState.isDarkMode ? lvl.theme.zoneHeaderBg : 'from-slate-900 via-slate-800 to-slate-900 text-white'
+          } border-b ${lvl.theme.zoneBorder} flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl ${lvl.theme.badgeBg} ${lvl.theme.badgeText} flex items-center justify-center text-2xl font-black shadow-lg shrink-0">
+                <i class="fa-solid ${lvl.icon}"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <span class="px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider ${lvl.theme.badgeBg} ${lvl.theme.badgeText}">
+                    ${lvl.id} 等級
+                  </span>
+                  <span class="text-xs font-bold text-slate-300">
+                    第 ${startGlobal + 1} ～ ${startGlobal + 16} 站
+                  </span>
+                </div>
+                <h2 class="font-display text-2xl sm:text-3xl font-black text-white mt-1">
+                  ${lvl.islandTitle}
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 font-medium mt-0.5">
+                  ${lvl.subtitle}
+                </p>
+              </div>
+            </div>
+
+            <!-- 區域進度與快速全選 -->
+            <div class="flex items-center gap-3 self-stretch md:self-center justify-between md:justify-end bg-slate-950/50 px-4 py-3 rounded-2xl border border-white/10">
+              <div class="text-left md:text-right">
+                <div class="text-[11px] font-bold text-slate-400">本島探索進度</div>
+                <div class="font-display text-lg font-black text-white">${zoneDone} / 16 堂 (${zonePct}%)</div>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-700">
+                ${
+                  zoneDone === 16
+                    ? '<i class="fa-solid fa-crown text-amber-400 text-xl animate-bounce" title="本等級全部過關！"></i>'
+                    : `<span class="text-xs font-black ${lvl.theme.accentText}">${zonePct}%</span>`
+                }
+              </div>
+            </div>
+          </div>
+        `;
+
+        // 16 堂課卡片網格
+        let cardsHtml = `<div class="p-4 sm:p-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">`;
+
+        lvl.lessons.forEach((les, idx) => {
+          const gIdx = startGlobal + idx;
+          const isCurrent = appState.currentGlobalIdx === gIdx;
+          const isDone = !!appState.completedMap[gIdx];
+          const padNo = String(les.no).padStart(2, '0');
+
+          // 決定卡片外觀樣式
+          let cardStyle = '';
+          let statusBadge = '';
+
+          if (isCurrent) {
+            cardStyle = appState.isDarkMode
+              ? 'bg-gradient-to-br from-amber-500/25 via-slate-900 to-slate-900 border-2 border-amber-400 ring-4 ring-amber-400/20 animate-pulseGlow shadow-2xl'
+              : 'bg-amber-50 border-2 border-amber-500 ring-4 ring-amber-400/30 shadow-xl';
+            statusBadge = `
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-black bg-amber-400 text-slate-950 shadow animate-float">
+                <i class="fa-solid fa-location-dot"></i> 我們在這裡
+              </span>
+            `;
+          } else if (isDone) {
+            cardStyle = appState.isDarkMode
+              ? `${lvl.theme.cardDoneBg} border-2 shadow-lg`
+              : `${lvl.theme.cardDoneLightBg} border-2 shadow-sm`;
+            statusBadge = `
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                <i class="fa-solid fa-check"></i> 已過關
+              </span>
+            `;
+          } else {
+            cardStyle = appState.isDarkMode
+              ? 'bg-slate-900/90 border border-slate-800 hover:border-slate-600 opacity-85 hover:opacity-100'
+              : 'bg-slate-50/90 border border-slate-200 hover:border-slate-400 opacity-90 hover:opacity-100';
+            statusBadge = `
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                appState.isDarkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-200 text-slate-600'
+              }">
+                <i class="fa-solid fa-lock text-[10px]"></i> 待挑戰
+              </span>
+            `;
+          }
+
+          cardsHtml += `
+            <div id="lesson-card-${gIdx}" 
+                 onclick="openSpotlightModal(${gIdx})"
+                 class="group relative rounded-2xl p-4 sm:p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between hover:-translate-y-1 ${cardStyle}">
+              
+              <!-- 頂部：關卡編號 + 狀態標籤 -->
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="font-display text-xs sm:text-sm font-black tracking-wider px-2.5 py-0.5 rounded-lg ${
+                    isCurrent
+                      ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
+                      : isDone
+                      ? `${lvl.theme.badgeBg} ${lvl.theme.badgeText}`
+                      : appState.isDarkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
+                  }">
+                    ${lvl.id} • 第 ${padNo} 堂
+                  </span>
+                  ${statusBadge}
+                </div>
+
+                <!-- 課程主標題 -->
+                <h3 class="font-display text-xl sm:text-2xl font-black leading-snug mb-2 group-hover:text-amber-400 transition-colors ${
+                  appState.isDarkMode ? 'text-white' : 'text-slate-900'
+                }">
+                  ${les.title}
+                </h3>
+
+                <!-- 核心學習重點口訣 -->
+                <p class="text-xs sm:text-sm font-medium leading-relaxed ${
+                  appState.isDarkMode ? 'text-slate-300' : 'text-slate-600'
+                }">
+                  ${les.desc}
+                </p>
+              </div>
+
+              <!-- 底部快速互動列 (阻止冒泡避免誤開彈窗) -->
+              <div class="mt-4 pt-3 border-t ${
+                appState.isDarkMode ? 'border-slate-800/90' : 'border-slate-200'
+              } flex items-center justify-between gap-2">
+                
+                <!-- 設為目前位置按鈕 -->
+                <button onclick="event.stopPropagation(); setAsCurrentLesson(${gIdx})" 
+                        class="text-xs font-bold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1 ${
+                          isCurrent
+                            ? 'bg-amber-400 text-slate-950 font-black'
+                            : appState.isDarkMode
+                            ? 'bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300'
+                            : 'bg-slate-200 hover:bg-amber-400 hover:text-slate-950 text-slate-700'
+                        }"
+                        title="將此堂設為目前上課進度，並自動完成前面的課堂">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>${isCurrent ? '目前進度' : '設為目前'}</span>
+                </button>
+
+                <div class="flex items-center gap-1.5">
+                  <!-- 單堂完成勾選 -->
+                  <button onclick="event.stopPropagation(); toggleLessonDone(${gIdx})"
+                          class="w-8 h-8 rounded-xl flex items-center justify-center text-xs transition ${
+                            isDone
+                              ? 'bg-emerald-500 text-slate-950 font-black shadow'
+                              : appState.isDarkMode
+                              ? 'bg-slate-800 hover:bg-slate-700 text-slate-400'
+                              : 'bg-slate-200 hover:bg-slate-300 text-slate-600'
+                          }"
+                          title="${isDone ? '點擊取消完成' : '點擊標記為已完成'}">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+
+                  <!-- 放大投影按鈕 -->
+                  <button onclick="event.stopPropagation(); openSpotlightModal(${gIdx})"
+                          class="w-8 h-8 rounded-xl flex items-center justify-center text-xs transition ${
+                            appState.isDarkMode
+                              ? 'bg-slate-800 group-hover:bg-sky-500 group-hover:text-slate-950 text-slate-300'
+                              : 'bg-slate-200 group-hover:bg-sky-500 group-hover:text-white text-slate-700'
+                          }"
+                          title="全螢幕放大檢視">
+                    <i class="fa-solid fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          `;
+        });
+
+        cardsHtml += `</div>`;
+        section.innerHTML = headerHtml + cardsHtml;
+        container.appendChild(section);
+      });
+    }
+
+    // 6. 互動功能：設定「目前上課位置」與「單堂完成切換」
+    function setAsCurrentLesson(globalIdx) {
+      appState.currentGlobalIdx = globalIdx;
+      for (let i = 0; i < globalIdx; i++) {
+        appState.completedMap[i] = true;
+      }
+      saveState();
+      updateDashboard();
+      renderRoadmap();
+
+      const les = ALL_LESSONS[globalIdx];
+      showToast(`📍 已定位至：${les.levelId} 第 ${String(les.lessonNo).padStart(2, '0')} 堂「${les.title}」`);
+    }
+
+    function toggleLessonDone(globalIdx) {
+      if (appState.completedMap[globalIdx]) {
+        delete appState.completedMap[globalIdx];
+      } else {
+        appState.completedMap[globalIdx] = true;
+      }
+      saveState();
+      updateDashboard();
+      renderRoadmap();
+    }
+
+    function filterZone(zoneId) {
+      appState.activeZoneFilter = zoneId;
+      updateDashboard();
+      renderRoadmap();
+    }
+
+    function scrollToCurrentLesson() {
+      const curLesson = ALL_LESSONS[appState.currentGlobalIdx];
+      if (appState.activeZoneFilter !== 'ALL' && appState.activeZoneFilter !== curLesson.levelId) {
+        appState.activeZoneFilter = 'ALL';
+        updateDashboard();
+        renderRoadmap();
+      }
+      const cardEl = document.getElementById(`lesson-card-${appState.currentGlobalIdx}`);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // 7. 課堂大螢幕聚焦彈窗 (Spotlight Modal) 邏輯
+    function openSpotlightModal(globalIdx) {
+      appState.modalGlobalIdx = globalIdx;
+      renderSpotlightModalContent();
+      const modal = document.getElementById('spotlight-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function renderSpotlightModalContent() {
+      const gIdx = appState.modalGlobalIdx;
+      const item = ALL_LESSONS[gIdx];
+      const isCurrent = appState.currentGlobalIdx === gIdx;
+      const isDone = !!appState.completedMap[gIdx];
+      const padNo = String(item.lessonNo).padStart(2, '0');
+
+      const card = document.getElementById('spotlight-card');
+      card.className = `relative w-full max-w-5xl rounded-3xl border-8 shadow-2xl overflow-hidden transition-all p-6 sm:p-12 md:p-16 flex flex-col justify-between min-h-[480px] sm:min-h-[560px] ${item.theme.modalBg}`;
+
+      const lvlBadge = document.getElementById('modal-level-badge');
+      lvlBadge.className = `px-5 py-2 rounded-full text-xl sm:text-2xl font-black tracking-wider shadow ${item.theme.modalBadge}`;
+      lvlBadge.textContent = `${item.levelId} • 第 ${padNo} 堂`;
+
+      const statusBadge = document.getElementById('modal-status-badge');
+      if (isCurrent) {
+        statusBadge.className = 'px-4 py-2 rounded-full text-base sm:text-xl font-black bg-amber-400 text-slate-950 shadow flex items-center gap-2';
+        statusBadge.innerHTML = '<i class="fa-solid fa-location-dot animate-bounce"></i> 我們目前在這堂！';
+      } else if (isDone) {
+        statusBadge.className = 'px-4 py-2 rounded-full text-base sm:text-xl font-black bg-emerald-600 text-white shadow flex items-center gap-2';
+        statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已過關完成';
+      } else {
+        statusBadge.className = 'px-4 py-2 rounded-full text-base sm:text-xl font-bold bg-slate-900/15 text-current flex items-center gap-2';
+        statusBadge.innerHTML = '<i class="fa-solid fa-compass"></i> 即將挑戰關卡';
+      }
+
+      document.getElementById('modal-global-step').textContent = 
+        `${item.levelName} （全地圖第 ${item.globalNo} / 64 站）`;
+      document.getElementById('modal-lesson-title').textContent = item.title;
+      document.getElementById('modal-lesson-desc').textContent = item.desc;
+
+      document.getElementById('modal-toggle-done-text').textContent = isDone ? '取消過關標記' : '標記為已過關';
+      document.getElementById('modal-prev-btn').disabled = gIdx <= 0;
+      document.getElementById('modal-next-btn').disabled = gIdx >= ALL_LESSONS.length - 1;
+    }
+
+    function closeSpotlightModal() {
+      const modal = document.getElementById('spotlight-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function navigateModal(delta) {
+      const nextIdx = appState.modalGlobalIdx + delta;
+      if (nextIdx >= 0 && nextIdx < ALL_LESSONS.length) {
+        appState.modalGlobalIdx = nextIdx;
+        renderSpotlightModalContent();
+      }
+    }
+
+    function setCurrentFromModal() {
+      setAsCurrentLesson(appState.modalGlobalIdx);
+      renderSpotlightModalContent();
+    }
+
+    function toggleDoneFromModal() {
+      toggleLessonDone(appState.modalGlobalIdx);
+      renderSpotlightModalContent();
+    }
+
+    // 8. 重置進度彈窗控制
+    function openResetModal() {
+      const m = document.getElementById('reset-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeResetModal() {
+      const m = document.getElementById('reset-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function confirmResetProgress() {
+      appState.currentGlobalIdx = 0;
+      appState.completedMap = {};
+      saveState();
+      updateDashboard();
+      renderRoadmap();
+      closeResetModal();
+      showToast('🔄 已重置學習地圖進度，從第 01 堂重新出發！');
+    }
+
+    // 9. 提示訊息 Toast
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-message').textContent = msg;
+      box.classList.remove('opacity-0', 'translate-y-3');
+      box.classList.add('opacity-100', 'translate-y-0');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('opacity-0', 'translate-y-3');
+        box.classList.remove('opacity-100', 'translate-y-0');
+      }, 2600);
+    }
+
+    // 鍵盤快速鍵支援 (大螢幕簡報切換：左右方向鍵切換上一堂/下一堂，Esc 關閉)
+    window.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('spotlight-modal');
+      const isModalOpen = !modal.classList.contains('hidden');
+      if (!isModalOpen) return;
+
+      if (e.key === 'Escape') {
+        closeSpotlightModal();
+      } else if (e.key === 'ArrowRight') {
+        navigateModal(1);
+      } else if (e.key === 'ArrowLeft') {
+        navigateModal(-1);
+      }
+    });
+
+    // 啟動初始化
+    window.onload = function () {
+      loadState();
+      applyTheme();
+      updateDashboard();
+      renderRoadmap();
+    };
+  </script>
+
+</body>
+</html>
