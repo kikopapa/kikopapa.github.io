@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡爾達肖夫文明等級探索指南 | 對數能量滑桿互動版</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cosmic: {
+                            950: '#030712',
+                            900: '#080d1a',
+                            800: '#111827',
+                            700: '#1f2937',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --theme-color: #38bdf8;
+            --theme-glow: rgba(56, 189, 248, 0.25);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        /* 星空粒子與網格背景 */
+        .bg-grid {
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px, 16px 16px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        /* 修復後的高靈敏度自訂對數滑桿樣式 */
+        input[type=range]#k-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 44px;
+            background: transparent;
+            z-index: 50;
+            position: relative;
+            cursor: pointer;
+            pointer-events: auto;
+            touch-action: pan-y;
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+        input[type=range]#k-slider:focus {
+            outline: none;
+        }
+        input[type=range]#k-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 16px;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 999px;
+        }
+        input[type=range]#k-slider::-webkit-slider-thumb {
+            height: 34px;
+            width: 34px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 5px solid var(--theme-color);
+            box-shadow: 0 0 20px var(--theme-color), 0 0 40px var(--theme-color);
+            cursor: grab;
+            -webkit-appearance: none;
+            margin-top: -9px;
+            pointer-events: auto;
+            transition: transform 0.15s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        input[type=range]#k-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.18);
+        }
+        input[type=range]#k-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.25);
+        }
+        input[type=range]#k-slider::-moz-range-track {
+            width: 100%;
+            height: 16px;
+            cursor: pointer;
+            background: transparent;
+            border-radius: 999px;
+        }
+        input[type=range]#k-slider::-moz-range-thumb {
+            height: 34px;
+            width: 34px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 5px solid var(--theme-color);
+            box-shadow: 0 0 20px var(--theme-color), 0 0 40px var(--theme-color);
+            cursor: grab;
+            pointer-events: auto;
+            transition: transform 0.15s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        input[type=range]#k-slider::-moz-range-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.25);
+        }
+
+        /* SVG 動態旋轉與呼吸動畫 */
+        @keyframes orbit-cw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes orbit-ccw {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.65; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.03); }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        .spin-slow { animation: orbit-cw 28s linear infinite; transform-origin: center; }
+        .spin-medium { animation: orbit-cw 14s linear infinite; transform-origin: center; }
+        .spin-reverse { animation: orbit-ccw 20s linear infinite; transform-origin: center; }
+        .spin-fast { animation: orbit-cw 6s linear infinite; transform-origin: center; }
+        .pulse-core { animation: pulse-slow 3.5s ease-in-out infinite; transform-origin: center; }
+        .star-twinkle { animation: twinkle 2.2s ease-in-out infinite; }
+
+        .theme-panel-glow {
+            box-shadow: 0 0 50px -10px var(--theme-glow);
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+    </style>
+</head>
+<body class="bg-cosmic-950 bg-grid min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white relative">
+
+    <!-- 頂部環境呼吸光暈 -->
+    <div id="ambient-bg" class="fixed top-[-150px] left-1/2 -translate-x-1/2 w-[750px] h-[420px] rounded-full blur-[140px] opacity-25 pointer-events-none transition-colors duration-700 bg-sky-500 z-0"></div>
+
+    <!-- 頂部導航列 -->
+    <header class="w-full border-b border-gray-800/80 backdrop-blur-md bg-cosmic-950/80 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div id="nav-icon" class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 transition-colors duration-500">
+                    <i class="fa-solid fa-Satellite-dish text-sm"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-sm sm:text-base tracking-wide text-white">
+                        Kardashev Scale
+                    </span>
+                    <span class="text-xs text-gray-400 hidden sm:inline ml-2">| 卡爾達肖夫文明等級對數互動儀表板</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 text-xs font-mono text-gray-400 bg-gray-900/90 px-3 py-1.5 rounded-lg border border-gray-800">
+                <span>公式:</span>
+                <span class="text-gray-200 font-semibold">K = (log₁₀P - 6) / 10</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-8 pb-20 w-full flex-grow z-10">
+
+        <!-- 標題與核心提示 -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-gray-900 border border-gray-800 text-xs font-medium text-gray-300 mb-3">
+                <i class="fa-solid fa-sliders text-sky-400"></i>
+                <span>物理學家加來道雄《離開太陽系》宇宙能量標尺</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-3">
+                探索文明的「指數級能量鴻溝」
+            </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-xs sm:text-sm leading-relaxed">
+                為什麼 <span class="text-sky-400 font-mono font-bold">0.73</span> 到 <span class="text-emerald-400 font-mono font-bold">1.0</span> 這麼近，而 <span class="text-emerald-400 font-mono font-bold">1.0</span> 到 <span class="text-amber-400 font-mono font-bold">2.0</span>、<span class="text-purple-400 font-mono font-bold">3.0</span> 卻如此遙遠？<br class="hidden sm:inline">
+                因為卡爾達肖夫指數每提升 1 級，代表能量消耗暴增 <strong>100 億倍（10¹⁰×）</strong>！請拖曳下方對數滑桿親自感受：
+            </p>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 核心互動區：非等距感「對數能量滑桿」控制台 -->
+        <!-- ========================================== -->
+        <section id="slider-console" class="bg-cosmic-900/90 backdrop-blur-xl border border-gray-800 rounded-3xl p-5 sm:p-8 mb-8 theme-panel-glow relative">
+            
+            <!-- 頂部快速切換錨點按鈕列 -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-gray-800/80">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping" id="live-dot"></span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-gray-300">對數能量滑桿控制台 (直接拖曳圓鈕或點擊下方刻度)</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span class="text-xs text-gray-500 mr-1 hidden md:inline">快速跳轉錨點：</span>
+                    <button type="button" onclick="setSliderValue(0.73, true)" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-sky-500/15 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 transition-all active:scale-95 cursor-pointer">
+                        🌍 0.73 人類現狀
+                    </button>
+                    <button type="button" onclick="setSliderValue(1.00, true)" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition-all active:scale-95 cursor-pointer">
+                        🔵 1.00 行星文明
+                    </button>
+                    <button type="button" onclick="setSliderValue(2.00, true)" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition-all active:scale-95 cursor-pointer">
+                        🟡 2.00 恆星文明
+                    </button>
+                    <button type="button" onclick="setSliderValue(3.00, true)" class="px-3 py-1.5 rounded-xl text-xs font-mono font-bold bg-purple-500/15 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 transition-all active:scale-95 cursor-pointer">
+                        🟣 3.00 銀河文明
+                    </button>
+                </div>
+            </div>
+
+            <!-- 滑桿軌道與「非等距視覺警示條」容器 (0.73 = 0%, 1.00 = 11.89%, 2.00 = 55.95%, 3.00 = 100%) -->
+            <div class="relative pt-2 pb-16 px-3 sm:px-6 select-none">
+
+                <!-- 1. 上方區間能量倍率警示條 (pointer-events-none 絕不干擾滑桿) -->
+                <div class="relative w-full h-12 mb-2 pointer-events-none text-[10px] sm:text-xs font-mono">
+                    <!-- 0.73 (0%) 到 1.00 (11.89%) 僅佔 11.89% 寬度 -->
+                    <div style="left: 0%; width: 11.89%;" class="absolute bottom-0 h-10 border-l-2 border-r-2 border-t-2 border-emerald-500/60 rounded-t-lg bg-emerald-500/10 flex flex-col items-center justify-center overflow-hidden">
+                        <span class="text-emerald-300 font-bold whitespace-nowrap text-[9px] sm:text-[11px]">約 2,000 倍</span>
+                        <span class="text-[8px] text-emerald-400/80 hidden md:inline">行星內過渡</span>
+                    </div>
+
+                    <!-- 1.00 (11.89%) 到 2.00 (55.95%) 佔據 44.06% 寬度 -->
+                    <div style="left: 11.89%; width: 44.06%;" class="absolute bottom-0 h-10 border-l-2 border-r-2 border-t-2 border-amber-500/60 rounded-t-xl bg-amber-500/10 flex flex-col items-center justify-center px-1">
+                        <span class="text-amber-300 font-extrabold tracking-wide whitespace-nowrap">⚡ 能量暴增 100 億倍 (10¹⁰×) ⚡</span>
+                        <span class="text-[10px] text-amber-400/80 hidden sm:inline">從「一顆地球」跨入「整顆太陽」的巨大鴻溝</span>
+                    </div>
+
+                    <!-- 2.00 (55.95%) 到 3.00 (100%) 佔據 44.05% 寬度 -->
+                    <div style="left: 55.95%; width: 44.05%;" class="absolute bottom-0 h-10 border-l-2 border-r-2 border-t-2 border-purple-500/60 rounded-t-xl bg-purple-500/10 flex flex-col items-center justify-center px-1">
+                        <span class="text-purple-300 font-extrabold tracking-wide whitespace-nowrap">⚡ 能量再暴增 100 億倍 (10¹⁰×) ⚡</span>
+                        <span class="text-[10px] text-purple-400/80 hidden sm:inline">從「單一恆星」擴張至「千億恆星與中心黑洞」</span>
+                    </div>
+                </div>
+
+                <!-- 2. 核心滑桿互動區：底層視覺軌道 + 頂層 z-50 Range Input 完美重疊 -->
+                <div class="relative w-full h-11 flex items-center">
+                    <!-- 底層視覺軌道 (pointer-events-none) -->
+                    <div class="absolute inset-x-0 h-4 bg-gray-800/95 rounded-full border border-gray-700 pointer-events-none overflow-hidden">
+                        <div id="slider-fill" class="h-full rounded-full" style="width: 0%; background: linear-gradient(90deg, #38bdf8 0%, #34d399 12%, #fbbf24 56%, #c084fc 100%);"></div>
+                    </div>
+
+                    <!-- 軌道上的非等距刻度節點 (pointer-events-none) -->
+                    <div style="left: 0%;" class="absolute -translate-x-1/2 w-4 h-4 rounded-full bg-sky-400 ring-4 ring-cosmic-900 z-20 pointer-events-none"></div>
+                    <div style="left: 11.89%;" class="absolute -translate-x-1/2 w-4 h-4 rounded-full bg-emerald-400 ring-4 ring-cosmic-900 z-20 pointer-events-none"></div>
+                    <div style="left: 55.95%;" class="absolute -translate-x-1/2 w-4 h-4 rounded-full bg-amber-400 ring-4 ring-cosmic-900 z-20 pointer-events-none"></div>
+                    <div style="left: 100%;" class="absolute -translate-x-1/2 w-4 h-4 rounded-full bg-purple-400 ring-4 ring-cosmic-900 z-20 pointer-events-none"></div>
+
+                    <!-- 最頂層 (z-50) 原生可拖曳滑桿：無任何遮擋 -->
+                    <input id="k-slider" type="range" min="0.73" max="3.00" step="0.01" value="0.73" aria-label="卡爾達肖夫文明指數滑桿">
+                </div>
+
+                <!-- 3. 下方非等距錨點座標按鈕 (位於滑桿下方獨立區塊，點擊亦可跳轉) -->
+                <div class="relative w-full mt-3 text-xs font-mono">
+                    <!-- 0.73 標籤 (0%) -->
+                    <button type="button" onclick="setSliderValue(0.73, true)" style="left: 0%;" class="absolute -translate-x-1/2 flex flex-col items-center group cursor-pointer focus:outline-none z-30">
+                        <span class="text-sky-400 font-black text-xs sm:text-sm group-hover:scale-110 transition-transform">0.73</span>
+                        <span class="text-[10px] text-gray-300 font-semibold whitespace-nowrap">人類現狀</span>
+                        <span class="text-[9px] text-sky-400/80 hidden sm:inline">2×10¹³ W</span>
+                    </button>
+
+                    <!-- 1.00 標籤 (11.89%) -->
+                    <button type="button" onclick="setSliderValue(1.00, true)" style="left: 11.89%;" class="absolute -translate-x-1/2 flex flex-col items-center group cursor-pointer focus:outline-none z-30">
+                        <span class="text-emerald-400 font-black text-xs sm:text-sm group-hover:scale-110 transition-transform">1.00</span>
+                        <span class="text-[10px] text-gray-300 font-semibold whitespace-nowrap">第 I 型</span>
+                        <span class="text-[9px] text-emerald-400/80 hidden sm:inline">10¹⁶ W</span>
+                    </button>
+
+                    <!-- 1.50 輔助參考刻度 (33.92%) -->
+                    <button type="button" onclick="setSliderValue(1.50, true)" style="left: 33.92%;" class="absolute -translate-x-1/2 flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer hidden sm:flex z-30">
+                        <span class="text-gray-400 text-[10px]">▲</span>
+                        <span class="text-[10px] text-gray-400">K=1.50 (10²¹ W)</span>
+                    </button>
+
+                    <!-- 2.00 標籤 (55.95%) -->
+                    <button type="button" onclick="setSliderValue(2.00, true)" style="left: 55.95%;" class="absolute -translate-x-1/2 flex flex-col items-center group cursor-pointer focus:outline-none z-30">
+                        <span class="text-amber-400 font-black text-xs sm:text-sm group-hover:scale-110 transition-transform">2.00</span>
+                        <span class="text-[10px] text-gray-300 font-semibold whitespace-nowrap">第 II 型</span>
+                        <span class="text-[9px] text-amber-400/80 hidden sm:inline">10²⁶ W</span>
+                    </button>
+
+                    <!-- 2.50 輔助參考刻度 (77.97%) -->
+                    <button type="button" onclick="setSliderValue(2.50, true)" style="left: 77.97%;" class="absolute -translate-x-1/2 flex flex-col items-center opacity-50 hover:opacity-100 cursor-pointer hidden sm:flex z-30">
+                        <span class="text-gray-400 text-[10px]">▲</span>
+                        <span class="text-[10px] text-gray-400">K=2.50 (10³¹ W)</span>
+                    </button>
+
+                    <!-- 3.00 標籤 (100%) -->
+                    <button type="button" onclick="setSliderValue(3.00, true)" style="left: 100%;" class="absolute -translate-x-1/2 flex flex-col items-center group cursor-pointer focus:outline-none z-30">
+                        <span class="text-purple-400 font-black text-xs sm:text-sm group-hover:scale-110 transition-transform">3.00</span>
+                        <span class="text-[10px] text-gray-300 font-semibold whitespace-nowrap">第 III 型</span>
+                        <span class="text-[9px] text-purple-400/80 hidden sm:inline">10³⁶ W</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 即時計算數據儀表板 (3 欄動態跳字) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-5 border-t border-gray-800/80">
+                <!-- 1. 卡爾達肖夫指數 K -->
+                <div class="bg-black/40 border border-gray-800/90 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-400 block mb-1">當前卡爾達肖夫指數 (K)</span>
+                        <div class="flex items-baseline space-x-2">
+                            <span id="readout-k" class="text-3xl sm:text-4xl font-black font-mono text-sky-400 transition-colors">0.73</span>
+                            <span id="readout-stage-badge" class="text-xs px-2 py-0.5 rounded-md bg-sky-500/20 text-sky-300 font-semibold">人類現狀</span>
+                        </div>
+                    </div>
+                    <div class="text-2xl text-gray-600">
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </div>
+                </div>
+
+                <!-- 2. 每秒消耗功率 (瓦特 W) -->
+                <div class="bg-black/40 border border-gray-800/90 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-400 block mb-1">每秒消耗總功率 (Watts)</span>
+                        <div id="readout-watts" class="text-2xl sm:text-3xl font-black font-mono text-white">
+                            2.0 × 10<sup class="text-sky-400">13</sup> W
+                        </div>
+                        <span id="readout-watts-desc" class="text-[11px] text-gray-400 font-mono">約 20 兆瓦 (Terawatts)</span>
+                    </div>
+                    <div class="text-2xl text-gray-600">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                </div>
+
+                <!-- 3. 能量規模直觀換算 -->
+                <div class="bg-black/40 border border-gray-800/90 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-400 block mb-1">直觀能量規模對比</span>
+                        <div id="readout-compare-main" class="text-lg sm:text-xl font-extrabold text-sky-300">
+                            1.0 × 目前人類文明總功耗
+                        </div>
+                        <span id="readout-compare-sub" class="text-[11px] text-gray-400 block mt-0.5">
+                            僅佔地球接收陽光的 0.05%
+                        </span>
+                    </div>
+                    <div class="text-2xl text-gray-600">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 中央動態天體視覺儀表板 + 當前等級深度解析 -->
+        <!-- ========================================== -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 items-stretch">
+            
+            <!-- 左側：動態 SVG 天體視覺模擬器 (5 欄) -->
+            <div class="lg:col-span-5 bg-cosmic-900/90 border border-gray-800 rounded-3xl p-6 flex flex-col items-center justify-between relative overflow-hidden min-h-[360px]">
+                <div class="w-full flex items-center justify-between z-10">
+                    <span class="text-xs font-mono uppercase tracking-widest text-gray-400">
+                        <i class="fa-solid fa-eye mr-1"></i> 天體能源結構模擬
+                    </span>
+                    <span id="visual-tag" class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                        化石燃料與地表微光
+                    </span>
+                </div>
+
+                <!-- 4 個階段的 SVG 動態圖層 -->
+                <div class="relative w-64 h-64 sm:w-72 sm:h-72 my-2 flex items-center justify-center">
+                    
+                    <!-- 階段 0 (0.73 型)：地球表面零星燈光與風車/油井 -->
+                    <svg id="svg-stage-0" viewBox="0 0 240 240" class="w-full h-full absolute inset-0 transition-all duration-500 opacity-100 scale-100">
+                        <defs>
+                            <radialGradient id="earthGrad0" cx="35%" cy="35%" r="65%">
+                                <stop offset="0%" stop-color="#1e3a8a"/>
+                                <stop offset="60%" stop-color="#0f172a"/>
+                                <stop offset="100%" stop-color="#020617"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- 地球微弱大氣層 -->
+                        <circle cx="120" cy="120" r="84" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.35" class="spin-slow"/>
+                        <!-- 地球本體 -->
+                        <circle cx="120" cy="120" r="72" fill="url(#earthGrad0)" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.6"/>
+                        <!-- 大陸板塊剪影 -->
+                        <path d="M90,75 Q115,65 130,85 T155,115 Q140,145 110,135 T75,110 Z" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+                        <path d="M135,145 Q155,145 165,165 T140,180 Z" fill="#1e293b"/>
+                        <!-- 地表零星城市燈光與油井火光 -->
+                        <circle cx="105" cy="95" r="3" fill="#38bdf8" class="star-twinkle"/>
+                        <circle cx="125" cy="105" r="2.5" fill="#fbbf24" class="star-twinkle" style="animation-delay: 0.5s"/>
+                        <circle cx="115" cy="120" r="3.5" fill="#38bdf8" class="star-twinkle" style="animation-delay: 1.1s"/>
+                        <circle cx="142" cy="112" r="2" fill="#f97316" class="star-twinkle" style="animation-delay: 0.3s"/>
+                        <circle cx="95" cy="118" r="2.5" fill="#38bdf8" class="star-twinkle" style="animation-delay: 1.6s"/>
+                        <!-- 地表邊緣象徵性的風力發電機與油井平台 -->
+                        <g transform="translate(120, 48)">
+                            <line x1="0" y1="0" x2="0" y2="-14" stroke="#38bdf8" stroke-width="2"/>
+                            <g transform="translate(0, -14)" class="spin-fast">
+                                <line x1="0" y1="0" x2="0" y2="-8" stroke="#bae6fd" stroke-width="1.8"/>
+                                <line x1="0" y1="0" x2="7" y2="4" stroke="#bae6fd" stroke-width="1.8"/>
+                                <line x1="0" y1="0" x2="-7" y2="4" stroke="#bae6fd" stroke-width="1.8"/>
+                            </g>
+                        </g>
+                        <!-- 孤單的人造衛星 -->
+                        <g class="spin-medium">
+                            <circle cx="120" cy="22" r="3.5" fill="#e0f2fe"/>
+                            <line x1="112" y1="22" x2="128" y2="22" stroke="#38bdf8" stroke-width="2"/>
+                        </g>
+                    </svg>
+
+                    <!-- 階段 1 (第 I 型)：全球超級電網與人工氣候控制環 -->
+                    <svg id="svg-stage-1" viewBox="0 0 240 240" class="w-full h-full absolute inset-0 transition-all duration-500 opacity-0 scale-90 pointer-events-none">
+                        <defs>
+                            <radialGradient id="earthGrad1" cx="50%" cy="50%" r="55%">
+                                <stop offset="0%" stop-color="#065f46"/>
+                                <stop offset="70%" stop-color="#064e3b"/>
+                                <stop offset="100%" stop-color="#022c22"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- 外層氣象與海洋動能控制環 -->
+                        <circle cx="120" cy="120" r="102" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="12 6 4 6" opacity="0.5" class="spin-slow"/>
+                        <circle cx="120" cy="120" r="90" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="25 10" opacity="0.75" class="spin-reverse"/>
+                        <!-- 行星本體 -->
+                        <circle cx="120" cy="120" r="72" fill="url(#earthGrad1)" stroke="#34d399" stroke-width="3" class="pulse-core"/>
+                        <!-- 全球發光超級電網 (經緯度能量網) -->
+                        <ellipse cx="120" cy="120" rx="72" ry="28" fill="none" stroke="#6ee7b7" stroke-width="1.5" opacity="0.7"/>
+                        <ellipse cx="120" cy="120" rx="28" ry="72" fill="none" stroke="#6ee7b7" stroke-width="1.5" opacity="0.7"/>
+                        <ellipse cx="120" cy="120" rx="55" ry="72" fill="none" stroke="#34d399" stroke-width="1" opacity="0.5"/>
+                        <line x1="48" y1="120" x2="192" y2="120" stroke="#a7f3d0" stroke-width="1.5" opacity="0.8"/>
+                        <line x1="120" y1="48" x2="120" y2="192" stroke="#a7f3d0" stroke-width="1.5" opacity="0.8"/>
+                        <!-- 電網核心節點 -->
+                        <circle cx="120" cy="120" r="5" fill="#ffffff"/>
+                        <circle cx="92" cy="120" r="4" fill="#6ee7b7"/>
+                        <circle cx="148" cy="120" r="4" fill="#6ee7b7"/>
+                        <circle cx="120" cy="92" r="4" fill="#6ee7b7"/>
+                        <circle cx="120" cy="148" r="4" fill="#6ee7b7"/>
+                    </svg>
+
+                    <!-- 階段 2 (第 II 型)：耀眼恆星與戴森球幾何結構 -->
+                    <svg id="svg-stage-2" viewBox="0 0 240 240" class="w-full h-full absolute inset-0 transition-all duration-500 opacity-0 scale-90 pointer-events-none">
+                        <defs>
+                            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="35%" stop-color="#fde047"/>
+                                <stop offset="75%" stop-color="#f59e0b"/>
+                                <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- 恆星日冕光暈 -->
+                        <circle cx="120" cy="120" r="78" fill="url(#sunGrad)" class="pulse-core"/>
+                        <circle cx="120" cy="120" r="46" fill="#fef08a"/>
+                        <!-- 戴森球巨型結構環 1 -->
+                        <g class="spin-slow">
+                            <ellipse cx="120" cy="120" rx="98" ry="34" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-dasharray="14 6"/>
+                            <ellipse cx="120" cy="120" rx="34" ry="98" fill="none" stroke="#f59e0b" stroke-width="3.5" stroke-dasharray="14 6"/>
+                        </g>
+                        <!-- 戴森球巨型結構環 2 (斜角交錯) -->
+                        <g class="spin-reverse">
+                            <ellipse cx="120" cy="120" rx="95" ry="38" transform="rotate(45 120 120)" fill="none" stroke="#fde68a" stroke-width="2.5" stroke-dasharray="10 8"/>
+                            <ellipse cx="120" cy="120" rx="95" ry="38" transform="rotate(-45 120 120)" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="10 8"/>
+                        </g>
+                        <!-- 外圍能量收集陣列節點 -->
+                        <circle cx="120" cy="120" r="106" fill="none" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4 12" class="spin-medium"/>
+                    </svg>
+
+                    <!-- 階段 3 (第 III 型)：紫色旋渦銀河系與中心超大質量黑洞噴流 -->
+                    <svg id="svg-stage-3" viewBox="0 0 240 240" class="w-full h-full absolute inset-0 transition-all duration-500 opacity-0 scale-90 pointer-events-none">
+                        <defs>
+                            <radialGradient id="bhGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#000000"/>
+                                <stop offset="28%" stop-color="#000000"/>
+                                <stop offset="36%" stop-color="#f0abfc"/>
+                                <stop offset="55%" stop-color="#9333ea"/>
+                                <stop offset="100%" stop-color="#3b0764" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <!-- 潘羅斯機制：黑洞相對論性噴流 (上下貫穿) -->
+                        <polygon points="116,120 124,120 136,8 104,8" fill="url(#bhGlow)" opacity="0.75"/>
+                        <polygon points="116,120 124,120 136,232 104,232" fill="url(#bhGlow)" opacity="0.75"/>
+                        <line x1="120" y1="10" x2="120" y2="230" stroke="#f5d0fe" stroke-width="2" stroke-dasharray="6 4" opacity="0.8"/>
+
+                        <!-- 旋轉銀河系旋臂與千億恆星網路 -->
+                        <g class="spin-medium">
+                            <path d="M120,120 Q165,90 185,135 T130,200" fill="none" stroke="#c084fc" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+                            <path d="M120,120 Q75,150 55,105 T110,40" fill="none" stroke="#c084fc" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+                            <path d="M120,120 Q150,165 105,185 T40,130" fill="none" stroke="#e879f9" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+                            <path d="M120,120 Q90,75 135,55 T200,110" fill="none" stroke="#e879f9" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+                            <!-- 星系恆星節點 -->
+                            <circle cx="165" cy="115" r="3" fill="#ffffff"/>
+                            <circle cx="75" cy="125" r="3" fill="#ffffff"/>
+                            <circle cx="135" cy="168" r="2.5" fill="#f0abfc"/>
+                            <circle cx="105" cy="72" r="2.5" fill="#f0abfc"/>
+                            <circle cx="155" cy="155" r="2" fill="#e879f9"/>
+                            <circle cx="85" cy="85" r="2" fill="#e879f9"/>
+                        </g>
+
+                        <!-- 超大質量黑洞吸積盤與事件視界 -->
+                        <circle cx="120" cy="120" r="42" fill="url(#bhGlow)" class="pulse-core"/>
+                        <circle cx="120" cy="120" r="15" fill="#000000" stroke="#f0abfc" stroke-width="2"/>
+                    </svg>
+                </div>
+
+                <p id="visual-caption" class="text-xs text-center text-gray-400 z-10 px-2">
+                    地表零星閃爍的城市燈火與火力/風力發電站，人類尚未完全開發地球潛能。
+                </p>
+            </div>
+
+            <!-- 右側：當前文明等級深度解析面板 (7 欄) -->
+            <div class="lg:col-span-7 bg-cosmic-900/90 border border-gray-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                        <span id="detail-badge" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                            TYPE 0.73 CIVILIZATION
+                        </span>
+                        <span id="detail-power-tag" class="text-xs font-mono text-gray-400">
+                            標準功率級距：~2 × 10¹³ W
+                        </span>
+                    </div>
+
+                    <h2 id="detail-title" class="text-2xl sm:text-3xl font-black text-white mb-3">
+                        0.73 型：人類現狀（前行星文明過渡期）
+                    </h2>
+
+                    <p id="detail-desc" class="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
+                        我們目前正處於歷史上最關鍵的轉折點。人類依然依賴挖取遠古動植物留下的「化石燃料」（石油、煤炭、天然氣），並剛開始發展地表再生能源。我們只能使用地球接收到太陽能量的一小部分。
+                    </p>
+
+                    <!-- 具體生活化發電方式清單 -->
+                    <div class="bg-black/40 border border-gray-800/90 rounded-2xl p-5 mb-5">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 flex items-center">
+                            <i class="fa-solid fa-plug-circle-bolt mr-2 text-sky-400" id="detail-list-icon"></i>
+                            <span>該等級的核心發電與能源操控方式：</span>
+                        </h3>
+                        <ul id="detail-examples" class="space-y-2.5 text-xs sm:text-sm text-gray-200">
+                            <!-- 由 JS 動態渲染 -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 物理學家時間軸預估底欄 -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-800/80 text-xs text-gray-400">
+                    <span><i class="fa-regular fa-clock mr-1.5"></i>物理學家預估達成時間：</span>
+                    <span id="detail-timeline" class="font-mono font-bold text-white">西元 2026 年（我們在這裡）</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 底部：4 大文明等級生活化範例卡片總覽 (點擊聯動滑桿) -->
+        <!-- ========================================== -->
+        <section>
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-lg sm:text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-layer-group text-sky-400 mr-2.5"></i>
+                    <span>四個關鍵文明里程碑與生活化範例對照</span>
+                </h2>
+                <span class="text-xs text-gray-400 hidden sm:inline">點擊任一卡片可直接將對數滑桿推進至該等級</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                
+                <!-- 卡片 0：0.73 型 -->
+                <div onclick="setSliderValue(0.73, true)" id="milestone-card-0" class="rounded-2xl p-5 bg-cosmic-900/90 border-2 border-sky-500/70 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-oil-well"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                                ~2 × 10¹³ W
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white mb-1">0.73 型：人類現狀</h3>
+                        <p class="text-xs text-sky-400 font-semibold mb-3">「挖地底資源與吹風曬太陽」</p>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            開採地底<strong>石油、天然氣、煤炭</strong>來火力發電，搭配地表<strong>風力發電</strong>、屋頂<strong>太陽能板</strong>與水力。我們只能用到地球接收能源的一小部分。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between text-[11px] font-mono text-sky-400">
+                        <span>基準點 (1×)</span>
+                        <span>點擊跳轉 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- 卡片 1：第 I 型 -->
+                <div onclick="setSliderValue(1.00, true)" id="milestone-card-1" class="rounded-2xl p-5 bg-cosmic-900/90 border border-gray-800 hover:border-emerald-500/50 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                                1.0 × 10¹⁶ W
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white mb-1">第 I 型：行星文明</h3>
+                        <p class="text-xs text-emerald-400 font-semibold mb-3">「把整顆地球當作能量電池」</p>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            建立<strong>全球超級電網</strong>、全天候<strong>人工氣候控制</strong>（調控颱風與雨量）、抽乾地殼地熱能、100% 捕捉全球海洋洋流動能。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between text-[11px] font-mono text-emerald-400">
+                        <span>▲ 能量約現狀 2,000 倍</span>
+                        <span>點擊跳轉 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- 卡片 2：第 II 型 -->
+                <div onclick="setSliderValue(2.00, true)" id="milestone-card-2" class="rounded-2xl p-5 bg-cosmic-900/90 border border-gray-800 hover:border-amber-500/50 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-sun"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                                1.0 × 10²⁶ W
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white mb-1">第 II 型：恆星文明</h3>
+                        <p class="text-xs text-amber-400 font-semibold mb-3">「太空太陽能終極版：戴森球」</p>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            建造<strong>「戴森球（Dyson Sphere）」</strong>把太陽 360 度包裹起來，100% 攔截恆星發出的所有光和熱，甚至用恆星引擎推著太陽系搬家。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between text-[11px] font-mono text-amber-400">
+                        <span>⚡ 比 I 型暴增 100 億倍</span>
+                        <span>點擊跳轉 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- 卡片 3：第 III 型 -->
+                <div onclick="setSliderValue(3.00, true)" id="milestone-card-3" class="rounded-2xl p-5 bg-cosmic-900/90 border border-gray-800 hover:border-purple-500/50 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-hurricane"></i>
+                            </span>
+                            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                                1.0 × 10³⁶ W
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white mb-1">第 III 型：銀河文明</h3>
+                        <p class="text-xs text-purple-400 font-semibold mb-3">「黑洞旋轉發電與銀河電網」</p>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            串聯銀河系數千億顆恆星的能源網，並利用銀河系中心超大質量黑洞（透過<strong>「潘羅斯機制」</strong>從黑洞旋轉中提取近乎無限的能量）。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-gray-800/80 flex items-center justify-between text-[11px] font-mono text-purple-400">
+                        <span>🌌 再比 II 型暴增 100 億倍</span>
+                        <span>點擊跳轉 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="w-full border-t border-gray-800/80 py-6 text-center text-xs text-gray-500 bg-cosmic-950 z-10">
+        <p>《離開太陽系》卡爾達肖夫文明等級互動指南 | 對數能量滑桿讓你直觀感受宇宙尺度的指數級躍遷</p>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- JavaScript 互動邏輯與即時對數運算引擎 -->
+    <!-- ========================================== -->
+    <script>
+        // 四大文明等級完整資料庫
+        const STAGE_DATA = [
+            {
+                id: 0,
+                badge: 'TYPE 0.73 CIVILIZATION',
+                shortName: '0.73 人類現狀',
+                title: '0.73 型：人類現狀（前行星文明過渡期）',
+                powerTag: '標準功率級距：~2.00 × 10¹³ W',
+                desc: '我們目前正處於歷史上最關鍵的轉折點。人類依然依賴挖取遠古動植物留下的「化石燃料」（石油、煤炭、天然氣），並剛開始發展地表再生能源。我們只能使用地球接收到太陽能量的一小部分。',
+                visualTag: '化石燃料與地表微光',
+                visualCaption: '地表零星閃爍的城市燈火與火力/風力發電站，人類尚未完全開發地球潛能。',
+                timeline: '西元 2026 年（我們目前所在位置）',
+                colorHex: '#38bdf8',
+                glowRgba: 'rgba(56, 189, 248, 0.28)',
+                textClass: 'text-sky-400',
+                badgeClass: 'bg-sky-500/20 text-sky-300 border-sky-500/30',
+                ambientClass: 'bg-sky-500',
+                cardActiveBorder: 'border-sky-500/80 shadow-lg shadow-sky-500/10',
+                examples: [
+                    '<strong>火力發電主力：</strong> 大規模開採地底的石油、天然氣與煤炭進行燃燒發電。',
+                    '<strong>初級再生能源：</strong> 在地表架設風力發電機組、水力發電水壩與屋頂太陽能板。',
+                    '<strong>核分裂發電：</strong> 利用鈾礦進行核分裂反應，但尚未完全商用化可控核融合。'
+                ]
+            },
+            {
+                id: 1,
+                badge: 'TYPE I CIVILIZATION',
+                shortName: '第 I 型行星文明',
+                title: '第 I 型：行星文明（駕馭整顆母星的能量）',
+                powerTag: '標準功率級距：1.00 × 10¹⁶ W (約現狀 500~2,000 倍)',
+                desc: '把整顆地球當作一顆超級能量電池！第 I 型文明能夠 100% 掌控並使用母行星接收到的所有陽光，以及地殼、海洋與大氣層中的每一分能量，能源危機與自然災害將成為歷史。',
+                visualTag: '全球超級電網與氣象環',
+                visualCaption: '整顆行星被發光的全球無線超級電網與人工氣候控制環完美包覆。',
+                timeline: '預計約西元 2100 ~ 2200 年（約需 100~200 年）',
+                colorHex: '#34d399',
+                glowRgba: 'rgba(52, 211, 153, 0.28)',
+                textClass: 'text-emerald-400',
+                badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+                ambientClass: 'bg-emerald-500',
+                cardActiveBorder: 'border-emerald-500/80 shadow-lg shadow-emerald-500/10',
+                examples: [
+                    '<strong>全天候人工氣候控制：</strong> 直接調控大氣能量，隨時消除毀滅性颱風、精準分配全球降雨，把沙漠變綠洲。',
+                    '<strong>地熱與海洋總動員：</strong> 抽乾地殼深處的巨量地熱能，並 100% 捕捉全球海洋洋流與潮汐動能。',
+                    '<strong>全球超級電網與可控核融合：</strong> 以海水中的氘氚進行大規模核融合發電，全球零能量損耗傳輸。'
+                ]
+            },
+            {
+                id: 2,
+                badge: 'TYPE II CIVILIZATION',
+                shortName: '第 II 型恆星文明',
+                title: '第 II 型：恆星文明（把太陽當作行動發電機）',
+                powerTag: '標準功率級距：1.00 × 10²⁶ W (比 I 型暴增 100 億倍)',
+                desc: '當單一一顆行星的能源已經不夠用時，文明將把觸角伸向母恆星。透過太空中太陽能發電的終極型態，直接把整顆太陽釋放的光與熱 100% 攔截下來，任何行星級災難都無法消滅他們。',
+                visualTag: '戴森球 (Dyson Sphere) 恆星工程',
+                visualCaption: '無數巨型太空太陽能鏡面與結構環將恆星 360 度包圍，100% 榨取恆星能量。',
+                timeline: '預計數千年後（約西元 5000 年以後）',
+                colorHex: '#fbbf24',
+                glowRgba: 'rgba(251, 191, 36, 0.28)',
+                textClass: 'text-amber-400',
+                badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+                ambientClass: 'bg-amber-500',
+                cardActiveBorder: 'border-amber-500/80 shadow-lg shadow-amber-500/10',
+                examples: [
+                    '<strong>建造「戴森球（Dyson Sphere）」：</strong> 在太陽軌道上部署巨型太空太陽能結構群，360 度無死角包圍太陽，攔截每一縷陽光。',
+                    '<strong>恆星引擎（Stellar Engine）：</strong> 利用太陽本身的核融合推力，甚至能推著整個太陽系在銀河系中搬家以躲避超新星爆炸。',
+                    '<strong>反物質工業化生產：</strong> 以豐沛的恆星能量大量製造反物質作為星際飛船燃料，輕鬆實現跨恆星系航行。'
+                ]
+            },
+            {
+                id: 3,
+                badge: 'TYPE III CIVILIZATION',
+                shortName: '第 III 型銀河文明',
+                title: '第 III 型：銀河文明（主宰千億恆星與黑洞）',
+                powerTag: '標準功率級距：1.00 × 10³⁶ W (再比 II 型暴增 100 億倍)',
+                desc: '足跡遍布整個銀河系！能源消耗量相當於數千億顆太陽的總和。這種神級文明不僅將戴森球複製到整個星系的恆星上，更能直接向宇宙中最狂暴的天體——超大質量黑洞提取能量。',
+                visualTag: '銀河能源網與黑洞潘羅斯機制',
+                visualCaption: '橫跨銀河系的能源網路，並從中心超大質量黑洞的旋轉吸積盤提取巨量噴流能量。',
+                timeline: '預計數十萬至數百萬年後（宇宙級終極演化）',
+                colorHex: '#c084fc',
+                glowRgba: 'rgba(192, 132, 252, 0.28)',
+                textClass: 'text-purple-400',
+                badgeClass: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+                ambientClass: 'bg-purple-500',
+                cardActiveBorder: 'border-purple-500/80 shadow-lg shadow-purple-500/10',
+                examples: [
+                    '<strong>黑洞發電（潘羅斯機制 Penrose Process）：</strong> 在銀河系中心超大質量黑洞周圍建造軌道站，從黑洞的「能層（Ergosphere）」旋轉動能中提取近乎無限的能量。',
+                    '<strong>星系級戴森球網路：</strong> 派遣自我複製機器人至銀河系數千億顆恆星建造戴森球，構成跨光年能源網。',
+                    '<strong>操縱時空結構：</strong> 掌握普朗克能量尺度，可能利用高能雷射或負能量維持蟲洞穩定，進行星系間瞬間躍遷。'
+                ]
+            }
+        ];
+
+        const sliderEl = document.getElementById('k-slider');
+        const sliderFillEl = document.getElementById('slider-fill');
+        let currentStageIndex = -1;
+        let animationFrameId = null;
+
+        /**
+         * 根據卡爾達肖夫指數 K 計算對應的階段 (0, 1, 2, 3)
+         * 0.73 ~ 0.99 -> Stage 0
+         * 1.00 ~ 1.99 -> Stage 1
+         * 2.00 ~ 2.99 -> Stage 2
+         * 3.00        -> Stage 3
+         */
+        function getStageIndexFromK(k) {
+            if (k < 1.00) return 0;
+            if (k < 2.00) return 1;
+            if (k < 3.00) return 2;
+            return 3;
+        }
+
+        /**
+         * 使用卡爾達肖夫標準公式 P = 10^(10K + 6) Watts 即時計算功率
+         */
+        function calculatePowerFromK(k) {
+            const logP = 10 * k + 6;
+            const exp = Math.floor(logP);
+            const mantissa = Math.pow(10, logP - exp);
+            return { logP, exp, mantissa };
+        }
+
+        /**
+         * 產生直觀的地球/太陽能量倍數比較文字
+         */
+        function formatComparison(logP) {
+            const humanLogP = 13.30; // 10^13.3 W (~2 × 10^13 W 目前人類)
+            const earthLogP = 16.00; // 10^16.0 W (第 I 型行星標準)
+            const sunLogP   = 26.00; // 10^26.0 W (第 II 型恆星標準)
+
+            if (logP < 16.0) {
+                const ratio = Math.pow(10, logP - humanLogP);
+                const earthPercent = (Math.pow(10, logP - earthLogP) * 100);
+                return {
+                    main: `${ratio < 10 ? ratio.toFixed(2) : Math.round(ratio).toLocaleString()} × 目前人類文明總功耗`,
+                    sub: `約達第 I 型行星文明門檻的 ${earthPercent < 1 ? earthPercent.toFixed(2) : earthPercent.toFixed(1)}%`
+                };
+            } else if (logP < 26.0) {
+                const earthCount = Math.pow(10, logP - earthLogP);
+                const sunPct = Math.pow(10, logP - sunLogP) * 100;
+                let earthStr = earthCount < 100 ? earthCount.toFixed(1) : Math.round(earthCount).toLocaleString();
+                if (earthCount >= 1e5) earthStr = `10^${(logP - earthLogP).toFixed(1)}`;
+                return {
+                    main: `相當於 ${earthStr} 顆地球的總能量`,
+                    sub: `正在邁向恆星級（約為整顆太陽輸出的 ${sunPct < 0.001 ? sunPct.toExponential(1) : sunPct.toFixed(3)}%）`
+                };
+            } else if (logP < 36.0) {
+                const sunCount = Math.pow(10, logP - sunLogP);
+                let sunStr = sunCount < 100 ? sunCount.toFixed(1) : Math.round(sunCount).toLocaleString();
+                if (sunCount >= 1e5) sunStr = `10^${(logP - sunLogP).toFixed(1)}`;
+                return {
+                    main: `相當於 100% 掌控 ${sunStr} 顆太陽`,
+                    sub: `比第 I 型行星文明高出 100 億倍 (10¹⁰×) 以上`
+                };
+            } else {
+                return {
+                    main: `相當於 100 億顆恆星與中心黑洞總和`,
+                    sub: `比第 I 型高出 10²⁰ 倍，足以主宰整座銀河系`
+                };
+            }
+        }
+
+        /**
+         * 更新整個畫面的數值、顏色與天體視覺
+         */
+        function updateUI(kValue) {
+            const k = parseFloat(kValue);
+            const minK = 0.73;
+            const maxK = 3.00;
+            const percentage = ((k - minK) / (maxK - minK)) * 100;
+
+            // 1. 更新滑桿進度條寬度
+            sliderFillEl.style.width = `${Math.max(0, Math.min(100, percentage))}%`;
+
+            // 2. 計算功率與對比數據
+            const { logP, exp, mantissa } = calculatePowerFromK(k);
+            const stageIdx = getStageIndexFromK(k);
+            const stage = STAGE_DATA[stageIdx];
+
+            // 3. 更新即時數據讀數
+            const readoutK = document.getElementById('readout-k');
+            readoutK.textContent = `K = ${k.toFixed(2)}`;
+            readoutK.className = `text-2xl sm:text-3xl font-black font-mono transition-colors ${stage.textClass}`;
+
+            const stageBadge = document.getElementById('readout-stage-badge');
+            stageBadge.textContent = stage.shortName;
+            stageBadge.className = `text-xs px-2 py-0.5 rounded-md border font-semibold ${stage.badgeClass}`;
+
+            const readoutWatts = document.getElementById('readout-watts');
+            readoutWatts.innerHTML = `${mantissa.toFixed(2)} × 10<sup class="${stage.textClass}">${exp}</sup> 瓦`;
+
+            const readoutWattsDesc = document.getElementById('readout-watts-desc');
+            readoutWattsDesc.textContent = `公式 P = 10^(10K+6) = 10^${logP.toFixed(2)} W`;
+
+            const comp = formatComparison(logP);
+            const compMain = document.getElementById('readout-compare-main');
+            compMain.textContent = comp.main;
+            compMain.className = `text-base sm:text-lg font-extrabold ${stage.textClass}`;
+            document.getElementById('readout-compare-sub').textContent = comp.sub;
+
+            // 4. 更新主題色、SVG 天體與深度解析卡片
+            if (stageIdx !== currentStageIndex) {
+                currentStageIndex = stageIdx;
+
+                document.documentElement.style.setProperty('--theme-color', stage.colorHex);
+                document.documentElement.style.setProperty('--theme-glow', stage.glowRgba);
+
+                document.getElementById('ambient-bg').className = `fixed top-[-150px] left-1/2 -translate-x-1/2 w-[750px] h-[420px] rounded-full blur-[140px] opacity-25 pointer-events-none transition-colors duration-700 z-0 ${stage.ambientClass}`;
+                document.getElementById('live-dot').className = `w-2.5 h-2.5 rounded-full animate-ping ${stage.ambientClass}`;
+
+                for (let i = 0; i < 4; i++) {
+                    const svgEl = document.getElementById(`svg-stage-${i}`);
+                    if (i === stageIdx) {
+                        svgEl.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                        svgEl.classList.add('opacity-100', 'scale-100');
+                    } else {
+                        svgEl.classList.remove('opacity-100', 'scale-100');
+                        svgEl.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                    }
+                }
+
+                const vTag = document.getElementById('visual-tag');
+                vTag.textContent = stage.visualTag;
+                vTag.className = `text-xs font-mono px-2.5 py-0.5 rounded-full border ${stage.badgeClass}`;
+                document.getElementById('visual-caption').textContent = stage.visualCaption;
+
+                const dBadge = document.getElementById('detail-badge');
+                dBadge.textContent = stage.badge;
+                dBadge.className = `px-3 py-1 rounded-full text-xs font-mono font-bold border ${stage.badgeClass}`;
+                document.getElementById('detail-power-tag').textContent = stage.powerTag;
+                document.getElementById('detail-title').textContent = stage.title;
+                document.getElementById('detail-desc').textContent = stage.desc;
+                document.getElementById('detail-timeline').textContent = stage.timeline;
+                document.getElementById('detail-list-icon').className = `fa-solid fa-plug-circle-bolt mr-2 ${stage.textClass}`;
+
+                const listEl = document.getElementById('detail-examples');
+                listEl.innerHTML = stage.examples.map(item => `
+                    <li class="flex items-start space-x-2.5">
+                        <i class="fa-solid fa-circle-check mt-1 text-xs ${stage.textClass}"></i>
+                        <span>${item}</span>
+                    </li>
+                `).join('');
+
+                for (let i = 0; i < 4; i++) {
+                    const mCard = document.getElementById(`milestone-card-${i}`);
+                    if (i === stageIdx) {
+                        mCard.className = `rounded-2xl p-5 bg-cosmic-900/95 border-2 ${ STAGE_DATA[i].cardActiveBorder } cursor-pointer transition-all duration-300 -translate-y-1 flex flex-col justify-between`;
+                    } else {
+                        mCard.className = `rounded-2xl p-5 bg-cosmic-900/60 border border-gray-800/90 opacity-75 hover:opacity-100 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between`;
+                    }
+                }
+            }
+        }
+
+        /**
+         * 設定或平滑推進滑桿至目標 K 值
+         */
+        function setSliderValue(targetK, animate = true) {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            const clampedTarget = Math.max(0.73, Math.min(3.00, parseFloat(targetK)));
+
+            if (!animate) {
+                sliderEl.value = clampedTarget.toFixed(2);
+                updateUI(clampedTarget);
+                return;
+            }
+
+            const startK = parseFloat(sliderEl.value);
+            const diff = clampedTarget - startK;
+            if (Math.abs(diff) < 0.005) {
+                sliderEl.value = clampedTarget.toFixed(2);
+                updateUI(clampedTarget);
+                return;
+            }
+
+            const duration = 420;
+            const startTime = performance.now();
+
+            function step(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3);
+                const currentVal = startK + diff * ease;
+                sliderEl.value = currentVal.toFixed(2);
+                updateUI(currentVal);
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(step);
+                } else {
+                    sliderEl.value = clampedTarget.toFixed(2);
+                    updateUI(clampedTarget);
+                }
+            }
+            animationFrameId = requestAnimationFrame(step);
+        }
+
+        // 同時綁定 input 與 change 事件，確保滑鼠拖曳、點擊軌道、觸控與鍵盤方向鍵 100% 即時反應
+        ['input', 'change'].forEach(evtName => {
+            sliderEl.addEventListener(evtName, (e) => {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                updateUI(e.target.value);
+            });
+        });
+
+        // 初始載入設定為 0.73 人類現狀
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUI(0.73);
+        });
+    </script>
+</body>
+</html>
