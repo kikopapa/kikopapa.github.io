@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>數位游牧新手清單｜KIKO Journey</title>
+<meta name="description" content="從上班族轉為自由工作者，36 個檢查項涵蓋定位、財務跑道、勞健保稅務、接案流程與工作系統。勾選進度自動儲存在你的瀏覽器。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0e1a22;
+    --surface: #16262f;
+    --line: #27404d;
+    --text: #e7eef1;
+    --muted: #93a8b3;
+    --done: #5fd3c0;
+    --stamp: #f0b84a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 72px; }
+
+  header { display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 28px; }
+  header .text { flex: 1 1 320px; }
+  h1 { font-size: clamp(1.7rem, 5vw, 2.3rem); line-height: 1.3; margin: 0 0 10px; font-weight: 700; letter-spacing: .02em; }
+  .lead { margin: 0; color: var(--muted); font-size: .98rem; }
+
+  .stamp { position: relative; width: 132px; height: 132px; flex: none; transform: rotate(-6deg); }
+  .stamp svg { width: 100%; height: 100%; }
+  .stamp .ring-bg { fill: none; stroke: var(--line); stroke-width: 6; }
+  .stamp .ring { fill: none; stroke: var(--stamp); stroke-width: 6; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset .5s ease; }
+  .stamp .edge { fill: none; stroke: var(--stamp); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: .7; }
+  .stamp .num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--stamp); }
+  .stamp .num b { font-size: 1.9rem; line-height: 1.1; }
+  .stamp .num span { font-size: .78rem; color: var(--muted); }
+  .stamp.full .ring { stroke: var(--done); }
+  .stamp.full .num { color: var(--done); }
+
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  button {
+    font: inherit; font-size: .9rem; color: var(--text); background: transparent;
+    border: 1px solid var(--line); border-radius: 8px; padding: 6px 14px; cursor: pointer;
+  }
+  button:hover { border-color: var(--muted); }
+  button:focus-visible, summary:focus-visible, input:focus-visible + .box { outline: 2px solid var(--stamp); outline-offset: 3px; }
+
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; }
+  summary { list-style: none; cursor: pointer; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary .name { font-weight: 700; font-size: 1.08rem; }
+  summary .sub { display: block; font-size: .86rem; color: var(--muted); font-weight: 400; }
+  summary .count { font-size: .9rem; color: var(--muted); white-space: nowrap; }
+  details.complete { border-color: var(--done); }
+  details.complete .count { color: var(--done); font-weight: 700; }
+  .bar { height: 3px; background: var(--line); margin: 0 18px; border-radius: 2px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--done); transition: width .4s ease; }
+
+  ul { list-style: none; margin: 0; padding: 8px 10px 14px; }
+  li label { display: flex; gap: 12px; align-items: flex-start; padding: 9px 8px; border-radius: 8px; cursor: pointer; }
+  li label:hover { background: rgba(255,255,255,.04); }
+  li input { position: absolute; opacity: 0; }
+  .box { flex: none; width: 22px; height: 22px; margin-top: 3px; border: 2px solid var(--muted); border-radius: 6px; display: grid; place-items: center; transition: background .15s, border-color .15s; }
+  .box::after { content: ""; width: 5px; height: 10px; border: solid var(--bg); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) scale(0); margin-top: -2px; transition: transform .15s; }
+  input:checked + .box { background: var(--done); border-color: var(--done); }
+  input:checked + .box::after { transform: rotate(45deg) scale(1); }
+  input:checked ~ .label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line); }
+  .label small { display: block; color: var(--muted); font-size: .84rem; line-height: 1.55; }
+
+  .note { border-left: 3px solid var(--stamp); padding: 4px 0 4px 14px; margin: 28px 0; color: var(--muted); font-size: .92rem; }
+  footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: .9rem; }
+  footer a { color: var(--stamp); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+  @media print {
+    :root { color-scheme: light; --bg: #fff; --surface: #fff; --line: #bbb; --text: #111; --muted: #555; --done: #0a7d6c; --stamp: #9a6a00; }
+    .toolbar { display: none; }
+    details { break-inside: avoid; }
+    details:not([open]) > ul { display: block; }
+    .box { border-color: #555; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="text">
+      <h1>數位游牧新手清單</h1>
+      <p class="lead">從上班族轉為自由工作者，不受地點與時間限制。36 個檢查項，勾選進度自動存在這台裝置的瀏覽器，不需註冊。</p>
+    </div>
+    <div class="stamp" id="stamp" role="img" aria-label="整體完成度">
+      <svg viewBox="0 0 132 132" aria-hidden="true">
+        <circle class="edge" cx="66" cy="66" r="62"/>
+        <circle class="ring-bg" cx="66" cy="66" r="50"/>
+        <circle class="ring" id="ring" cx="66" cy="66" r="50"/>
+      </svg>
+      <div class="num"><b id="pct">0%</b><span id="frac">0 / 0</span></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button type="button" id="expand">全部展開</button>
+    <button type="button" id="collapse">全部收合</button>
+    <button type="button" id="print">列印清單</button>
+    <button type="button" id="reset">清除進度</button>
+  </div>
+
+  <main id="list"></main>
+
+  <p class="note">勞健保、退休金與稅務規定會調整。請以政府官方網站為準，必要時諮詢會計師。本清單只列檢查項，不構成法律、稅務或投資建議。最後更新：2026 年 11 月 5 日。</p>
+
+  <footer>
+    製作：小樹爸爸（KIKOPAPA）｜<a href="https://www.kikopapa.com" target="_blank" rel="noopener">KIKO Journey</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var KEY = "kiko-nomad-checklist-v2";
+
+  var DATA = [
+    { t: "定位與技能", d: "先決定你能賣什麼、賣給誰。", items: [
+      ["盤點可變現的技能與經驗", "列出工作年資、專業技能、證照與可教學的內容。"],
+      ["選定一個目標客群與他們的問題", "一次只服務一類客人，定位越清楚越容易被找到。"],
+      ["寫出一句話的服務說明", "格式：我幫〔誰〕解決〔什麼問題〕。"],
+      ["整理 3 件可展示的作品或案例", "過往工作成果去識別化後可作為作品。"],
+      ["研究 5 位同類自由工作者的服務與定價", "記錄服務項目、報價方式與客群。"],
+      ["決定主要收入型態", "接案、內容創作、數位商品、顧問或教學，先選一種為主。"]
+    ]},
+    { t: "收入與財務跑道", d: "離職前先把錢的問題算清楚。", items: [
+      ["計算每月最低生活支出", "固定支出、變動支出與保險分開列。"],
+      ["準備 6–12 個月的生活費", "收入不穩定期的緩衝，與緊急預備金分開。"],
+      ["離職前先取得第一筆自由工作收入", "用下班時間驗證市場是否買單。"],
+      ["規劃至少 2 個收入來源", "降低單一客戶中斷的風險。"],
+      ["設定報價與時薪換算", "把目標月收入換算成可接案量與單價。"],
+      ["確認長期投資的定期定額照常進行", "先決定收入下滑時的最低扣款金額。"]
+    ]},
+    { t: "離職、勞健保與稅務", d: "身分改變後，保障與申報要自己安排。", items: [
+      ["閱讀公司兼職與競業規定", "離職前接案，先確認合約條款。"],
+      ["評估離職時點", "考量年終、特休結算與專案交接。"],
+      ["確認勞保與健保的投保方式", "例如職業工會或眷屬投保，費用先納入預算。"],
+      ["確認國民年金與退休金的自行規劃", "離職後不再有雇主提繳，需自行安排。"],
+      ["了解接案所得的申報方式", "包含扣繳憑單、執行業務所得與報稅時程。"],
+      ["保留合約、收據與請款紀錄", "必要時諮詢會計師。"]
+    ]},
+    { t: "客戶與接案流程", d: "讓客人找得到你，也讓流程能重複執行。", items: [
+      ["建立個人網站或作品頁", "放上服務說明、作品與聯絡方式。"],
+      ["準備報價單與合約範本", "載明範圍、時程、修改次數與付款條件。"],
+      ["設定收款與請款流程", "收款帳戶、收據或發票、付款期限。"],
+      ["建立 3 個客戶開發管道", "例如熟人介紹、社群內容、接案平台。"],
+      ["建立案件追蹤表", "記錄客戶、進度、金額與付款狀態。"],
+      ["訂定標準交付流程", "需求確認、報價、執行、交付、結案。"]
+    ]},
+    { t: "時間與工作系統", d: "沒有主管排班，就要自己建立節奏。", items: [
+      ["設定每週工作時數與固定工作時段", "先排固定區塊，再排彈性區塊。"],
+      ["劃出工作與生活的界線", "設定下班時間與回覆訊息的時段。"],
+      ["選定一套任務管理工具", "一套就好，避免資訊分散。"],
+      ["準備 2 個可工作的地點", "例如家中專屬位置，加咖啡廳或共享空間。"],
+      ["備妥設備、網路備援與檔案備份", "手機熱點備援，雲端與離線雙備份。"],
+      ["設定每週回顧與每月財務檢視", "檢視收入、工時與客戶狀況。"]
+    ]},
+    { t: "轉換時間軸", d: "以離職日為基準，往前後排。", items: [
+      ["離職前 6 個月：完成定位與作品整理", "先有可展示的內容，再談收費。"],
+      ["離職前 3 個月：接到第一筆案子", "驗證收入來源與報價。"],
+      ["離職前 1 個月：確認勞健保與稅務安排", "同時完成工作交接計畫。"],
+      ["離職當週：備齊合約範本、收款帳戶與工作環境", "確認第一週的工作排程。"],
+      ["離職後 30 天：檢視收入與支出", "依實際數字調整報價。"],
+      ["離職後 90 天：評估收入型態與客群是否調整", "保留有效的，停掉無效的。"]
+    ]}
+  ];
+
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { state = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var list = document.getElementById("list");
+  var total = 0;
+  DATA.forEach(function (m) { total += m.items.length; });
+
+  DATA.forEach(function (m, mi) {
+    var det = document.createElement("details");
+    det.open = true;
+    det.dataset.m = mi;
+    var sum = document.createElement("summary");
+    sum.innerHTML = '<span class="name">' + m.t + '<span class="sub">' + m.d + '</span></span><span class="count"></span>';
+    det.appendChild(sum);
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    bar.innerHTML = "<i></i>";
+    det.appendChild(bar);
+    var ul = document.createElement("ul");
+    m.items.forEach(function (it, ii) {
+      var id = "m" + mi + "i" + ii;
+      var li = document.createElement("li");
+      var lab = document.createElement("label");
+      lab.innerHTML = '<input type="checkbox" id="' + id + '"><span class="box"></span><span class="label">' + it[0] + '<small>' + it[1] + '</small></span>';
+      var input = lab.querySelector("input");
+      input.checked = !!state[id];
+      input.addEventListener("change", function () {
+        if (input.checked) state[id] = 1; else delete state[id];
+        save();
+        render();
+      });
+      li.appendChild(lab);
+      ul.appendChild(li);
+    });
+    det.appendChild(ul);
+    list.appendChild(det);
+  });
+
+  var ring = document.getElementById("ring");
+  var C = 2 * Math.PI * 50;
+  ring.style.strokeDasharray = C;
+
+  function render() {
+    var done = 0;
+    document.querySelectorAll("details").forEach(function (det) {
+      var mi = +det.dataset.m;
+      var n = DATA[mi].items.length, d = 0;
+      for (var i = 0; i < n; i++) if (state["m" + mi + "i" + i]) d++;
+      done += d;
+      det.querySelector(".count").textContent = d + " / " + n;
+      det.querySelector(".bar i").style.width = (d / n * 100) + "%";
+      det.classList.toggle("complete", d === n);
+    });
+    var pct = Math.round(done / total * 100);
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("frac").textContent = done + " / " + total;
+    ring.style.strokeDashoffset = C * (1 - done / total);
+    var stamp = document.getElementById("stamp");
+    stamp.classList.toggle("full", done === total);
+    stamp.setAttribute("aria-label", "整體完成度 " + pct + "%");
+  }
+
+  function setOpen(v) { document.querySelectorAll("details").forEach(function (d) { d.open = v; }); }
+  document.getElementById("expand").addEventListener("click", function () { setOpen(true); });
+  document.getElementById("collapse").addEventListener("click", function () { setOpen(false); });
+  document.getElementById("print").addEventListener("click", function () { setOpen(true); window.print(); });
+  document.getElementById("reset").addEventListener("click", function () {
+    if (!confirm("確定清除所有勾選進度？此動作無法復原。")) return;
+    state = {};
+    save();
+    document.querySelectorAll("input[type=checkbox]").forEach(function (c) { c.checked = false; });
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
