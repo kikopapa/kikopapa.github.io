@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>街頭棋聚：你是哪種棋風？｜KIKO Journey 棋思互動實驗室</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background-color: #eef5ea;
+      background-image: 
+        linear-gradient(to right, rgba(46, 125, 50, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(46, 125, 50, 0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* 棋子立體光澤效果 */
+    .stone-black {
+      background: radial-gradient(circle at 30% 30%, #555, #111 70%, #000 100%);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+    }
+    .stone-white {
+      background: radial-gradient(circle at 30% 30%, #fff, #f0f0f0 60%, #d9d9d9 100%);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      border: 1px solid #e0e0e0;
+    }
+
+    /* 動畫過渡 */
+    .fade-enter {
+      animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 選項按鈕互動微調 */
+    .option-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .option-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px -4px rgba(46, 125, 50, 0.14);
+    }
+    .option-card:active {
+      transform: translateY(0px) scale(0.99);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between py-6 px-4 sm:px-6">
+
+  <!-- 頂部作者預覽工具列 -->
+  <div class="max-w-xl w-full mx-auto mb-4 flex flex-wrap items-center justify-between gap-2 bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-sm border border-[#cbe5b8]">
+    <div class="flex items-center gap-2 text-xs sm:text-sm font-medium text-[#1b5e20]">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>KIKO Journey </span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="quickJumpResult()" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1.5 rounded-xl font-semibold transition">
+        ⚡ 直接看結果頁
+      </button>
+    </div>
+  </div>
+
+  <!-- 主要互動測驗卡片 -->
+  <main class="max-w-xl w-full mx-auto my-auto">
+    <div id="kiko-go-quiz" class="relative overflow-hidden rounded-3xl bg-[#f8fcf5] border-2 border-[#cbe5b8] p-5 sm:p-8 text-[#2c3e50] shadow-xl">
+      
+      <!-- 裝飾用圍棋星位與角落棋子 -->
+      <div class="pointer-events-none select-none absolute -top-6 -right-6 opacity-15 flex gap-2">
+        <div class="w-16 h-16 rounded-full stone-black"></div>
+      </div>
+
+      <!-- 標題與徽章區 -->
+      <div class="text-center mb-6 relative z-10">
+        <div class="inline-flex items-center gap-2 bg-[#2e7d32] text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-sm tracking-wide">
+          <span class="w-3 h-3 rounded-full stone-black inline-block"></span>
+          <span>棋思互動實驗室</span>
+          <span class="w-3 h-3 rounded-full stone-white inline-block"></span>
+        </div>
+        <h1 class="mt-3.5 mb-2 text-xl sm:text-2xl font-black text-[#1b5e20] leading-snug">
+          街頭棋聚：你是哪種橋下棋風？
+        </h1>
+        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+          30 秒測出你的街頭對弈生存指數，解鎖「士林橋下棋聚」秘境通行證！
+        </p>
+      </div>
+
+      <!-- 進度條與步驟指示器 -->
+      <div id="progress-container" class="mb-6">
+        <div class="flex justify-between items-center text-xs font-bold text-[#2e7d32] mb-2">
+          <span id="progress-label">對局情境 Question 1 / 3</span>
+          <span id="progress-percent">33%</span>
+        </div>
+        <div class="w-full h-2.5 bg-[#e2f0d5] rounded-full overflow-hidden p-0.5">
+          <div id="progress-bar" class="h-full bg-gradient-to-r from-[#43a047] to-[#2e7d32] rounded-full transition-all duration-300" style="width: 33.33%;"></div>
+        </div>
+      </div>
+
+      <!-- 題目容器區 -->
+      <div id="quiz-body" class="relative z-10">
+        
+        <!-- 第 1 題 -->
+        <div id="q-step-1" class="q-step fade-enter">
+          <div class="bg-white/80 rounded-2xl p-4 sm:p-5 border border-[#dcecd0] mb-4">
+            <span class="inline-block text-xs font-bold text-[#2e7d32] bg-[#e8f5e9] px-2.5 py-1 rounded-lg mb-2">第一手・觀局</span>
+            <p class="font-bold text-base sm:text-lg text-gray-800 leading-relaxed">
+              Q1. 週日早上走進士林橋下，看到兩位大叔殺得難分難解，你的第一反應是？
+            </p>
+          </div>
+          <div class="space-y-3">
+            <button onclick="nextQ(1, 'A')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">A</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">默默站旁邊算氣，在心裡幫他們覆盤誰贏</span>
+            </button>
+            <button onclick="nextQ(1, 'B')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">B</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">哪邊人多湊哪邊，聽旁邊叔伯鬥嘴最有趣</span>
+            </button>
+            <button onclick="nextQ(1, 'C')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">C</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">手超癢！馬上找空桌擺好棋盤等人來挑戰</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 第 2 題 -->
+        <div id="q-step-2" class="q-step hidden">
+          <div class="bg-white/80 rounded-2xl p-4 sm:p-5 border border-[#dcecd0] mb-4">
+            <span class="inline-block text-xs font-bold text-[#2e7d32] bg-[#e8f5e9] px-2.5 py-1 rounded-lg mb-2">第二手・中盤交鋒</span>
+            <p class="font-bold text-base sm:text-lg text-gray-800 leading-relaxed">
+              Q2. 街頭對弈時，對手突然「啪！」一聲很大力拍下一手無理手（騙著），你會？
+            </p>
+          </div>
+          <div class="space-y-3">
+            <button onclick="nextQ(2, 'A')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">A</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">冷靜喝口茶，長考 1 分鐘找出他的破綻一擊必殺</span>
+            </button>
+            <button onclick="nextQ(2, 'B')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">B</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">先穩住自己基本盤，不跟他硬碰硬，收官再贏回來</span>
+            </button>
+            <button onclick="nextQ(2, 'C')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">C</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">氣勢不能輸！馬上更用力「啪」回去，直接開戰對殺</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 第 3 題 -->
+        <div id="q-step-3" class="q-step hidden">
+          <div class="bg-white/80 rounded-2xl p-4 sm:p-5 border border-[#dcecd0] mb-4">
+            <span class="inline-block text-xs font-bold text-[#2e7d32] bg-[#e8f5e9] px-2.5 py-1 rounded-lg mb-2">第三手・棋聚初心</span>
+            <p class="font-bold text-base sm:text-lg text-gray-800 leading-relaxed">
+              Q3. 對你來說，在沒有冷氣的橋下露天棋聚下棋，最迷人的是什麼？
+            </p>
+          </div>
+          <div class="space-y-3">
+            <button onclick="nextQ(3, 'A')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">A</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">高手在民間！永遠不知道下一盤會遇到什麼奇兵怪招</span>
+            </button>
+            <button onclick="nextQ(3, 'B')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">B</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">不問段位、不計得失，下完還能像老朋友一樣閒聊</span>
+            </button>
+            <button onclick="nextQ(3, 'C')" class="option-card w-full text-left p-3.5 sm:p-4 bg-white hover:bg-[#e8f5e9] border-2 border-[#c8e6c9] hover:border-[#2e7d32] rounded-2xl flex items-start gap-3 group">
+              <span class="flex-shrink-0 w-7 h-7 rounded-full bg-[#e8f5e9] group-hover:bg-[#2e7d32] text-[#1b5e20] group-hover:text-white font-bold text-sm flex items-center justify-center transition">C</span>
+              <span class="text-sm sm:text-base font-medium text-gray-800 leading-relaxed pt-0.5">節奏明快、連戰好幾盤的爽快感，比盯著電腦螢幕過癮多了</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 測驗結果與雙向導流鉤子區 -->
+      <div id="quiz-result" class="hidden bg-white p-5 sm:p-6 rounded-2xl border border-[#dcecd0] shadow-sm fade-enter">
+        
+        <!-- 切換預覽不同結果的小標籤 -->
+        <div class="flex items-center justify-center gap-1.5 mb-4 pb-3 border-b border-dashed border-gray-200">
+          <span class="text-xs text-gray-400">切換預覽角色：</span>
+          <button onclick="renderSpecificResult('A')" id="tab-A" class="text-xs px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-emerald-50">A 算路軍師</button>
+          <button onclick="renderSpecificResult('B')" id="tab-B" class="text-xs px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-emerald-50">B 定海神針</button>
+          <button onclick="renderSpecificResult('C')" id="tab-C" class="text-xs px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-emerald-50">C 街頭快刀手</button>
+        </div>
+
+        <div class="text-center">
+          <div class="inline-block text-xs font-bold text-[#2e7d32] bg-[#e8f5e9] px-3 py-1 rounded-full">
+            🎯 你的街頭對弈鑑定結果
+          </div>
+          <h2 id="res-title" class="text-xl sm:text-2xl font-black my-2.5 text-[#c62828]"></h2>
+          <p id="res-desc" class="text-sm sm:text-base leading-relaxed text-gray-700 text-left bg-[#fafdf9] p-4 rounded-xl border border-[#edf6e8] mb-5"></p>
+        </div>
+
+        <!-- 士林橋棋聚資訊卡 -->
+        <div class="bg-[#f1ffe1] p-4 rounded-2xl text-xs sm:text-sm leading-relaxed mb-5 border-l-4 border-[#2e7d32] shadow-inner">
+          <div class="font-bold text-base text-[#1b5e20] mb-1.5 flex items-center gap-1.5">
+            <span>📍 台北士林橋下・週末圍棋聚落通行證</span>
+          </div>
+          <div class="space-y-1 text-gray-800">
+            <p>🕒 <strong>聚會時間</strong>：每週日早上 07:30 ～ 12:00</p>
+            <p>🗺️ <strong>地點導航</strong>：台北市士林橋下（近文林路、雙溪河濱步道路口）</p>
+            <p>💡 <strong>參加方式</strong>：免費自由對弈！不問段位，帶著尊重與好心情就能上桌以棋會友。</p>
+          </div>
+        </div>
+
+        <!-- 策略 2：雙向導流頁尾鉤子 -->
+        <div class="flex flex-col gap-2.5">
+          <button onclick="shareQuizResult()" id="share-btn" class="w-full bg-[#2e7d32] hover:bg-[#1b5e20] active:scale-[0.99] text-white py-3.5 px-4 rounded-xl text-sm sm:text-base font-bold transition shadow-md flex items-center justify-center gap-2">
+            <span>📤 一鍵複製測驗結果，揪棋友週日來挑戰！</span>
+          </button>
+          
+          <a href="https://www.kikopapa.com/2026/10/shilin-bridge-go-players.html" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-[#eef7e8] hover:bg-[#e1f0d7] text-[#1b5e20] py-3 px-4 rounded-xl text-xs sm:text-sm font-bold border border-[#b8d8a0] transition flex items-center justify-center gap-1.5">
+            <span>📖 閱讀小樹爸爸的完整故事：《士林橋下的圍棋時光》</span>
+          </a>
+
+          <button onclick="resetQuiz()" class="text-gray-500 hover:text-[#1b5e20] text-xs font-medium py-1.5 mt-1 underline transition">
+            🔄 重新測驗一次
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 底部提示訊息 -->
+  <footer class="max-w-xl w-full mx-auto mt-4 text-center text-xs text-gray-500">
+    設計：小樹爸爸 ( www.kikopapa.com )  </footer>
+
+  <!-- 隱藏的純淨 Blogger 嵌入碼模板供一鍵複製 -->
+  <textarea id="raw-blogger-code" class="hidden"><!-- 士林橋下圍棋互動小工具 Start -->
+<div id="kiko-go-quiz" style="max-width: 560px; margin: 30px auto; padding: 24px; border-radius: 16px; background: #f8fcf5; border: 2px solid #cbe5b8; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; color: #2c3e50; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <span style="background: #2e7d32; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold;">⚫ 棋思互動實驗室 ⚪</span>
+    <h3 style="margin: 12px 0 6px; font-size: 22px; color: #1b5e20;">街頭棋聚：你是哪種棋風？</h3>
+    <p style="margin: 0; font-size: 14px; color: #555;">30 秒測出你的街頭對弈生存指數，解鎖「士林橋下棋聚」秘境通行證！</p>
+  </div>
+  <div id="quiz-body">
+    <div id="q-step-1" class="q-step">
+      <p style="font-weight: bold; font-size: 16px; margin-bottom: 12px;">Q1. 週日早上走進士林橋下，看到兩位大叔殺得難分難解，你的第一反應是？</p>
+      <button onclick="nextQ(1, 'A')" class="q-btn">A. 默默站旁邊算氣，在心裡幫他們覆盤誰贏</button>
+      <button onclick="nextQ(1, 'B')" class="q-btn">B. 哪邊人多湊哪邊，聽旁邊叔伯鬥嘴最有趣</button>
+      <button onclick="nextQ(1, 'C')" class="q-btn">C. 手超癢！馬上找空桌擺好棋盤等人來挑戰</button>
+    </div>
+    <div id="q-step-2" class="q-step" style="display:none;">
+      <p style="font-weight: bold; font-size: 16px; margin-bottom: 12px;">Q2. 街頭對弈時，對手突然「啪！」一聲很大力拍下一手無理手（騙著），你會？</p>
+      <button onclick="nextQ(2, 'A')" class="q-btn">A. 冷靜喝口茶，長考 1 分鐘找出他的破綻一擊必殺</button>
+      <button onclick="nextQ(2, 'B')" class="q-btn">B. 先穩住自己基本盤，不跟他硬碰硬，收官再贏回來</button>
+      <button onclick="nextQ(2, 'C')" class="q-btn">C. 氣勢不能輸！馬上更用力「啪」回去，直接開戰對殺</button>
+    </div>
+    <div id="q-step-3" class="q-step" style="display:none;">
+      <p style="font-weight: bold; font-size: 16px; margin-bottom: 12px;">Q3. 對你來說，在沒有冷氣的橋下露天棋聚下棋，最迷人的是什麼？</p>
+      <button onclick="nextQ(3, 'A')" class="q-btn">A. 高手在民間！永遠不知道下一盤會遇到什麼奇兵怪招</button>
+      <button onclick="nextQ(3, 'B')" class="q-btn">B. 不問段位、不計得失，下完還能像老朋友一樣閒聊</button>
+      <button onclick="nextQ(3, 'C')" class="q-btn">C. 節奏明快、連戰好幾盤的爽快感，比盯著電腦螢幕過癮多了</button>
+    </div>
+  </div>
+  <div id="quiz-result" style="display:none; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #dcecd0;">
+    <div style="text-align: center;">
+      <div style="font-size: 13px; color: #2e7d32; font-weight: bold;">🎯 你的街頭對弈鑑定結果</div>
+      <h4 id="res-title" style="font-size: 24px; margin: 8px 0; color: #d32f2f;"></h4>
+      <p id="res-desc" style="font-size: 15px; line-height: 1.6; color: #444; text-align: left; margin-bottom: 16px;"></p>
+    </div>
+    <div style="background: #f1ffe1; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; margin-bottom: 18px; border-left: 4px solid #2e7d32;">
+      <strong>📍 台北士林橋下・週末圍棋聚落通行證</strong><br>
+      🕒 <strong>聚會時間</strong>：每週日早上 07:30 ～ 12:00<br>
+      🗺️ <strong>地點導航</strong>：台北市士林橋下（近文林路、雙溪河濱步道路口）<br>
+      💡 <strong>參加方式</strong>：免費自由對弈！不問段位，帶著尊重與好心情就能上桌以棋會友。
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <button onclick="shareQuizResult()" id="share-btn" style="background: #2e7d32; color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer;">
+        📤 一鍵複製測驗結果，揪棋友週日來挑戰！
+      </button>
+      <a href="https://www.kikopapa.com/2026/10/shilin-bridge-go-players.html" target="_blank" style="text-align: center; background: #eef7e8; color: #1b5e20; text-decoration: none; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; border: 1px solid #b8d8a0;">
+        📖 閱讀小樹爸爸的完整故事：《士林橋下的圍棋時光》
+      </a>
+      <button onclick="resetQuiz()" style="background: transparent; color: #777; border: none; font-size: 13px; cursor: pointer; margin-top: 4px; text-decoration: underline;">
+        重新測驗一次
+      </button>
+    </div>
+  </div>
+</div>
+<style>
+  #kiko-go-quiz .q-btn {
+    display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 10px;
+    background: #fff; border: 1.5px solid #c8e6c9; border-radius: 8px; font-size: 15px;
+    color: #333; cursor: pointer; transition: all 0.2s;
+  }
+  #kiko-go-quiz .q-btn:hover {
+    background: #e8f5e9; border-color: #2e7d32; transform: translateY(-1px);
+  }
+</style>
+<script>
+  let userAnswers = [];
+  const resultsData = {
+    'A': {
+      title: '【深藏不露的算路軍師】🌟 生存指數 98%',
+      desc: '你有一雙冷靜銳利的眼睛！街頭大叔的氣勢與快節奏完全干擾不了你。在士林橋下，你就是那種平時安靜看棋、一坐上桌就會讓對手冒冷汗的隱藏版高手！'
+    },
+    'B': {
+      title: '【以棋會友的橋下定海神針】🌟 生存指數 95%',
+      desc: '你的棋風厚實穩健，更懂得享受圍棋背後的人情味！輸贏對你來說只是過程，在微風吹拂的橋下邊下棋邊談笑風生，你絕對是大家最喜歡邀約對局的好棋友！'
+    },
+    'C': {
+      title: '【熱血沸騰的街頭快刀手】🌟 生存指數 99%',
+      desc: '你天生就屬於熱鬧的街頭棋盤！遇到戰鬥絕不退縮，落子乾脆俐落，最愛大殺四方的爽快感。士林橋下週日早上的露天對弈，完全就是為你量身打造的武林擂台！'
+    }
+  };
+  let currentResultTitle = '';
+  function nextQ(step, ans) {
+    userAnswers.push(ans);
+    document.getElementById('q-step-' + step).style.display = 'none';
+    if (step < 3) {
+      document.getElementById('q-step-' + (step + 1)).style.display = 'block';
+    } else {
+      showResult();
+    }
+  }
+  function showResult() {
+    const counts = { A: 0, B: 0, C: 0 };
+    userAnswers.forEach(a => counts[a]++);
+    let topKey = Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b);
+    currentResultTitle = resultsData[topKey].title;
+    document.getElementById('res-title').innerText = resultsData[topKey].title;
+    document.getElementById('res-desc').innerText = resultsData[topKey].desc;
+    document.getElementById('quiz-result').style.display = 'block';
+  }
+  function shareQuizResult() {
+    const shareText = `我在小樹爸爸的【街頭棋聚測驗】測出是：${currentResultTitle}！\n原來台北士林橋下每週日早上有個免費下圍棋的神祕聚落，快來測測你的街頭棋風 👉 https://www.kikopapa.com/2026/10/shilin-bridge-go-players.html`;
+    const tempInput = document.createElement('textarea');
+    tempInput.value = shareText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    const btn = document.getElementById('share-btn');
+    btn.innerText = '✅ 已複製結果與連結！快去貼給棋友或社團吧！';
+    btn.style.background = '#1b5e20';
+  }
+  function resetQuiz() {
+    userAnswers = [];
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('q-step-1').style.display = 'block';
+    const btn = document.getElementById('share-btn');
+    btn.innerText = '📤 一鍵複製測驗結果，揪棋友週日來挑戰！';
+    btn.style.background = '#2e7d32';
+  }
+</script>
+<!-- 士林橋下圍棋互動小工具 End --></textarea>
+
+  <script>
+    let userAnswers = [];
+    const resultsData = {
+      'A': {
+        title: '【深藏不露的算路軍師】🌟 生存指數 98%',
+        desc: '你有一雙冷靜銳利的眼睛！街頭大叔的氣勢與快節奏完全干擾不了你。在士林橋下，你就是那種平時安靜看棋、一坐上桌就會讓對手冒冷汗的隱藏版高手！'
+      },
+      'B': {
+        title: '【以棋會友的橋下定海神針】🌟 生存指數 95%',
+        desc: '你的棋風厚實穩健，更懂得享受圍棋背後的人情味！輸贏對你來說只是過程，在微風吹拂的橋下邊下棋邊談笑風生，你絕對是大家最喜歡邀約對局的好棋友！'
+      },
+      'C': {
+        title: '【熱血沸騰的街頭快刀手】🌟 生存指數 99%',
+        desc: '你天生就屬於熱鬧的街頭棋盤！遇到戰鬥絕不退縮，落子乾脆俐落，最愛大殺四方的爽快感。士林橋下週日早上的露天對弈，完全就是為你量身打造的武林擂台！'
+      }
+    };
+    let currentResultTitle = '';
+
+    function updateProgress(step) {
+      const label = document.getElementById('progress-label');
+      const percent = document.getElementById('progress-percent');
+      const bar = document.getElementById('progress-bar');
+      const pctValue = Math.round((step / 3) * 100);
+      label.innerText = `對局情境 Question ${step} / 3`;
+      percent.innerText = `${pctValue}%`;
+      bar.style.width = `${pctValue}%`;
+    }
+
+    function nextQ(step, ans) {
+      userAnswers.push(ans);
+      const currentEl = document.getElementById('q-step-' + step);
+      currentEl.classList.add('hidden');
+      currentEl.classList.remove('fade-enter');
+
+      if (step < 3) {
+        const nextEl = document.getElementById('q-step-' + (step + 1));
+        nextEl.classList.remove('hidden');
+        nextEl.classList.add('fade-enter');
+        updateProgress(step + 1);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const counts = { A: 0, B: 0, C: 0 };
+      userAnswers.forEach(a => counts[a]++);
+      let topKey = Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b);
+      renderSpecificResult(topKey);
+    }
+
+    function renderSpecificResult(key) {
+      // 隱藏所有題目與進度條
+      ['q-step-1', 'q-step-2', 'q-step-3'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById('progress-container').classList.add('hidden');
+
+      // 更新角色切換按鈕樣式
+      ['A', 'B', 'C'].forEach(k => {
+        const tab = document.getElementById('tab-' + k);
+        if (k === key) {
+          tab.className = 'text-xs px-2.5 py-1 rounded-lg font-bold bg-[#2e7d32] text-white shadow-sm';
+        } else {
+          tab.className = 'text-xs px-2.5 py-1 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-emerald-50';
+        }
+      });
+
+      currentResultTitle = resultsData[key].title;
+      document.getElementById('res-title').innerText = resultsData[key].title;
+      document.getElementById('res-desc').innerText = resultsData[key].desc;
+      document.getElementById('quiz-result').classList.remove('hidden');
+
+      // 重設分享按鈕文字
+      const btn = document.getElementById('share-btn');
+      btn.innerText = '📤 一鍵複製測驗結果，揪棋友週日來挑戰！';
+      btn.className = 'w-full bg-[#2e7d32] hover:bg-[#1b5e20] active:scale-[0.99] text-white py-3.5 px-4 rounded-xl text-sm sm:text-base font-bold transition shadow-md flex items-center justify-center gap-2';
+    }
+
+    function quickJumpResult() {
+      renderSpecificResult('A');
+    }
+
+    function copyTextFallback(text, onSuccess) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      tempInput.style.position = 'fixed';
+      tempInput.style.opacity = '0';
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        if (onSuccess) onSuccess();
+      } catch (err) {
+        console.error('Copy failed', err);
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function shareQuizResult() {
+      const shareText = `我在小樹爸爸的【街頭棋聚測驗】測出是：${currentResultTitle}！\n原來台北士林橋下每週日早上有個免費下圍棋的神祕聚落，快來測測你的街頭棋風 👉 https://www.kikopapa.com/2026/10/shilin-bridge-go-players.html`;
+      copyTextFallback(shareText, () => {
+        const btn = document.getElementById('share-btn');
+        btn.innerText = '✅ 已複製結果與連結！快去貼給棋友或社團吧！';
+        btn.className = 'w-full bg-[#1b5e20] text-white py-3.5 px-4 rounded-xl text-sm sm:text-base font-bold transition shadow-md flex items-center justify-center gap-2';
+      });
+    }
+
+    function copyBloggerEmbed() {
+      const code = document.getElementById('raw-blogger-code').value;
+      copyTextFallback(code, () => {
+        const btn = document.getElementById('copy-embed-btn');
+        const originalText = btn.innerText;
+        btn.innerText = '✅ 已複製 Blogger 嵌入碼！';
+        setTimeout(() => {
+          btn.innerText = originalText;
+        }, 2500);
+      });
+    }
+
+    function resetQuiz() {
+      userAnswers = [];
+      document.getElementById('quiz-result').classList.add('hidden');
+      document.getElementById('progress-container').classList.remove('hidden');
+      updateProgress(1);
+      const step1 = document.getElementById('q-step-1');
+      step1.classList.remove('hidden');
+      step1.classList.add('fade-enter');
+    }
+  </script>
+</body>
+</html>
