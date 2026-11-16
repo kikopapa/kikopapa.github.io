@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小樹爸爸的兒童理財課 | 互動圖卡畫廊 (www.kikopapa.com)</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts: 圓體與易讀無襯線字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#FAF6F0',      // 溫暖手帳米白底色
+                        paperDark: '#F0E9DF',  // 深一階米色
+                        forest: {
+                            DEFAULT: '#3A5A40', // 主森林綠
+                            light: '#588157',   // 嫩葉綠
+                            pale: '#E9F0EA',    // 淺綠背景
+                            dark: '#283F2C'     // 深森林綠
+                        },
+                        wood: {
+                            DEFAULT: '#A37B56', // 木質棕
+                            light: '#D4B499',   // 淺木紋
+                            dark: '#7C5A3B'     // 深木框
+                        },
+                        accent: {
+                            DEFAULT: '#E07A5F', // 溫暖橘紅點綴
+                            gold: '#F2CC8F'     // 金幣黃
+                        }
+                    },
+                    boxShadow: {
+                        'notebook': '0 10px 25px -5px rgba(58, 90, 64, 0.12), 0 8px 10px -6px rgba(58, 90, 64, 0.08)',
+                        'card': '0 4px 12px rgba(163, 123, 86, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 手帳紙質格紋背景 */
+        body {
+            background-color: #FAF6F0;
+            background-image: 
+                radial-gradient(#D4B499 0.75px, transparent 0.75px), 
+                radial-gradient(#D4B499 0.75px, #FAF6F0 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            color: #2B332C;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 隱藏捲軸但保留滑動功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 輪播圖片過渡動畫 */
+        .carousel-track {
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .carousel-track.dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        /* 燈箱放大縮小平滑過渡 */
+        .lightbox-img-wrapper {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* 手帳紙膠帶裝飾效果 */
+        .washi-tape {
+            background-color: rgba(163, 193, 154, 0.45);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- ==========================================
+         頂部品牌導覽列 (Header)
+    =========================================== -->
+    <header class="sticky top-0 z-30 bg-paper/90 backdrop-blur-md border-b-2 border-wood-light/50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- 左側：小樹爸爸品牌標誌 -->
+            <a href="https://www.kikopapa.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-forest text-white flex items-center justify-center shadow-md group-hover:bg-forest-light transition-colors relative">
+                    <!-- 小樹芽 SVG 圖示 -->
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22v-9"/>
+                        <path d="M15.17 7.83A4 4 0 0 0 12 6a4 4 0 0 0-3.17 1.83C7.11 5.66 4 6.5 4 9.5c0 3 3.5 4.5 8 4.5s8-1.5 8-4.5c0-3-3.11-3.84-4.83-1.67Z" fill="#84A98C" stroke="#FFFFFF"/>
+                        <path d="M12 13C9.5 13 7 11.5 7 9.5"/>
+                        <path d="M12 13c2.5 0 5-1.5 5-3.5"/>
+                    </svg>
+                    <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-accent-gold rounded-full border-2 border-paper"></span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg sm:text-xl font-black tracking-tight text-forest-dark group-hover:text-forest transition-colors">
+                            小樹爸爸的兒童理財課
+                        </h1>
+                        <span class="hidden sm:inline-block text-xs font-bold px-2 py-0.5 bg-forest-pale text-forest rounded-full border border-forest/20">
+                            財商圖卡系列
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-wood-dark font-medium">
+                        理財像種樹一樣，需要時間慢慢灌溉長大 🌱
+                    </p>
+                </div>
+            </a>
+
+            <!-- 右側：功能切換與網誌連結 -->
+            <div class="flex items-center gap-2 sm:gap-3 ml-auto">
+                <!-- 檢視模式切換 (滑動 vs 網格) -->
+                <div class="bg-paperDark p-1 rounded-xl border border-wood-light/60 flex items-center">
+                    <button id="btnSlideView" onclick="switchViewMode('slide')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-forest text-white shadow-sm transition-all" title="滑動輪播模式">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke-width="2"/><path d="M8 12h8" stroke-width="2" stroke-linecap="round"/></svg>
+                        <span>滑動瀏覽</span>
+                    </button>
+                    <button id="btnGridView" onclick="switchViewMode('grid')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-forest-dark hover:bg-white/60 transition-all" title="網格總覽模式">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke-width="2"/></svg>
+                        <span>全覽模式</span>
+                    </button>
+                </div>
+
+                <!-- 替換本機圖片測試按鈕 -->
+                <button onclick="toggleUploaderModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-100 hover:bg-amber-200 text-wood-dark border border-amber-300/80 transition-all shadow-sm" title="將您剛下載的圖片載入預覽">
+                    <svg class="w-4 h-4 text-wood-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span class="hidden md:inline">載入您的圖檔</span>
+                </button>
+
+                <!-- 回到部落格連結 -->
+                <a href="https://www.kikopapa.com/p/about-me.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white hover:bg-forest-pale text-forest border border-forest/30 transition-all shadow-sm">
+                    <span>關於小樹爸爸</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         主要內容區 (Main Content)
+    =========================================== -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+        <!-- ------------------------------------------
+             模式 A：滑動輪播檢視 (Slide Carousel View)
+        ------------------------------------------- -->
+        <section id="slideViewContainer" class="block">
+            
+            <!-- 頂部進度與快速提示 -->
+            <div class="flex items-center justify-between mb-3 px-1">
+                <div class="flex items-center gap-2">
+                    <span id="currentBadge" class="px-3 py-1 bg-forest text-white text-xs sm:text-sm font-black rounded-full shadow-sm">
+                        單元 1 / 3
+                    </span>
+                    <span id="currentCategory" class="text-xs sm:text-sm font-bold text-wood-dark bg-wood-light/30 px-2.5 py-0.5 rounded-md">
+                        基礎觀念篇
+                    </span>
+                </div>
+                <div class="text-xs text-gray-500 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-forest-light animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+                    <span>可左右滑動圖片，或<strong>點擊圖片放大觀看</strong></span>
+                </div>
+            </div>
+
+            <!-- 手帳風主畫框容器 -->
+            <div class="relative bg-white rounded-3xl p-3 sm:p-5 border-4 border-forest shadow-notebook">
+                
+                <!-- 裝飾性左上與右上紙膠帶 -->
+                <div class="washi-tape w-24 h-6 absolute -top-3 left-8 -rotate-6 rounded-sm pointer-events-none z-10 hidden sm:block"></div>
+                <div class="washi-tape w-24 h-6 absolute -top-3 right-8 rotate-6 rounded-sm pointer-events-none z-10 hidden sm:block"></div>
+
+                <!-- 輪播視窗 (Viewport) -->
+                <div id="carouselViewport" class="relative overflow-hidden rounded-2xl bg-paper border-2 border-wood-light/50 aspect-[4/3] w-full cursor-grab active:cursor-grabbing select-none">
+                    <!-- 輪播軌道 (由 JS 動態注入圖卡) -->
+                    <div id="carouselTrack" class="carousel-track flex h-full w-full">
+                        <!-- JS 動態生成項目 -->
+                    </div>
+
+                    <!-- 點擊放大浮動提示按鈕 -->
+                    <button onclick="openLightbox(currentIndex)" class="absolute bottom-3 right-3 z-20 bg-forest-dark/85 hover:bg-forest text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl backdrop-blur-sm shadow-lg flex items-center gap-1.5 transition-transform hover:scale-105 active:scale-95">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                        <span>點擊放大全螢幕</span>
+                    </button>
+
+                    <!-- 左切換按鈕 -->
+                    <button id="prevBtn" onclick="prevSlide()" aria-label="上一張" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white text-forest-dark border-2 border-forest/20 shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+
+                    <!-- 右切換按鈕 -->
+                    <button id="nextBtn" onclick="nextSlide()" aria-label="下一張" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white text-forest-dark border-2 border-forest/20 shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+
+                <!-- 圖卡下方：目前單元教學重點區 -->
+                <div class="mt-4 pt-4 border-t-2 border-dashed border-wood-light/60 px-2 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1.5">
+                        <h2 id="currentTitle" class="text-xl sm:text-2xl font-black text-forest-dark">
+                            載入中...
+                        </h2>
+                        <p id="currentDesc" class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                            載入中...
+                        </p>
+                    </div>
+                    <!-- 關鍵字標籤 -->
+                    <div id="currentKeyPoints" class="flex flex-wrap gap-2 shrink-0">
+                        <!-- 由 JS 動態填入標籤 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部縮圖快速導覽列 (Thumbnail Strip) -->
+            <div class="mt-6">
+                <div class="flex items-center justify-between mb-2 px-1">
+                    <span class="text-xs font-bold text-wood-dark uppercase tracking-wider flex items-center gap-1">
+                        <svg class="w-4 h-4 text-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                        課程圖卡快速跳轉 (點擊切換)
+                    </span>
+                    <div id="dotsIndicator" class="flex items-center gap-1.5">
+                        <!-- 圓點指示器 -->
+                    </div>
+                </div>
+                <div id="thumbnailContainer" class="flex gap-3 overflow-x-auto pb-2 pt-1 px-1 no-scrollbar">
+                    <!-- 由 JS 動態注入縮圖 -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ------------------------------------------
+             模式 B：網格總覽檢視 (Grid Overview)
+        ------------------------------------------- -->
+        <section id="gridViewContainer" class="hidden">
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-2 border-b-2 border-wood-light/50 pb-3">
+                <div>
+                    <h2 class="text-xl font-black text-forest-dark flex items-center gap-2">
+                        <span>📚 全部兒童理財圖卡一覽</span>
+                        <span id="totalCountBadge" class="text-xs px-2.5 py-0.5 bg-forest text-white rounded-full">共 4 張</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-0.5">點擊任一張圖卡即可開啟高畫質大圖觀看與教學筆記</p>
+                </div>
+            </div>
+            <div id="gridCardsWrapper" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 由 JS 動態生成網格卡片 -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         頁尾資訊 (Footer)
+    =========================================== -->
+    <footer class="bg-forest-dark text-paper py-6 px-4 border-t-4 border-wood mt-8">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="flex items-center gap-2.5">
+                <span class="text-xl">🌳</span>
+                <div>
+                    <p class="font-bold text-sm sm:text-base text-white">小樹爸爸 (KIKO PAPA) 兒童財商教育專欄</p>
+                    <p class="text-xs text-forest-pale/80">理財像種樹一樣，需要時間慢慢灌溉長大</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-xs sm:text-sm">
+                <a href="https://www.kikopapa.com" target="_blank" rel="noopener noreferrer" class="hover:text-accent-gold underline underline-offset-4 transition-colors">
+                    www.kikopapa.com
+                </a>
+                <span class="text-white/30">|</span>
+                <a href="https://www.kikopapa.com/p/about-me.html" target="_blank" rel="noopener noreferrer" class="hover:text-accent-gold underline underline-offset-4 transition-colors">
+                    關於小樹爸爸
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         全螢幕點擊放大燈箱 (Lightbox Modal)
+    =========================================== -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex flex-col justify-between select-none">
+        <!-- 燈箱頂部控制列 -->
+        <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black/50 text-white border-b border-white/10 z-20">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <span id="lbCounter" class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full shrink-0">1 / 3</span>
+                <h3 id="lbTitle" class="font-bold text-sm sm:text-lg truncate">認識金錢的三個好朋友</h3>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <!-- 縮小 -->
+                <button onclick="zoomLightbox(-0.25)" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors" title="縮小圖片">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/></svg>
+                </button>
+                <!-- 重置縮放 -->
+                <button onclick="resetZoomLightbox()" id="lbZoomLevel" class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono text-white transition-colors" title="重置比例">
+                    100%
+                </button>
+                <!-- 放大 -->
+                <button onclick="zoomLightbox(0.25)" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors" title="放大圖片">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                </button>
+                <!-- 關閉燈箱 -->
+                <button onclick="closeLightbox()" class="ml-2 p-2 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white transition-colors" title="關閉 (ESC)">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- 燈箱中央圖片展示區 -->
+        <div id="lbStage" class="relative flex-grow flex items-center justify-center overflow-hidden p-2 sm:p-6" onclick="handleBackdropClick(event)">
+            <!-- 左切換 -->
+            <button onclick="lbPrev(event)" class="absolute left-3 sm:left-6 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-sm transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+
+            <!-- 圖片本體容器 -->
+            <div id="lbImgWrapper" class="lightbox-img-wrapper max-w-4xl w-full max-h-[75vh] flex items-center justify-center">
+                <img id="lbImage" src="" alt="理財圖卡放大檢視" class="max-h-[75vh] max-w-full w-auto object-contain rounded-xl shadow-2xl border-2 border-white/20 bg-paper" />
+            </div>
+
+            <!-- 右切換 -->
+            <button onclick="lbNext(event)" class="absolute right-3 sm:right-6 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-sm transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+        </div>
+
+        <!-- 燈箱底部圖卡解說列 -->
+        <div class="bg-black/75 border-t border-white/10 px-4 sm:px-8 py-3.5 text-white z-20">
+            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <p id="lbDesc" class="text-xs sm:text-sm text-gray-200 leading-relaxed"></p>
+                <div id="lbTags" class="flex flex-wrap gap-1.5 shrink-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         載入本機實際圖檔測試視窗 (Image Swapper Modal)
+    =========================================== -->
+    <div id="uploaderModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-paper rounded-3xl max-w-lg w-full p-6 border-4 border-forest shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-wood-light pb-3">
+                <h3 class="text-lg font-black text-forest-dark flex items-center gap-2">
+                    <span>🖼️ 載入您下載的理財圖檔</span>
+                </h3>
+                <button onclick="toggleUploaderModal()" class="text-gray-500 hover:text-gray-800 p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                您可以直接選取剛剛從對話中下載的「小樹爸爸理財圖檔 (.jpg / .png)」，即時替換掉畫面上的預設插畫，或是點擊下方按鈕<strong>新增一張全新的第 4 張圖卡</strong>！
+            </p>
+            <div id="uploadSlotsContainer" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                <!-- 由 JS 動態產生每張圖卡的替換按鈕 -->
+            </div>
+            <div class="pt-3 border-t border-wood-light flex items-center justify-between gap-3">
+                <label class="cursor-pointer flex-1 py-2.5 px-4 bg-forest hover:bg-forest-light text-white font-bold text-xs sm:text-sm rounded-xl text-center shadow-sm transition-colors">
+                    <span>➕ 新增一張新圖卡到畫廊</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="addNewCustomSlide(event)">
+                </label>
+                <button onclick="toggleUploaderModal()" class="py-2.5 px-4 bg-paperDark hover:bg-wood-light/40 text-forest-dark font-bold text-xs sm:text-sm rounded-xl border border-wood-light">
+                    完成返回
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         JavaScript 核心邏輯與擴充資料區
+    =========================================== -->
+    <script>
+        /**
+         * ============================================================================
+         * 【小樹爸爸圖卡資料庫 - 日後擴充請直接修改此陣列】
+         * ============================================================================
+         * 說明：
+         * 1. 當您將此 HTML 放到您的網站或電腦時，只要把 `imageUrl` 改成您的圖檔路徑，
+         *    例如：`imageUrl: "./images/kikopapa-01.jpg"` 或圖床網址即可。
+         * 2. 為了讓您在預覽環境打開時就能直接看到完整「小樹爸爸手帳插畫風格」的三張圖，
+         *    下方內建了高解析度 SVG 手帳插畫作為預設圖源。
+         */
+
+        // 產生預設高解析度「小樹爸爸手帳風」SVG 資料網址輔助函式
+        function createNotebookSvgDataUri(svgBody) {
+            const fullSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+                <defs>
+                    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+                        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+                    </filter>
+                </defs>
+                <!-- 森林手帳外框 -->
+                <rect width="800" height="600" fill="#3A5A40"/>
+                <rect x="20" y="20" width="760" height="540" rx="18" fill="#FAF6F0" stroke="#283F2C" stroke-width="5"/>
+                <!-- 四角葉子裝飾 -->
+                <path d="M20 60 Q45 45 55 20 Q30 25 20 60Z" fill="#588157" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M780 60 Q755 45 745 20 Q770 25 780 60Z" fill="#588157" stroke="#283F2C" stroke-width="2.5"/>
+                ${svgBody}
+                <!-- 底部小樹爸爸品牌落款 -->
+                <text x="400" y="585" font-family="Noto Sans TC, sans-serif" font-size="18" font-weight="bold" fill="#E9F0EA" text-anchor="middle">小樹爸爸的兒童理財課</text>
+                <text x="770" y="585" font-family="Noto Sans TC, sans-serif" font-size="17" font-weight="bold" fill="#F2CC8F" text-anchor="end">www.kikopapa.com</text>
+            </svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(fullSvg);
+        }
+
+        // 圖卡 1：認識金錢的三個好朋友 (儲蓄、消費、投資)
+        const svgLesson1 = createNotebookSvgDataUri(`
+            <!-- 頂部木牌橫幅 -->
+            <rect x="160" y="42" width="480" height="66" rx="10" fill="#8C6239" stroke="#283F2C" stroke-width="4" filter="url(#shadow)"/>
+            <text x="400" y="86" font-family="Noto Sans TC, sans-serif" font-size="38" font-weight="900" fill="#FFFFFF" stroke="#283F2C" stroke-width="1.5" text-anchor="middle">小樹爸爸的兒童理財課</text>
+            <text x="400" y="142" font-family="Noto Sans TC, sans-serif" font-size="30" font-weight="900" fill="#283F2C" text-anchor="middle">認識金錢的三個好朋友！</text>
+
+            <!-- 左側：小樹爸爸角色 -->
+            <g transform="translate(65, 200)">
+                <!-- 帽子與小樹芽 -->
+                <path d="M65 25 L65 5" stroke="#283F2C" stroke-width="4" stroke-linecap="round"/>
+                <path d="M65 10 Q48 -5 45 12 Q55 20 65 10Z" fill="#70A37F" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M65 10 Q82 -5 85 12 Q75 20 65 10Z" fill="#70A37F" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M20 65 Q20 20 65 20 Q110 20 110 65 Z" fill="#4F7756" stroke="#283F2C" stroke-width="3.5"/>
+                <path d="M60 62 Q105 58 130 68 Q100 76 60 66 Z" fill="#3A5A40" stroke="#283F2C" stroke-width="3"/>
+                <!-- 臉部與眼鏡 -->
+                <circle cx="65" cy="95" r="38" fill="#FADEC9" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="40" y="82" width="22" height="16" rx="4" fill="#FFFFFF" fill-opacity="0.6" stroke="#283F2C" stroke-width="3"/>
+                <rect x="70" y="82" width="22" height="16" rx="4" fill="#FFFFFF" fill-opacity="0.6" stroke="#283F2C" stroke-width="3"/>
+                <line x1="62" y1="90" x2="70" y2="90" stroke="#283F2C" stroke-width="3"/>
+                <circle cx="51" cy="90" r="2.5" fill="#283F2C"/>
+                <circle cx="81" cy="90" r="2.5" fill="#283F2C"/>
+                <path d="M56 110 Q66 118 76 110" fill="none" stroke="#283F2C" stroke-width="3" stroke-linecap="round"/>
+                <!-- 身體與手指引導 -->
+                <path d="M25 133 Q65 128 100 135 L115 220 L15 220 Z" fill="#849B78" stroke="#283F2C" stroke-width="3.5"/>
+                <path d="M90 165 L145 160" stroke="#FADEC9" stroke-width="16" stroke-linecap="round"/>
+                <path d="M90 165 L145 160" stroke="#283F2C" stroke-width="3.5" stroke-linecap="round"/>
+            </g>
+
+            <!-- 三個理財玻璃罐與木桌 -->
+            <rect x="220" y="425" width="520" height="24" rx="5" fill="#A37B56" stroke="#283F2C" stroke-width="3.5"/>
+
+            <!-- 1. 儲蓄罐 -->
+            <g transform="translate(260, 185)">
+                <text x="60" y="15" font-family="Noto Sans TC, sans-serif" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">1. 儲蓄</text>
+                <text x="60" y="40" font-family="Noto Sans TC, sans-serif" font-size="17" font-weight="bold" fill="#3A5A40" text-anchor="middle">(Saving)</text>
+                <text x="60" y="65" font-family="Noto Sans TC, sans-serif" font-size="18" font-weight="bold" fill="#5C4033" text-anchor="middle">存錢、長大</text>
+                <rect x="10" y="95" width="100" height="145" rx="22" fill="#E3F2FD" fill-opacity="0.7" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="22" y="82" width="76" height="14" rx="5" fill="#CFE8FC" stroke="#283F2C" stroke-width="3"/>
+                <!-- 金幣與小樹苗 -->
+                <ellipse cx="60" cy="222" rx="38" ry="10" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <ellipse cx="45" cy="214" rx="16" ry="7" fill="#F4A261" stroke="#283F2C" stroke-width="2"/>
+                <ellipse cx="75" cy="215" rx="16" ry="7" fill="#F4A261" stroke="#283F2C" stroke-width="2"/>
+                <path d="M60 210 L60 155" stroke="#283F2C" stroke-width="4" stroke-linecap="round"/>
+                <path d="M60 165 Q35 145 35 168 Q48 180 60 165Z" fill="#588157" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M60 165 Q85 145 85 168 Q72 180 60 165Z" fill="#588157" stroke="#283F2C" stroke-width="2.5"/>
+            </g>
+
+            <!-- 2. 消費罐 -->
+            <g transform="translate(425, 185)">
+                <text x="60" y="15" font-family="Noto Sans TC, sans-serif" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">2. 消費</text>
+                <text x="60" y="40" font-family="Noto Sans TC, sans-serif" font-size="17" font-weight="bold" fill="#3A5A40" text-anchor="middle">(Spending)</text>
+                <text x="60" y="65" font-family="Noto Sans TC, sans-serif" font-size="18" font-weight="bold" fill="#5C4033" text-anchor="middle">需要、想要</text>
+                <rect x="10" y="95" width="100" height="145" rx="22" fill="#E3F2FD" fill-opacity="0.7" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="22" y="82" width="76" height="14" rx="5" fill="#CFE8FC" stroke="#283F2C" stroke-width="3"/>
+                <!-- 玩具車與甜筒 -->
+                <rect x="26" y="198" width="42" height="20" rx="6" fill="#E07A5F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="36" cy="220" r="6" fill="#283F2C"/>
+                <circle cx="58" cy="220" r="6" fill="#283F2C"/>
+                <polygon points="75,185 95,185 85,220" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="85" cy="178" r="12" fill="#F4A261" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="45" cy="145" r="11" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+            </g>
+
+            <!-- 3. 投資罐 -->
+            <g transform="translate(590, 185)">
+                <text x="60" y="15" font-family="Noto Sans TC, sans-serif" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">3. 投資</text>
+                <text x="60" y="40" font-family="Noto Sans TC, sans-serif" font-size="17" font-weight="bold" fill="#3A5A40" text-anchor="middle">(Investing)</text>
+                <text x="60" y="65" font-family="Noto Sans TC, sans-serif" font-size="18" font-weight="bold" fill="#5C4033" text-anchor="middle">讓錢、慢慢變多</text>
+                <rect x="10" y="95" width="100" height="145" rx="22" fill="#E3F2FD" fill-opacity="0.7" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="22" y="82" width="76" height="14" rx="5" fill="#CFE8FC" stroke="#283F2C" stroke-width="3"/>
+                <!-- 搖錢樹與鈔票 -->
+                <rect x="28" y="205" width="64" height="22" rx="4" fill="#70A37F" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M60 205 L60 140" stroke="#7C5A3B" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="42" cy="155" r="12" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="78" cy="155" r="12" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="60" cy="132" r="13" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <text x="60" y="137" font-size="14" font-weight="bold" fill="#283F2C" text-anchor="middle">$</text>
+            </g>
+
+            <!-- 底部溫暖金句 -->
+            <rect x="140" y="475" width="520" height="52" rx="14" fill="#F0E9DF" stroke="#A37B56" stroke-width="2.5"/>
+            <text x="400" y="509" font-family="Noto Sans TC, sans-serif" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">理財像種樹一樣，需要時間慢慢灌溉長大</text>
+        `);
+
+        // 圖卡 2：被動收入 VS 主動收入
+        const svgLesson2 = createNotebookSvgDataUri(`
+            <!-- 頂部藍色橫幅 -->
+            <rect x="150" y="42" width="500" height="68" rx="12" fill="#4A7C9B" stroke="#283F2C" stroke-width="4" filter="url(#shadow)"/>
+            <text x="400" y="88" font-family="Noto Sans TC, sans-serif" font-size="40" font-weight="900" fill="#FFFFFF" stroke="#283F2C" stroke-width="1.5" text-anchor="middle">被動收入 V.S 主動收入</text>
+
+            <!-- 中央分隔虛線 -->
+            <line x1="400" y1="135" x2="400" y2="530" stroke="#A37B56" stroke-width="4" stroke-dasharray="10,10"/>
+
+            <!-- 左半部：被動收入 -->
+            <g transform="translate(55, 135)">
+                <rect x="75" y="0" width="160" height="46" rx="8" fill="#B7D3B0" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="155" y="32" font-family="Noto Sans TC, sans-serif" font-size="26" font-weight="900" fill="#283F2C" text-anchor="middle">被動收入</text>
+                
+                <rect x="35" y="56" width="240" height="46" rx="10" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <text x="155" y="87" font-family="Noto Sans TC, sans-serif" font-size="22" font-weight="900" fill="#283F2C" text-anchor="middle">付出一點努力維護</text>
+
+                <!-- 茂盛金錢樹與灌溉 -->
+                <ellipse cx="155" cy="310" rx="135" ry="28" fill="#A3C19A"/>
+                <path d="M145 305 L145 210 L165 210 L165 305 Z" fill="#8C6239" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="155" cy="175" r="58" fill="#588157" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="115" cy="190" r="40" fill="#70A37F" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="195" cy="190" r="40" fill="#70A37F" stroke="#283F2C" stroke-width="3.5"/>
+                <!-- 樹上金幣與股字 -->
+                <circle cx="135" cy="165" r="13" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="180" cy="155" r="13" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="155" cy="198" r="13" fill="#F2CC8F" stroke="#283F2C" stroke-width="2.5"/>
+                <!-- 錢袋與股息 -->
+                <path d="M90 295 Q85 255 115 255 Q145 255 140 295 Z" fill="#D4A359" stroke="#283F2C" stroke-width="3"/>
+                <text x="115" y="285" font-family="Noto Sans TC, sans-serif" font-size="20" font-weight="900" fill="#283F2C" text-anchor="middle">股</text>
+                <!-- 澆水壺 -->
+                <rect x="200" y="265" width="38" height="28" rx="6" fill="#8ECAE6" stroke="#283F2C" stroke-width="2.5"/>
+                <line x1="200" y1="275" x2="175" y2="260" stroke="#8ECAE6" stroke-width="6" stroke-linecap="round"/>
+
+                <rect x="15" y="340" width="280" height="50" rx="12" fill="#E07A5F" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="155" y="373" font-family="Noto Sans TC, sans-serif" font-size="23" font-weight="900" fill="#283F2C" text-anchor="middle">每個月有穩定的現金流</text>
+            </g>
+
+            <!-- 右半部：主動收入 -->
+            <g transform="translate(435, 135)">
+                <rect x="75" y="0" width="160" height="46" rx="8" fill="#B7D3B0" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="155" y="32" font-family="Noto Sans TC, sans-serif" font-size="26" font-weight="900" fill="#283F2C" text-anchor="middle">主動收入</text>
+                
+                <rect x="35" y="56" width="240" height="46" rx="10" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <text x="155" y="87" font-family="Noto Sans TC, sans-serif" font-size="22" font-weight="900" fill="#283F2C" text-anchor="middle">工作累得要死</text>
+
+                <!-- 疲憊加班辦公桌 -->
+                <rect x="25" y="280" width="260" height="35" rx="4" fill="#B5835A" stroke="#283F2C" stroke-width="3.5"/>
+                <!-- 電腦螢幕 -->
+                <rect x="55" y="195" width="95" height="70" rx="6" fill="#6C757D" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="92" y="265" width="20" height="18" fill="#495057" stroke="#283F2C" stroke-width="3"/>
+                <!-- 堆積如山的文件與咖啡 -->
+                <rect x="15" y="235" width="45" height="45" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <line x1="22" y1="248" x2="52" y2="248" stroke="#283F2C" stroke-width="2.5"/>
+                <line x1="22" y1="260" x2="52" y2="260" stroke="#283F2C" stroke-width="2.5"/>
+                <!-- 疲累流汗的小樹爸爸 -->
+                <circle cx="195" cy="205" r="36" fill="#FADEC9" stroke="#283F2C" stroke-width="3.5"/>
+                <path d="M158 190 Q195 150 232 190 Z" fill="#4F7756" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="172" y="198" width="20" height="14" rx="3" fill="#FFFFFF" stroke="#283F2C" stroke-width="2.5"/>
+                <rect x="198" y="198" width="20" height="14" rx="3" fill="#FFFFFF" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M186 226 Q195 218 205 226" fill="none" stroke="#283F2C" stroke-width="3"/>
+                <!-- 汗水 -->
+                <path d="M148 195 Q142 208 148 212 Q154 208 148 195Z" fill="#4EA8DE" stroke="#283F2C" stroke-width="1.5"/>
+
+                <rect x="25" y="340" width="260" height="50" rx="12" fill="#E07A5F" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="155" y="373" font-family="Noto Sans TC, sans-serif" font-size="23" font-weight="900" fill="#283F2C" text-anchor="middle">有上班才有薪水</text>
+            </g>
+        `);
+
+        // 圖卡 3：財富自由 (被動收入 > 生活開銷)
+        const svgLesson3 = createNotebookSvgDataUri(`
+            <!-- 頂部木牌與黃色公式標語 -->
+            <rect x="145" y="42" width="510" height="66" rx="10" fill="#8C6239" stroke="#283F2C" stroke-width="4" filter="url(#shadow)"/>
+            <text x="255" y="87" font-family="Noto Sans TC, sans-serif" font-size="38" font-weight="900" fill="#FFFFFF" stroke="#283F2C" stroke-width="1.5" text-anchor="middle">財富自由</text>
+            <rect x="355" y="53" width="285" height="44" rx="10" fill="#F4D35E" stroke="#283F2C" stroke-width="2.5"/>
+            <text x="497" y="83" font-family="Noto Sans TC, sans-serif" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">被動收入 ＞ 生活開銷</text>
+
+            <!-- 天平蹺蹺板底座與橫桿 (左重下沉、右輕上揚) -->
+            <polygon points="390,445 450,445 432,375 408,375" fill="#A37B56" stroke="#283F2C" stroke-width="3.5"/>
+            <rect x="370" y="442" width="100" height="14" rx="4" fill="#7C5A3B" stroke="#283F2C" stroke-width="3"/>
+            <line x1="210" y1="405" x2="625" y2="360" stroke="#8C6239" stroke-width="14" stroke-linecap="round"/>
+            <line x1="210" y1="405" x2="625" y2="360" stroke="#283F2C" stroke-width="3.5" stroke-linecap="round"/>
+
+            <!-- 中央大於符號 -->
+            <text x="415" y="295" font-family="Noto Sans TC, sans-serif" font-size="68" font-weight="900" fill="#7C5A3B" text-anchor="middle">＞</text>
+
+            <!-- 左側大圓：被動收入 (沉甸甸的金錢樹與金幣) -->
+            <g transform="translate(135, 130)">
+                <circle cx="120" cy="145" r="112" fill="#FFF3CD" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="45" y="0" width="150" height="44" rx="8" fill="#F2CC8F" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="120" y="30" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#283F2C" text-anchor="middle">被動收入</text>
+                <!-- 樹幹與樹冠 -->
+                <rect x="108" y="145" width="24" height="90" fill="#8C6239" stroke="#283F2C" stroke-width="3"/>
+                <circle cx="120" cy="115" r="55" fill="#588157" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="80" cy="135" r="38" fill="#70A37F" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="160" cy="135" r="38" fill="#70A37F" stroke="#283F2C" stroke-width="3.5"/>
+                <!-- 金幣與錢袋 -->
+                <circle cx="95" cy="115" r="12" fill="#F4D35E" stroke="#283F2C" stroke-width="2.5"/>
+                <circle cx="138" cy="105" r="12" fill="#F4D35E" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M145 235 Q140 190 170 190 Q200 190 195 235 Z" fill="#D4A359" stroke="#283F2C" stroke-width="3"/>
+                <text x="170" y="222" font-size="24" font-weight="900" fill="#283F2C" text-anchor="middle">$</text>
+            </g>
+
+            <!-- 右側圓：生活開銷 (日常食衣住行) -->
+            <g transform="translate(475, 130)">
+                <circle cx="115" cy="130" r="102" fill="#FFF8E7" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="40" y="0" width="150" height="44" rx="8" fill="#F2CC8F" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="115" y="30" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#283F2C" text-anchor="middle">生活開銷</text>
+                <!-- 飯碗 -->
+                <path d="M40 115 Q40 148 70 148 Q100 148 100 115 Z" fill="#E07A5F" stroke="#283F2C" stroke-width="3"/>
+                <!-- 牛奶瓶 -->
+                <rect x="110" y="85" width="32" height="58" rx="6" fill="#E3F2FD" stroke="#283F2C" stroke-width="3"/>
+                <text x="126" y="122" font-family="Noto Sans TC, sans-serif" font-size="13" font-weight="bold" fill="#283F2C" text-anchor="middle">牛奶</text>
+                <!-- 衛生紙盒 -->
+                <rect x="155" y="105" width="46" height="28" rx="4" fill="#A3C19A" stroke="#283F2C" stroke-width="3"/>
+                <!-- 日常帳單 -->
+                <rect x="135" y="155" width="48" height="55" rx="3" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <line x1="145" y1="172" x2="173" y2="172" stroke="#283F2C" stroke-width="2.5"/>
+                <line x1="145" y1="185" x2="173" y2="185" stroke="#283F2C" stroke-width="2.5"/>
+            </g>
+
+            <!-- 底部小樹爸爸與對話框 -->
+            <rect x="305" y="472" width="420" height="54" rx="14" fill="#FFF8E7" stroke="#7C5A3B" stroke-width="3.5"/>
+            <text x="515" y="507" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#283F2C" text-anchor="middle">讓你的錢替你 賺進更多財富！</text>
+        `);
+
+        // 圖卡 4：財商教育教什麼 (What)
+        const svgLesson4 = createNotebookSvgDataUri(`
+            <!-- 頂部木紋橫幅 -->
+            <rect x="145" y="42" width="510" height="66" rx="10" fill="#E6D2B5" stroke="#283F2C" stroke-width="4" filter="url(#shadow)"/>
+            <text x="400" y="87" font-family="Noto Sans TC, sans-serif" font-size="36" font-weight="900" fill="#3B2314" text-anchor="middle">財商教育教什麼 (What)</text>
+
+            <!-- 左側小樹爸爸與孩子們 -->
+            <g transform="translate(55, 165)">
+                <path d="M75 20 L75 0" stroke="#283F2C" stroke-width="4" stroke-linecap="round"/>
+                <path d="M75 5 Q58 -10 55 8 Q65 16 75 5Z" fill="#70A37F" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M75 5 Q92 -10 95 8 Q85 16 75 5Z" fill="#70A37F" stroke="#283F2C" stroke-width="2.5"/>
+                <path d="M30 60 Q30 15 75 15 Q120 15 120 60 Z" fill="#4F7756" stroke="#283F2C" stroke-width="3.5"/>
+                <circle cx="75" cy="92" r="38" fill="#FADEC9" stroke="#283F2C" stroke-width="3.5"/>
+                <rect x="50" y="79" width="22" height="16" rx="4" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <rect x="80" y="79" width="22" height="16" rx="4" fill="#FFFFFF" stroke="#283F2C" stroke-width="3"/>
+                <line x1="72" y1="87" x2="80" y2="87" stroke="#283F2C" stroke-width="3"/>
+                <path d="M65 108 Q75 116 85 108" fill="none" stroke="#283F2C" stroke-width="3" stroke-linecap="round"/>
+                <path d="M25 130 Q75 125 125 130 L140 280 L10 280 Z" fill="#849B78" stroke="#283F2C" stroke-width="3.5"/>
+                <!-- 兩個孩子 -->
+                <circle cx="38" cy="275" r="30" fill="#FADEC9" stroke="#283F2C" stroke-width="3"/>
+                <circle cx="118" cy="275" r="30" fill="#FADEC9" stroke="#283F2C" stroke-width="3"/>
+            </g>
+
+            <!-- 右側四大核心觀念色塊 -->
+            <g transform="translate(260, 130)">
+                <!-- 1. 財務規劃 + 理財能力 -->
+                <rect x="20" y="0" width="380" height="64" rx="14" fill="#3B6E99" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="210" y="42" font-family="Noto Sans TC, sans-serif" font-size="28" font-weight="900" fill="#FFFFFF" text-anchor="middle">財務規劃 + 理財能力</text>
+
+                <!-- 2. 認識不同的金融商品 & 避免金融及網路詐騙 -->
+                <rect x="0" y="82" width="198" height="118" rx="14" fill="#D95D39" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="99" y="132" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#FFFFFF" text-anchor="middle">認識不同的</text>
+                <text x="99" y="172" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#FFFFFF" text-anchor="middle">金融商品</text>
+
+                <rect x="218" y="82" width="198" height="118" rx="14" fill="#D95D39" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="317" y="132" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#FFFFFF" text-anchor="middle">避免金融及</text>
+                <text x="317" y="172" font-family="Noto Sans TC, sans-serif" font-size="25" font-weight="900" fill="#FFFFFF" text-anchor="middle">網路詐騙</text>
+
+                <!-- 3. 管理好自己的金錢 -->
+                <rect x="35" y="218" width="350" height="62" rx="14" fill="#3B6E99" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="210" y="259" font-family="Noto Sans TC, sans-serif" font-size="27" font-weight="900" fill="#FFFFFF" text-anchor="middle">管理好自己的金錢</text>
+
+                <!-- 4. 認識金錢的價值 -->
+                <rect x="50" y="296" width="320" height="62" rx="14" fill="#3B6E99" stroke="#283F2C" stroke-width="3.5"/>
+                <text x="210" y="337" font-family="Noto Sans TC, sans-serif" font-size="27" font-weight="900" fill="#FFFFFF" text-anchor="middle">認識金錢的價值</text>
+            </g>
+        `);
+
+        // ============================================================================
+        // 🌟【小樹爸爸圖卡資料庫：日後新增或修改圖檔，請直接編輯下方 LESSONS_DATA 陣列】🌟
+        // ============================================================================
+        // 【手動擴充步驟說明】：
+        // 1. 將您製作好的圖片（例如 lesson-05.jpg）放入網站的圖片資料夾或上傳至圖床。
+        // 2. 在下方 LESSONS_DATA 陣列最後面加上一個逗號 `,`，並複製貼上以下區塊範本：
+        //
+        //    {
+        //        id: 5,
+        //        title: "5. 單元標題名稱",
+        //        category: "單元分類標籤",
+        //        imageUrl: "./images/lesson-05.jpg", // 填入相對路徑或完整 https:// 圖片網址
+        //        description: "這裡填入此張圖卡的詳細教學重點說明...",
+        //        keyPoints: ["重點標籤1", "重點標籤2", "重點標籤3"]
+        //    }
+        //
+        // 3. 存檔後重新整理網頁，輪播畫廊、底部縮圖與全覽模式皆會自動產生新圖卡！
+        // ============================================================================
+        const LESSONS_DATA = [
+            {
+                id: 1,
+                title: "1. 認識金錢的三個好朋友",
+                category: "基礎分配篇",
+                // 日後可替換為您的實際圖檔路徑，例如: "./images/lesson1.jpg"
+                imageUrl: kids-finance/finance-01-three-jars.webp,
+                description: "透過三個透明玻璃罐「1.儲蓄 (存錢長大)、2.消費 (分辨需要與想要)、3.投資 (讓錢慢慢變多)」，陪伴孩子建立最健康的金錢分配習慣。",
+                keyPoints: ["1. 儲蓄 Saving", "2. 消費 Spending", "3. 投資 Investing"]
+            },
+            {
+                id: 2,
+                title: "2. 被動收入 V.S 主動收入",
+                category: "現金流觀念篇",
+                // 日後可替換為您的實際圖檔路徑，例如: "./images/lesson2.jpg"
+                imageUrl:  kids-finance/finance-02-passive-vs-active.jpg,
+                description: "用「灌溉金錢果樹」對比「埋頭苦幹加班」：讓孩子理解主動收入是有上班才有薪水，而被動收入則是前期付出努力栽種與維護，就能帶來每個月穩定的現金流。",
+                keyPoints: ["種植金錢樹", "穩定現金流", "工作與資產的差別"]
+            },
+            {
+                id: 3,
+                title: "3. 財富自由 (被動收入 ＞ 生活開銷)",
+                category: "財務目標篇",
+                // 日後可替換為您的實際圖檔路徑，例如: "./images/lesson3.jpg"
+                imageUrl: svgLesson3,
+                description: "運用直觀的天平蹺蹺板，當左邊「被動收入（金錢樹產出的果實）」的重量大於右邊「日常開銷（飲食、生活用品與帳單）」時，就能讓錢替我們工作，達成財富自由！",
+                keyPoints: ["被動收入 > 生活開銷", "天平視覺化", "讓錢替你工作"]
+            },
+            {
+                id: 4,
+                title: "4. 財商教育教什麼 (What)",
+                category: "核心總綱篇",
+                // 日後可替換為您的實際圖檔路徑，例如: "./images/lesson4.jpg"
+                imageUrl: kids-finance/finance-03-financial-freedom.webp,
+                description: "培養孩子的財務規劃與理財能力：認識不同的金融商品、避免金融及網路詐騙、管理好自己的金錢，並真正認識金錢的價值。",
+                keyPoints: ["財務規劃", "認識金融商品", "防範網路詐騙", "認識金錢價值"]
+            }
+        ];
+
+
+        // ============================================================================
+        // 互動畫廊核心狀態與控制邏輯
+        // ============================================================================
+        let currentIndex = 0;
+        let currentViewMode = 'slide'; // 'slide' | 'grid'
+        let lbZoom = 1;
+
+        // 觸控與滑鼠拖曳狀態
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+
+        // DOM 元素參照
+        const track = document.getElementById('carouselTrack');
+        const viewport = document.getElementById('carouselViewport');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        const dotsIndicator = document.getElementById('dotsIndicator');
+        const gridCardsWrapper = document.getElementById('gridCardsWrapper');
+
+        /**
+         * 初始化畫廊（渲染所有輪播圖卡、縮圖、網格與上傳器）
+         */
+        function renderAllViews() {
+            // 1. 渲染輪播軌道
+            track.innerHTML = LESSONS_DATA.map((item, idx) => `
+                <div class="w-full h-full shrink-0 flex items-center justify-center p-2 sm:p-4 select-none" ondblclick="openLightbox(${idx})">
+                    <img src="${item.imageUrl}" 
+                         alt="${item.title}" 
+                         draggable="false"
+                         onclick="handleImageClick(event, ${idx})"
+                         onerror="this.src='https://placehold.co/800x600/FAF6F0/3A5A40?text=圖片載入失敗'"
+                         class="w-full h-full object-contain rounded-xl shadow-sm cursor-pointer transition-transform duration-300 hover:scale-[1.01]" />
+                </div>
+            `).join('');
+
+            // 2. 渲染底部縮圖導覽列
+            thumbnailContainer.innerHTML = LESSONS_DATA.map((item, idx) => `
+                <button onclick="goToSlide(${idx})" 
+                        id="thumb-${idx}"
+                        class="group relative flex items-center gap-2.5 p-2 rounded-2xl border-2 transition-all shrink-0 text-left w-56 sm:w-64 ${idx === currentIndex ? 'bg-forest text-white border-forest shadow-md scale-[1.02]' : 'bg-white hover:bg-forest-pale/60 text-forest-dark border-wood-light/60'}">
+                    <img src="${item.imageUrl}" alt="${item.title}" class="w-16 h-12 object-cover rounded-lg border border-black/10 shrink-0 bg-paper" />
+                    <div class="overflow-hidden">
+                        <span class="text-[11px] font-bold uppercase tracking-wider block ${idx === currentIndex ? 'text-accent-gold' : 'text-wood'}">
+                            STEP 0${idx + 1}
+                        </span>
+                        <p class="text-xs sm:text-sm font-black truncate">${item.title.replace(/^\d+\.\s*/, '')}</p>
+                    </div>
+                </button>
+            `).join('');
+
+            // 3. 渲染圓點進度指示器
+            dotsIndicator.innerHTML = LESSONS_DATA.map((_, idx) => `
+                <button onclick="goToSlide(${idx})" 
+                        aria-label="跳至第 ${idx + 1} 張"
+                        class="h-2.5 rounded-full transition-all ${idx === currentIndex ? 'w-7 bg-forest' : 'w-2.5 bg-wood-light hover:bg-wood'}"></button>
+            `).join('');
+
+            // 4. 渲染網格全覽模式卡片
+            document.getElementById('totalCountBadge').textContent = `共 ${LESSONS_DATA.length} 張`;
+            gridCardsWrapper.innerHTML = LESSONS_DATA.map((item, idx) => `
+                <article onclick="openLightbox(${idx})" class="group bg-white rounded-3xl p-3.5 border-2 border-forest/20 hover:border-forest shadow-card hover:shadow-notebook transition-all cursor-pointer flex flex-col justify-between">
+                    <div>
+                        <div class="relative overflow-hidden rounded-2xl aspect-[4/3] bg-paper border border-wood-light/40 mb-3">
+                            <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-forest/90 text-white text-xs font-bold rounded-full backdrop-blur-sm">
+                                單元 ${idx + 1}
+                            </span>
+                            <div class="absolute inset-0 bg-forest-dark/0 group-hover:bg-forest-dark/20 transition-colors flex items-center justify-center">
+                                <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-white text-forest-dark font-bold text-xs px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1">
+                                    🔍 點擊放大檢視
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-wood px-2 py-0.5 bg-wood-light/25 rounded-md">${item.category}</span>
+                        <h3 class="text-lg font-black text-forest-dark mt-1.5 group-hover:text-forest transition-colors">${item.title}</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2 leading-relaxed">${item.description}</p>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mt-3 pt-2.5 border-t border-dashed border-wood-light/50">
+                        ${item.keyPoints.map(tag => `<span class="text-[11px] font-bold px-2 py-0.5 bg-forest-pale text-forest rounded-md">#${tag}</span>`).join('')}
+                    </div>
+                </article>
+            `).join('');
+
+            // 5. 更新上傳測試器插槽
+            renderUploadSlots();
+
+            // 更新目前投影片資訊
+            updateSlideInfo();
+        }
+
+        /**
+         * 更新目前顯示的圖卡文字與狀態
+         */
+        function updateSlideInfo() {
+            const currentItem = LESSONS_DATA[currentIndex];
+            if (!currentItem) return;
+
+            // 位移輪播軌道
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            // 更新文字資訊
+            document.getElementById('currentBadge').textContent = `單元 ${currentIndex + 1} / ${LESSONS_DATA.length}`;
+            document.getElementById('currentCategory').textContent = currentItem.category;
+            document.getElementById('currentTitle').textContent = currentItem.title;
+            document.getElementById('currentDesc').textContent = currentItem.description;
+
+            // 更新重點標籤
+            document.getElementById('currentKeyPoints').innerHTML = currentItem.keyPoints.map(tag => `
+                <span class="px-3 py-1 bg-forest-pale text-forest font-bold text-xs sm:text-sm rounded-xl border border-forest/20 flex items-center gap-1">
+                    <span class="text-forest-light">🌱</span> ${tag}
+                </span>
+            `).join('');
+
+            // 更新縮圖高亮狀態
+            LESSONS_DATA.forEach((_, idx) => {
+                const thumb = document.getElementById(`thumb-${idx}`);
+                if (!thumb) return;
+                if (idx === currentIndex) {
+                    thumb.className = "group relative flex items-center gap-2.5 p-2 rounded-2xl border-2 transition-all shrink-0 text-left w-56 sm:w-64 bg-forest text-white border-forest shadow-md scale-[1.02]";
+                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    thumb.className = "group relative flex items-center gap-2.5 p-2 rounded-2xl border-2 transition-all shrink-0 text-left w-56 sm:w-64 bg-white hover:bg-forest-pale/60 text-forest-dark border-wood-light/60";
+                }
+            });
+
+            // 更新圓點指示器
+            Array.from(dotsIndicator.children).forEach((dot, idx) => {
+                dot.className = `h-2.5 rounded-full transition-all ${idx === currentIndex ? 'w-7 bg-forest' : 'w-2.5 bg-wood-light hover:bg-wood'}`;
+            });
+        }
+
+        function goToSlide(index) {
+            if (index < 0) {
+                currentIndex = LESSONS_DATA.length - 1;
+            } else if (index >= LESSONS_DATA.length) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            updateSlideInfo();
+        }
+
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+
+        // ============================================================================
+        // 手機觸控滑動 (Touch Swipe) 與 滑鼠拖曳 (Mouse Drag) 支援
+        // ============================================================================
+        let dragMovedDistance = 0;
+
+        function startDrag(clientX) {
+            isDragging = true;
+            startX = clientX;
+            dragMovedDistance = 0;
+            track.classList.add('dragging');
+        }
+
+        function moveDrag(clientX) {
+            if (!isDragging) return;
+            const diff = clientX - startX;
+            dragMovedDistance = Math.abs(diff);
+            const viewportWidth = viewport.offsetWidth;
+            const percentShift = (diff / viewportWidth) * 100;
+            track.style.transform = `translateX(${-currentIndex * 100 + percentShift}%)`;
+        }
+
+        function endDrag(clientX) {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('dragging');
+            const diff = clientX - startX;
+            const threshold = viewport.offsetWidth * 0.15; // 滑動超過 15% 寬度即切換
+
+            if (diff < -threshold) {
+                nextSlide();
+            } else if (diff > threshold) {
+                prevSlide();
+            } else {
+                updateSlideInfo();
+            }
+        }
+
+        // 區分「點擊放大」與「拖曳滑動」
+        function handleImageClick(event, idx) {
+            if (dragMovedDistance < 10) {
+                openLightbox(idx);
+            }
+        }
+
+        // 綁定觸控事件
+        viewport.addEventListener('touchstart', e => startDrag(e.touches[0].clientX), { passive: true });
+        viewport.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), { passive: true });
+        viewport.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX));
+
+        // 綁定滑鼠拖曳事件
+        viewport.addEventListener('mousedown', e => {
+            if (e.target.closest('button')) return;
+            startDrag(e.clientX);
+        });
+        window.addEventListener('mousemove', e => moveDrag(e.clientX));
+        window.addEventListener('mouseup', e => endDrag(e.clientX));
+
+
+        // ============================================================================
+        // 全螢幕燈箱 (Lightbox) 控制邏輯
+        // ============================================================================
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lbImage = document.getElementById('lbImage');
+        const lbImgWrapper = document.getElementById('lbImgWrapper');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateSlideInfo();
+            updateLightboxContent();
+            resetZoomLightbox();
+            lightboxModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightboxModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightboxContent() {
+            const item = LESSONS_DATA[currentIndex];
+            lbImage.src = item.imageUrl;
+            document.getElementById('lbCounter').textContent = `${currentIndex + 1} / ${LESSONS_DATA.length}`;
+            document.getElementById('lbTitle').textContent = item.title;
+            document.getElementById('lbDesc').textContent = item.description;
+            document.getElementById('lbTags').innerHTML = item.keyPoints.map(tag => `
+                <span class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full">#${tag}</span>
+            `).join('');
+        }
+
+        function lbPrev(e) {
+            if (e) e.stopPropagation();
+            prevSlide();
+            resetZoomLightbox();
+            updateLightboxContent();
+        }
+
+        function lbNext(e) {
+            if (e) e.stopPropagation();
+            nextSlide();
+            resetZoomLightbox();
+            updateLightboxContent();
+        }
+
+        function zoomLightbox(delta) {
+            lbZoom = Math.min(2.5, Math.max(0.5, lbZoom + delta));
+            lbImgWrapper.style.transform = `scale(${lbZoom})`;
+            document.getElementById('lbZoomLevel').textContent = `${Math.round(lbZoom * 100)}%`;
+        }
+
+        function resetZoomLightbox() {
+            lbZoom = 1;
+            lbImgWrapper.style.transform = 'scale(1)';
+            document.getElementById('lbZoomLevel').textContent = '100%';
+        }
+
+        function handleBackdropClick(e) {
+            if (e.target.id === 'lbStage' || e.target.id === 'lbImgWrapper') {
+                closeLightbox();
+            }
+        }
+
+        // 鍵盤左右鍵與 ESC 支援
+        window.addEventListener('keydown', e => {
+            if (!lightboxModal.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') lbPrev();
+                if (e.key === 'ArrowRight') lbNext();
+            } else if (currentViewMode === 'slide') {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            }
+        });
+
+
+        // ============================================================================
+        // 檢視模式切換 (輪播 vs 網格) 與 擴充指南面板
+        // ============================================================================
+        function switchViewMode(mode) {
+            currentViewMode = mode;
+            const slideContainer = document.getElementById('slideViewContainer');
+            const gridContainer = document.getElementById('gridViewContainer');
+            const btnSlide = document.getElementById('btnSlideView');
+            const btnGrid = document.getElementById('btnGridView');
+
+            if (mode === 'slide') {
+                slideContainer.classList.remove('hidden');
+                gridContainer.classList.add('hidden');
+                btnSlide.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-forest text-white shadow-sm transition-all";
+                btnGrid.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-forest-dark hover:bg-white/60 transition-all";
+            } else {
+                slideContainer.classList.add('hidden');
+                gridContainer.classList.remove('hidden');
+                btnGrid.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-forest text-white shadow-sm transition-all";
+                btnSlide.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold text-forest-dark hover:bg-white/60 transition-all";
+            }
+        }
+
+        // ============================================================================
+        // 本機圖檔即時載入預覽器 (方便使用者直接把下載的圖檔放進來測試)
+        // ============================================================================
+        function toggleUploaderModal() {
+            document.getElementById('uploaderModal').classList.toggle('hidden');
+        }
+
+        function renderUploadSlots() {
+            const container = document.getElementById('uploadSlotsContainer');
+            container.innerHTML = LESSONS_DATA.map((item, idx) => `
+                <div class="flex items-center justify-between gap-2 p-2.5 bg-white rounded-xl border border-wood-light/60">
+                    <div class="flex items-center gap-2.5 overflow-hidden">
+                        <img src="${item.imageUrl}" class="w-12 h-9 object-cover rounded border border-gray-200 shrink-0" />
+                        <span class="text-xs sm:text-sm font-bold text-forest-dark truncate">${item.title}</span>
+                    </div>
+                    <label class="cursor-pointer shrink-0 px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-wood-dark font-bold text-xs rounded-lg border border-amber-300 transition-colors">
+                        <span>選擇圖片替換</span>
+                        <input type="file" accept="image/*" class="hidden" onchange="replaceSlideImage(event, ${idx})">
+                    </label>
+                </div>
+            `).join('');
+        }
+
+        function replaceSlideImage(event, index) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                LESSONS_DATA[index].imageUrl = e.target.result;
+                currentIndex = index;
+                renderAllViews();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addNewCustomSlide(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newIdx = LESSONS_DATA.length + 1;
+                const cleanName = file.name.replace(/\.[^/.]+$/, "");
+                LESSONS_DATA.push({
+                    id: newIdx,
+                    title: `${newIdx}. ${cleanName || '財商教育新單元'}`,
+                    category: "擴充教材篇",
+                    imageUrl: e.target.result,
+                    description: "這是您剛載入的新理財圖卡！日後只要在程式碼的 LESSONS_DATA 陣列中加上這筆資料，就能永久保存在網頁中。",
+                    keyPoints: ["小樹爸爸理財課", "兒童財商"]
+                });
+                currentIndex = LESSONS_DATA.length - 1;
+                renderAllViews();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 啟動畫廊
+        window.addEventListener('DOMContentLoaded', renderAllViews);
+    </script>
+</body>
+</html>
