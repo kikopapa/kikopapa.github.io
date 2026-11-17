@@ -354,10 +354,10 @@
         // 2. 將下方第 4 張圖卡前後的 /* 與 */ 註解符號拿掉（或複製該區塊往下新增 id: 5）。
         // 3. 注意：imageUrl 的路徑前後務必保留雙引號 ""，且開頭維持 "./kids-finance/..."。
         // ============================================================================
-        const LESSONS_DATA = [
+const LESSONS_DATA = [
             {
                 id: 4,
-                title: "4. 財商教育教什麼 (What)",
+                title: "財商教育教什麼 (What)",
                 category: "核心總綱篇",
                 imageUrl: "./kids-finance/finance-04-what-is-fq.webp",
                 description: "培養孩子的財務規劃與理財能力：認識不同的金融商品、避免金融及網路詐騙、管理好自己的金錢，並真正認識金錢的價值。",
@@ -368,20 +368,28 @@
                 title: "錢從哪裡來？（價值交換的秘密）",
                 category: "核心總綱篇",
                 imageUrl: "./kids-finance/finance-05-money-come-from.webp",
-                description: "以物易物的古人 vs 現代人用專業與時間換取薪水；金錢不是天上掉下來的，而是幫助別人、解決問題的獎勵。",
-                keyPoints: ["以物易物", "價值交換"]
+                description: "用努力與能力幫大家解決問題，換取應得的收穫；金錢不是天上掉下來的，而是努力付出的果實。",
+                keyPoints: ["付出努力與能力", "價值交換"]
             },
             {
                 id: 6,
                 title: "看不見的錢也是錢！（數位支付與真實金錢）",
                 category: "核心總綱篇",
                 imageUrl: "./kids-finance/finance-06-invisible-money.webp",
-                description: "刷卡、手機感應支付背後，水龍頭正從銀行存錢筒把金幣流出去",
+                description: "手機刷卡嗶一聲好輕鬆，但背後其實正把存錢筒裡真正的金幣流出去，更要看緊小錢包！",
                 keyPoints: ["數位支付", "真實金錢"]
             },
             {
+                id: 2,
+                title: "被動收入 V.S 主動收入",
+                category: "現金流觀念篇",
+                imageUrl: "./kids-finance/finance-02-passive-vs-active.webp",
+                description: "用「灌溉金錢果樹」對比「埋頭苦幹加班」：讓孩子理解主動收入是有上班才有薪水，而被動收入則是前期付出努力栽種與維護，就能帶來每個月穩定的現金流。",
+                keyPoints: ["種植金錢樹", "穩定現金流", "工作與資產的差別"]
+            },
+            {
                 id: 1,
-                title: "1. 認識金錢的三個好朋友",
+                title: "認識金錢的三個好朋友",
                 category: "基礎分配篇",
                 imageUrl: "./kids-finance/finance-01-three-jars.webp",
                 description: "透過三個透明玻璃罐「1.儲蓄 (存錢長大)、2.消費 (分辨需要與想要)、3.投資 (讓錢慢慢變多)」，陪伴孩子建立最健康的金錢分配習慣。",
@@ -392,25 +400,17 @@
                 title: "「需要」還是「想要」？",
                 category: "基礎分配篇",
                 imageUrl: "./kids-finance/finance-07-need-or-want.webp",
-                description: "小樹爸爸拿著放大鏡，左邊是營養午餐與文具（需要），右邊是第 10 台玩具車與零食（想要）；先買需要的，再存想要的，不買一時衝動的！",
-                keyPoints: ["需要", "想要"]
-            },
-            {
-                id: 2,
-                title: "2. 被動收入 V.S 主動收入",
-                category: "現金流觀念篇",
-                imageUrl: "./kids-finance/finance-02-passive-vs-active.webp",
-                description: "用「灌溉金錢果樹」對比「埋頭苦幹加班」：讓孩子理解主動收入是有上班才有薪水，而被動收入則是前期付出努力栽種與維護，就能帶來每個月穩定的現金流。",
-                keyPoints: ["種植金錢樹", "穩定現金流", "工作與資產的差別"]
+                description: "生活需要的（不買會影響生活）vs 心裡想要的（不買也完全沒事）；買東西前停三秒：先買需要，再看想要！",
+                keyPoints: ["生活需要", "心裡想要", "停三秒思考"]
             },
             {
                 id: 3,
-                title: "3. 財富自由 (被動收入 ＞ 生活開銷)",
+                title: "財富自由 (被動收入 ＞ 生活開銷)",
                 category: "財務目標篇",
                 imageUrl: "./kids-finance/finance-03-financial-freedom.webp",
                 description: "運用直觀的天平蹺蹺板，當左邊「被動收入（金錢樹產出的果實）」的重量大於右邊「日常開銷（飲食、生活用品與帳單）」時，就能讓錢替我們工作，達成財富自由！",
                 keyPoints: ["被動收入 > 生活開銷", "天平視覺化", "讓錢替你工作"]
-            }       
+            }
         ];
 
         // ============================================================================
