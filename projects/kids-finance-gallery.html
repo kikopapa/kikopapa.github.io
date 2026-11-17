@@ -43,7 +43,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
 
     <style>
@@ -87,7 +87,7 @@
         /* 手帳紙膠帶裝飾效果 */
         .washi-tape {
             background-color: rgba(163, 193, 154, 0.45);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
             backdrop-filter: blur(2px);
         }
     </style>
@@ -163,10 +163,10 @@
             <div class="flex items-center justify-between mb-3 px-1">
                 <div class="flex items-center gap-2">
                     <span id="currentBadge" class="px-3 py-1 bg-forest text-white text-xs sm:text-sm font-black rounded-full shadow-sm">
-                        單元 1 / 3
+                        單元 1 / 7
                     </span>
                     <span id="currentCategory" class="text-xs sm:text-sm font-bold text-wood-dark bg-wood-light/30 px-2.5 py-0.5 rounded-md">
-                        基礎分配篇
+                        核心總綱篇
                     </span>
                 </div>
                 <div class="text-xs text-gray-500 flex items-center gap-1.5">
@@ -249,7 +249,7 @@
                 <div>
                     <h2 class="text-xl font-black text-forest-dark flex items-center gap-2">
                         <span>📚 全部兒童理財圖卡一覽</span>
-                        <span id="totalCountBadge" class="text-xs px-2.5 py-0.5 bg-forest text-white rounded-full">共 3 張</span>
+                        <span id="totalCountBadge" class="text-xs px-2.5 py-0.5 bg-forest text-white rounded-full">共 7 張</span>
                     </h2>
                     <p class="text-xs sm:text-sm text-gray-600 mt-0.5">點擊任一張圖卡即可開啟高畫質大圖觀看與教學筆記</p>
                 </div>
@@ -292,7 +292,7 @@
         <!-- 燈箱頂部控制列 -->
         <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black/50 text-white border-b border-white/10 z-20">
             <div class="flex items-center gap-3 overflow-hidden">
-                <span id="lbCounter" class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full shrink-0">1 / 3</span>
+                <span id="lbCounter" class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full shrink-0">1 / 7</span>
                 <h3 id="lbTitle" class="font-bold text-sm sm:text-lg truncate">認識金錢的三個好朋友</h3>
             </div>
             <div class="flex items-center gap-2 shrink-0">
@@ -346,20 +346,18 @@
          JavaScript 核心邏輯與擴充資料區
     =========================================== -->
     <script>
+        // 🌟 若部署於外部平台（如 Blogger），可將下方改為完整 GitHub Pages 網址前綴
+        const IMAGE_BASE_PATH = "./kids-finance/";
+
         // ============================================================================
-        // 🌟【小樹爸爸圖卡資料庫：日後新增或修改圖檔，請直接編輯下方 LESSONS_DATA 陣列】🌟
+        // 🌟【小樹爸爸圖卡資料庫：日後新增圖檔，請直接複製最後一個 { ... } 區塊往下加】🌟
         // ============================================================================
-        // 【手動擴充步驟說明】：
-        // 1. 將新圖檔放入 GitHub 的 kids-finance 資料夾（例如 finance-04-what-is-fq.webp）。
-        // 2. 將下方第 4 張圖卡前後的 /* 與 */ 註解符號拿掉（或複製該區塊往下新增 id: 5）。
-        // 3. 注意：imageUrl 的路徑前後務必保留雙引號 ""，且開頭維持 "./kids-finance/..."。
-        // ============================================================================
-const LESSONS_DATA = [
+        const LESSONS_DATA = [
             {
                 id: 4,
                 title: "財商教育教什麼 (What)",
                 category: "核心總綱篇",
-                imageUrl: "./kids-finance/finance-04-what-is-fq.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-04-what-is-fq.webp",
                 description: "培養孩子的財務規劃與理財能力：認識不同的金融商品、避免金融及網路詐騙、管理好自己的金錢，並真正認識金錢的價值。",
                 keyPoints: ["財務規劃", "認識金融商品", "防範網路詐騙", "認識金錢價值"]
             },
@@ -367,7 +365,7 @@ const LESSONS_DATA = [
                 id: 5,
                 title: "錢從哪裡來？（價值交換的秘密）",
                 category: "核心總綱篇",
-                imageUrl: "./kids-finance/finance-05-money-come-from.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-05-money-come-from.webp",
                 description: "用努力與能力幫大家解決問題，換取應得的收穫；金錢不是天上掉下來的，而是努力付出的果實。",
                 keyPoints: ["付出努力與能力", "價值交換"]
             },
@@ -375,7 +373,7 @@ const LESSONS_DATA = [
                 id: 6,
                 title: "看不見的錢也是錢！（數位支付與真實金錢）",
                 category: "核心總綱篇",
-                imageUrl: "./kids-finance/finance-06-invisible-money.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-06-invisible-money.webp",
                 description: "手機刷卡嗶一聲好輕鬆，但背後其實正把存錢筒裡真正的金幣流出去，更要看緊小錢包！",
                 keyPoints: ["數位支付", "真實金錢"]
             },
@@ -383,7 +381,7 @@ const LESSONS_DATA = [
                 id: 2,
                 title: "被動收入 V.S 主動收入",
                 category: "現金流觀念篇",
-                imageUrl: "./kids-finance/finance-02-passive-vs-active.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-02-passive-vs-active.webp",
                 description: "用「灌溉金錢果樹」對比「埋頭苦幹加班」：讓孩子理解主動收入是有上班才有薪水，而被動收入則是前期付出努力栽種與維護，就能帶來每個月穩定的現金流。",
                 keyPoints: ["種植金錢樹", "穩定現金流", "工作與資產的差別"]
             },
@@ -391,7 +389,7 @@ const LESSONS_DATA = [
                 id: 1,
                 title: "認識金錢的三個好朋友",
                 category: "基礎分配篇",
-                imageUrl: "./kids-finance/finance-01-three-jars.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-01-three-jars.webp",
                 description: "透過三個透明玻璃罐「1.儲蓄 (存錢長大)、2.消費 (分辨需要與想要)、3.投資 (讓錢慢慢變多)」，陪伴孩子建立最健康的金錢分配習慣。",
                 keyPoints: ["1. 儲蓄 Saving", "2. 消費 Spending", "3. 投資 Investing"]
             },
@@ -399,7 +397,7 @@ const LESSONS_DATA = [
                 id: 7,
                 title: "「需要」還是「想要」？",
                 category: "基礎分配篇",
-                imageUrl: "./kids-finance/finance-07-need-or-want.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-07-need-or-want.webp",
                 description: "生活需要的（不買會影響生活）vs 心裡想要的（不買也完全沒事）；買東西前停三秒：先買需要，再看想要！",
                 keyPoints: ["生活需要", "心裡想要", "停三秒思考"]
             },
@@ -407,7 +405,7 @@ const LESSONS_DATA = [
                 id: 3,
                 title: "財富自由 (被動收入 ＞ 生活開銷)",
                 category: "財務目標篇",
-                imageUrl: "./kids-finance/finance-03-financial-freedom.webp",
+                imageUrl: IMAGE_BASE_PATH + "finance-03-financial-freedom.webp",
                 description: "運用直觀的天平蹺蹺板，當左邊「被動收入（金錢樹產出的果實）」的重量大於右邊「日常開銷（飲食、生活用品與帳單）」時，就能讓錢替我們工作，達成財富自由！",
                 keyPoints: ["被動收入 > 生活開銷", "天平視覺化", "讓錢替你工作"]
             }
@@ -433,27 +431,52 @@ const LESSONS_DATA = [
         const gridCardsWrapper = document.getElementById('gridCardsWrapper');
 
         /**
+         * 智慧圖片容錯處理：若找不到 .webp，自動依序嘗試 .jpg -> .png -> .jpeg
+         * 若全部找不到，直接在畫面上顯示缺少的檔案名稱
+         */
+        function handleImgError(imgEl) {
+            const currentSrc = imgEl.getAttribute('src') || '';
+            const tried = parseInt(imgEl.dataset.retry || '0', 10);
+            const baseWithoutExt = currentSrc.replace(/\.(webp|jpg|jpeg|png)$/i, '');
+
+            if (tried === 0) {
+                imgEl.dataset.retry = '1';
+                imgEl.src = baseWithoutExt + '.jpg';
+            } else if (tried === 1) {
+                imgEl.dataset.retry = '2';
+                imgEl.src = baseWithoutExt + '.png';
+            } else if (tried === 2) {
+                imgEl.dataset.retry = '3';
+                imgEl.src = baseWithoutExt + '.jpeg';
+            } else {
+                imgEl.onerror = null;
+                const missingFile = baseWithoutExt.split('/').pop();
+                imgEl.src = 'https://placehold.co/800x600/FAF6F0/3A5A40?text=' + encodeURIComponent('找不到圖檔: ' + missingFile);
+            }
+        }
+
+        /**
          * 初始化畫廊（渲染所有輪播圖卡、縮圖與網格）
          */
         function renderAllViews() {
             // 1. 渲染輪播軌道
             track.innerHTML = LESSONS_DATA.map((item, idx) => `
                 <div class="w-full h-full shrink-0 flex items-center justify-center p-2 sm:p-4 select-none" ondblclick="openLightbox(${idx})">
-                    <img src="${item.imageUrl}" 
-                         alt="${item.title}" 
+                    <img src="${item.imageUrl}"
+                         alt="${item.title}"
                          draggable="false"
                          onclick="handleImageClick(event, ${idx})"
-                         onerror="this.src='https://placehold.co/800x600/FAF6F0/3A5A40?text=圖片載入失敗'"
+                         onerror="handleImgError(this)"
                          class="w-full h-full object-contain rounded-xl shadow-sm cursor-pointer transition-transform duration-300 hover:scale-[1.01]" />
                 </div>
             `).join('');
 
             // 2. 渲染底部縮圖導覽列
             thumbnailContainer.innerHTML = LESSONS_DATA.map((item, idx) => `
-                <button onclick="goToSlide(${idx})" 
+                <button onclick="goToSlide(${idx})"
                         id="thumb-${idx}"
                         class="group relative flex items-center gap-2.5 p-2 rounded-2xl border-2 transition-all shrink-0 text-left w-56 sm:w-64 ${idx === currentIndex ? 'bg-forest text-white border-forest shadow-md scale-[1.02]' : 'bg-white hover:bg-forest-pale/60 text-forest-dark border-wood-light/60'}">
-                    <img src="${item.imageUrl}" alt="${item.title}" class="w-16 h-12 object-cover rounded-lg border border-black/10 shrink-0 bg-paper" />
+                    <img src="${item.imageUrl}" alt="${item.title}" onerror="handleImgError(this)" class="w-16 h-12 object-cover rounded-lg border border-black/10 shrink-0 bg-paper" />
                     <div class="overflow-hidden">
                         <span class="text-[11px] font-bold uppercase tracking-wider block ${idx === currentIndex ? 'text-accent-gold' : 'text-wood'}">
                             STEP 0${idx + 1}
@@ -465,7 +488,7 @@ const LESSONS_DATA = [
 
             // 3. 渲染圓點進度指示器
             dotsIndicator.innerHTML = LESSONS_DATA.map((_, idx) => `
-                <button onclick="goToSlide(${idx})" 
+                <button onclick="goToSlide(${idx})"
                         aria-label="跳至第 ${idx + 1} 張"
                         class="h-2.5 rounded-full transition-all ${idx === currentIndex ? 'w-7 bg-forest' : 'w-2.5 bg-wood-light hover:bg-wood'}"></button>
             `).join('');
@@ -476,7 +499,7 @@ const LESSONS_DATA = [
                 <article onclick="openLightbox(${idx})" class="group bg-white rounded-3xl p-3.5 border-2 border-forest/20 hover:border-forest shadow-card hover:shadow-notebook transition-all cursor-pointer flex flex-col justify-between">
                     <div>
                         <div class="relative overflow-hidden rounded-2xl aspect-[4/3] bg-paper border border-wood-light/40 mb-3">
-                            <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                            <img src="${item.imageUrl}" alt="${item.title}" onerror="handleImgError(this)" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
                             <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 bg-forest/90 text-white text-xs font-bold rounded-full backdrop-blur-sm">
                                 單元 ${idx + 1}
                             </span>
@@ -584,7 +607,7 @@ const LESSONS_DATA = [
             isDragging = false;
             track.classList.remove('dragging');
             const diff = clientX - startX;
-            const threshold = viewport.offsetWidth * 0.15; // 滑動超過 15% 寬度即切換
+            const threshold = viewport.offsetWidth * 0.15;
 
             if (diff < -threshold) {
                 nextSlide();
@@ -595,19 +618,16 @@ const LESSONS_DATA = [
             }
         }
 
-        // 區分「點擊放大」與「拖曳滑動」
         function handleImageClick(event, idx) {
             if (dragMovedDistance < 10) {
                 openLightbox(idx);
             }
         }
 
-        // 綁定觸控事件
         viewport.addEventListener('touchstart', e => startDrag(e.touches[0].clientX), { passive: true });
         viewport.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), { passive: true });
         viewport.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX));
 
-        // 綁定滑鼠拖曳事件
         viewport.addEventListener('mousedown', e => {
             if (e.target.closest('button')) return;
             startDrag(e.clientX);
@@ -638,6 +658,8 @@ const LESSONS_DATA = [
 
         function updateLightboxContent() {
             const item = LESSONS_DATA[currentIndex];
+            lbImage.dataset.retry = '0';
+            lbImage.onerror = function() { handleImgError(this); };
             lbImage.src = item.imageUrl;
             document.getElementById('lbCounter').textContent = `${currentIndex + 1} / ${LESSONS_DATA.length}`;
             document.getElementById('lbTitle').textContent = item.title;
@@ -679,7 +701,6 @@ const LESSONS_DATA = [
             }
         }
 
-        // 鍵盤左右鍵與 ESC 支援
         window.addEventListener('keydown', e => {
             if (!lightboxModal.classList.contains('hidden')) {
                 if (e.key === 'Escape') closeLightbox();
@@ -715,7 +736,7 @@ const LESSONS_DATA = [
         }
 
         // 啟動畫廊
-        window.addEventListener('DOMContentLoaded', renderAllViews);
+        renderAllViews();
     </script>
 </body>
 </html>
