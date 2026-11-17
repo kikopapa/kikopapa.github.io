@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "book001",
+    "title": "小狗錢錢（1+2套書）",
+    "author": "博多・薛弗（Bodo Schäfer）",
+    "isbn": "9789573299929",
+    "category": "理財教育",
+    "cover": "",
+    "status": "read",
+    "rating": null,
+    "note": "",
+    "readDate": ""
+  },
+  {
+    "id": "book002",
+    "title": "菲立克斯要創業",
+    "author": "安德魯・諾瑞斯（Andrew Norriss）",
+    "isbn": "9786267538791",
+    "category": "理財教育",
+    "cover": "",
+    "status": "read",
+    "rating": null,
+    "note": "",
+    "readDate": ""
+  }
+]
