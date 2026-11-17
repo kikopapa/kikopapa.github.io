@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#294b38">
+  <meta name="description" content="我的讀書森林：收藏每一本書，記錄每一次成長。">
+  <title>我的讀書森林</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar wrap" aria-label="主要導覽">
+      <a class="brand" href="./" aria-label="我的讀書森林首頁"><span class="brand-mark">🌳</span><span>我的讀書森林</span></a>
+      <span class="top-note">MY READING FOREST</span>
+    </nav>
+    <div class="hero-content wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">A LITTLE PLACE TO GROW</p>
+        <h1>嗨！今天想探索哪本書？</h1>
+        <p class="hero-lead">每讀完一本書，森林就多一棵成長的樹。</p>
+      </div>
+      <div class="forest-art" aria-hidden="true">
+        <span class="sun"></span><span class="cloud cloud-one"></span><span class="cloud cloud-two"></span>
+        <span class="hill hill-back"></span><span class="hill hill-front"></span>
+        <span class="tree tree-one">🌲</span><span class="tree tree-two">🌳</span><span class="tree tree-three">🌲</span>
+        <span class="book-stack">📚</span><span class="little-flower">✿</span>
+      </div>
+    </div>
+    <section class="stats wrap" aria-label="閱讀統計">
+      <article class="stat-card"><span class="stat-icon">📚</span><div><strong id="total-count">—</strong><span>收藏書籍</span></div></article>
+      <article class="stat-card"><span class="stat-icon">🌱</span><div><strong id="read-count">—</strong><span>已讀完</span></div></article>
+      <article class="stat-card"><span class="stat-icon">🪴</span><div><strong id="unread-count">—</strong><span>待閱讀</span></div></article>
+    </section>
+  </header>
+
+  <main class="main wrap">
+    <section class="library-heading">
+      <div><p class="eyebrow green">YOUR BOOK COLLECTION</p><h2>📖 我的藏書</h2></div>
+      <span class="book-total" id="visible-count">載入中…</span>
+    </section>
+    <div class="toolbar">
+      <label class="search-box"><span aria-hidden="true">🔎</span><span class="sr-only">搜尋書名或作者</span><input id="search-input" type="search" placeholder="搜尋書名或作者…" autocomplete="off"></label>
+      <label class="status-select"><span class="sr-only">閱讀狀態</span><select id="status-filter"><option value="all">全部狀態</option><option value="read">已讀完</option><option value="unread">待閱讀</option></select></label>
+    </div>
+    <div class="category-list" id="category-list" aria-label="書籍分類"></div>
+    <section id="book-grid" class="book-grid" aria-live="polite">
+      <div class="loading-state">正在整理森林裡的書籍…</div>
+    </section>
+    <p class="data-note" id="data-note">書籍資料載入中。</p>
+  </main>
+
+  <footer class="footer"><p>🌿 我的讀書森林</p><span>每一本書，都是成長的開始。</span></footer>
+</body>
+</html>
