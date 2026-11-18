@@ -6,6 +6,26 @@
     <title>小樹爸爸的兒童理財課 | 互動圖卡畫廊 (www.kikopapa.com)</title>
     <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 基本 SEO Meta 標籤 -->
+    <meta name="description" content="專為孩子設計的兒童財商教育互動圖卡畫廊。透過溫暖的手帳插畫，陪伴孩子認識金錢價值、儲蓄分配、記帳習慣、時間複利與防範網路詐騙！">
+    <meta name="author" content="小樹爸爸 (KIKOPAPA)">
+    <link rel="canonical" href="https://kikopapa.github.io/projects/kids-finance-gallery.html">
+
+    <!-- 網站小圖示 (Favicon) 直接使用您的專屬 LOGO -->
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxH_TvUQtMQKk-unqcpKvH2M9mxITb-b73cAVgIYkEliXTiT3ae9nnBGewu04EV-jOFBoXfH3RSJ1dY5GFCm5uUf9nfS262xZyqN6gwsbL1hRHJcbzxAPn7fwyo5mNQB1076KvYkQJpfryybc22okP-vtuPOi7-gSzgPAppjO1EiWhJgbZ7IZJv8yXDOpn/s1600-rw/GreenLogo_center_KIKOPAPA.png">
+
+    <!-- Open Graph 社群分享標籤 (Facebook / LINE / Threads 預覽必備) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="小樹爸爸的兒童理財課">
+    <meta property="og:title" content="小樹爸爸的兒童理財課 | 兒童財商互動圖卡畫廊">
+    <meta property="og:description" content="理財像種樹一樣，需要時間慢慢灌溉長大 🌱 透過溫暖的手帳插畫圖卡，陪伴孩子建立受用一生的金錢觀與理財習慣！">
+    <meta property="og:url" content="https://kikopapa.github.io/projects/kids-finance-gallery.html">
+    <meta property="og:image" content="https://kikopapa.github.io/projects/kids-finance/finance-01-three-jars.webp">
+    <meta property="og:image:alt" content="小樹爸爸的兒童理財課：認識金錢的三個好朋友（儲蓄、消費、投資）">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="900">
+    <meta property="og:locale" content="zh_TW">
+    
     <!-- 引入 Google Fonts: 圓體與易讀無襯線字體 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,7 +180,7 @@
             <div class="flex items-center justify-between mb-3 px-1">
                 <div class="flex items-center gap-2">
                     <span id="currentBadge" class="px-3 py-1 bg-forest text-white text-xs sm:text-sm font-black rounded-full shadow-sm">
-                        單元 1 / 7
+                        單元 1 / 13
                     </span>
                     <span id="currentCategory" class="text-xs sm:text-sm font-bold text-wood-dark bg-wood-light/30 px-2.5 py-0.5 rounded-md">
                         核心總綱篇
@@ -246,7 +266,7 @@
                 <div>
                     <h2 class="text-xl font-black text-forest-dark flex items-center gap-2">
                         <span>📚 全部兒童理財圖卡一覽</span>
-                        <span id="totalCountBadge" class="text-xs px-2.5 py-0.5 bg-forest text-white rounded-full">共 7 張</span>
+                        <span id="totalCountBadge" class="text-xs px-2.5 py-0.5 bg-forest text-white rounded-full">共 13 張</span>
                     </h2>
                     <p class="text-xs sm:text-sm text-gray-600 mt-0.5">點擊任一張圖卡即可開啟高畫質大圖觀看與教學筆記</p>
                 </div>
@@ -276,7 +296,7 @@
                 </a>
                 <span class="text-white/30">|</span>
                 <a href="https://www.kikopapa.com/p/about-me.html" target="_blank" rel="noopener noreferrer" class="hover:text-accent-gold underline underline-offset-4 transition-colors">
-                    關於小樹爸爸
+                    關於作者
                 </a>
             </div>
         </div>
@@ -289,7 +309,7 @@
         <!-- 燈箱頂部控制列 -->
         <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-black/50 text-white border-b border-white/10 z-20">
             <div class="flex items-center gap-3 overflow-hidden">
-                <span id="lbCounter" class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full shrink-0">1 / 7</span>
+                <span id="lbCounter" class="px-2.5 py-0.5 bg-forest text-white text-xs font-bold rounded-full shrink-0">1 / 13</span>
                 <h3 id="lbTitle" class="font-bold text-sm sm:text-lg truncate">認識金錢的三個好朋友</h3>
             </div>
             <div class="flex items-center gap-2 shrink-0">
@@ -377,7 +397,7 @@
             },
             {
                 id: 3,
-                title: "2. 認識金錢的三個好朋友",
+                title: "認識金錢的三個好朋友",
                 category: "基礎分配篇",
                 imageUrl: IMAGE_BASE_PATH + "finance-01-three-jars.webp",
                 description: "透過三個透明玻璃罐「1.儲蓄 (存錢長大)、2.消費 (分辨需要與想要)、3.投資 (讓錢慢慢變多)」，陪伴孩子建立最健康的金錢分配習慣。",
