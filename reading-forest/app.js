@@ -82,10 +82,13 @@ function renderBooks() {
       ? `<span class="rating" aria-label="${book.rating} 顆星">${"★".repeat(book.rating)}${"☆".repeat(5 - book.rating)}</span>`
       : '<span class="rating" aria-label="尚未評分">☆☆☆☆☆</span>';
     const statusLabel = book.status === "read" ? "已閱讀" : "待閱讀";
-    const completeButton = book.status === "unread"
-      ? `<button class="mark-read-button" type="button" data-mark-read="${escapeHTML(book.id)}">✓ 我讀完了！</button>`
+    const readDateLabel = book.status === "read" && book.readDate
+      ? `<p class="read-date">📅 完成日期：${escapeHTML(book.readDate)}</p>`
       : "";
-    return `<article class="book-card"><div class="cover-wrap">${cover}</div><h3 class="book-title">${title}</h3><p class="book-author">${author}</p><div class="book-meta">${rating}<span class="status-pill ${book.status === "read" ? "read" : "unread"}">${statusLabel}</span></div>${completeButton}</article>`;
+    const statusButton = book.status === "unread"
+      ? `<button class="mark-read-button" type="button" data-toggle-reading-status="${escapeHTML(book.id)}" aria-label="將${title}標記為已閱讀">✓ 我讀完了！</button>`
+      : `<button class="mark-read-button undo-read-button" type="button" data-toggle-reading-status="${escapeHTML(book.id)}" aria-label="將${title}改回待閱讀">↩ 改回待閱讀</button>`;
+    return `<article class="book-card"><div class="cover-wrap">${cover}</div><h3 class="book-title">${title}</h3><p class="book-author">${author}</p><div class="book-meta">${rating}<span class="status-pill ${book.status === "read" ? "read" : "unread"}">${statusLabel}</span></div>${readDateLabel}${statusButton}</article>`;
   }).join("");
 }
 
@@ -105,8 +108,8 @@ async function loadBooks() {
     // 將本機狀態覆蓋套用在 GitHub 書庫資料上，重新整理後仍可保留。
     books = books.map(book => {
       const override = statusOverrides[book.id];
-      return override && override.status === "read"
-        ? { ...book, status: "read", readDate: override.readDate || book.readDate || "" }
+      return override && ["read", "unread"].includes(override.status)
+        ? { ...book, status: override.status, readDate: override.readDate ?? book.readDate ?? "" }
         : book;
     });
     elements.note.textContent = "書籍資料已載入；頁面上的閱讀狀態會保存在這台裝置。";
@@ -121,29 +124,42 @@ async function loadBooks() {
 elements.search.addEventListener("input", renderBooks);
 elements.status.addEventListener("change", renderBooks);
 elements.grid.addEventListener("click", event => {
-  const button = event.target.closest("[data-mark-read]");
+  const button = event.target.closest("[data-toggle-reading-status]");
   if (!button) return;
-  const bookId = button.dataset.markRead;
+  const bookId = button.dataset.toggleReadingStatus;
   const book = books.find(item => item.id === bookId);
-  if (!book || book.status !== "unread") return;
+  if (!book) return;
 
-  const today = new Date();
-  const readDate = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, "0"),
-    String(today.getDate()).padStart(2, "0")
-  ].join("-");
+  const previousStatus = book.status;
+  const previousReadDate = book.readDate || "";
+  const nextStatus = previousStatus === "unread" ? "read" : "unread";
+  let nextReadDate = "";
 
-  statusOverrides[bookId] = { status: "read", readDate };
+  if (nextStatus === "read") {
+    const today = new Date();
+    nextReadDate = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  const previousOverride = statusOverrides[bookId];
+  statusOverrides[bookId] = { status: nextStatus, readDate: nextReadDate };
   try {
     localStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(statusOverrides));
-    book.status = "read";
-    book.readDate = readDate;
-    elements.note.textContent = `太棒了！已將「${book.title}」標記為已閱讀，完成日期：${readDate}。`;
+    book.status = nextStatus;
+    book.readDate = nextReadDate;
+    elements.note.textContent = nextStatus === "read"
+      ? `太棒了！「${book.title}」已標記為已閱讀，完成日期：${nextReadDate}。`
+      : `已將「${book.title}」改回待閱讀，並清除原完成日期。`;
     render();
   } catch (error) {
     console.error("保存閱讀狀態失敗：", error);
-    delete statusOverrides[bookId];
+    if (previousOverride === undefined) delete statusOverrides[bookId];
+    else statusOverrides[bookId] = previousOverride;
+    book.status = previousStatus;
+    book.readDate = previousReadDate;
     elements.note.textContent = "目前無法保存閱讀紀錄，請確認瀏覽器允許使用本機儲存空間。";
   }
 });
