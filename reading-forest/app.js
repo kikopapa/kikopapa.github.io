@@ -1,5 +1,19 @@
 const DEFAULT_CATEGORIES = ["故事繪本", "文學小說", "科學知識", "歷史地理", "理財教育", "成長學習", "其他"];
 const BOOKS_URL = "./books.json";
+const STATUS_STORAGE_KEY = "readingForest.statusOverrides.v1";
+
+// 僅保存使用者在頁面上變更的閱讀狀態，不直接修改 GitHub 的 books.json。
+function loadStatusOverrides() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STATUS_STORAGE_KEY) || "{}");
+    return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+  } catch (error) {
+    console.warn("讀取本機閱讀狀態失敗：", error);
+    return {};
+  }
+}
+
+let statusOverrides = loadStatusOverrides();
 
 const elements = {
   total: document.querySelector("#total-count"),
@@ -67,8 +81,11 @@ function renderBooks() {
     const rating = Number.isInteger(book.rating) && book.rating >= 1 && book.rating <= 5
       ? `<span class="rating" aria-label="${book.rating} 顆星">${"★".repeat(book.rating)}${"☆".repeat(5 - book.rating)}</span>`
       : '<span class="rating" aria-label="尚未評分">☆☆☆☆☆</span>';
-    const statusLabel = book.status === "read" ? "已讀完" : "待閱讀";
-    return `<article class="book-card"><div class="cover-wrap">${cover}</div><h3 class="book-title">${title}</h3><p class="book-author">${author}</p><div class="book-meta">${rating}<span class="status-pill ${book.status === "read" ? "read" : "unread"}">${statusLabel}</span></div></article>`;
+    const statusLabel = book.status === "read" ? "已閱讀" : "待閱讀";
+    const completeButton = book.status === "unread"
+      ? `<button class="mark-read-button" type="button" data-mark-read="${escapeHTML(book.id)}">✓ 我讀完了！</button>`
+      : "";
+    return `<article class="book-card"><div class="cover-wrap">${cover}</div><h3 class="book-title">${title}</h3><p class="book-author">${author}</p><div class="book-meta">${rating}<span class="status-pill ${book.status === "read" ? "read" : "unread"}">${statusLabel}</span></div>${completeButton}</article>`;
   }).join("");
 }
 
@@ -85,7 +102,14 @@ async function loadBooks() {
     const data = await response.json();
     if (!Array.isArray(data)) throw new Error("books.json 必須是 JSON 陣列");
     books = data.filter(book => book && typeof book.id === "string" && typeof book.title === "string" && ["read", "unread"].includes(book.status));
-    elements.note.textContent = "書籍資料已從 GitHub Pages 載入。";
+    // 將本機狀態覆蓋套用在 GitHub 書庫資料上，重新整理後仍可保留。
+    books = books.map(book => {
+      const override = statusOverrides[book.id];
+      return override && override.status === "read"
+        ? { ...book, status: "read", readDate: override.readDate || book.readDate || "" }
+        : book;
+    });
+    elements.note.textContent = "書籍資料已載入；頁面上的閱讀狀態會保存在這台裝置。";
   } catch (error) {
     console.error("讀取書籍資料失敗：", error);
     books = [];
@@ -96,6 +120,34 @@ async function loadBooks() {
 
 elements.search.addEventListener("input", renderBooks);
 elements.status.addEventListener("change", renderBooks);
+elements.grid.addEventListener("click", event => {
+  const button = event.target.closest("[data-mark-read]");
+  if (!button) return;
+  const bookId = button.dataset.markRead;
+  const book = books.find(item => item.id === bookId);
+  if (!book || book.status !== "unread") return;
+
+  const today = new Date();
+  const readDate = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
+
+  statusOverrides[bookId] = { status: "read", readDate };
+  try {
+    localStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(statusOverrides));
+    book.status = "read";
+    book.readDate = readDate;
+    elements.note.textContent = `太棒了！已將「${book.title}」標記為已閱讀，完成日期：${readDate}。`;
+    render();
+  } catch (error) {
+    console.error("保存閱讀狀態失敗：", error);
+    delete statusOverrides[bookId];
+    elements.note.textContent = "目前無法保存閱讀紀錄，請確認瀏覽器允許使用本機儲存空間。";
+  }
+});
+
 elements.categories.addEventListener("click", event => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
