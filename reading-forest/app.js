@@ -21,7 +21,6 @@ const elements = {
   unread: document.querySelector("#unread-count"),
   visible: document.querySelector("#visible-count"),
   search: document.querySelector("#search-input"),
-  status: document.querySelector("#status-filter"),
   categories: document.querySelector("#category-list"),
   grid: document.querySelector("#book-grid"),
   note: document.querySelector("#data-note")
@@ -29,6 +28,7 @@ const elements = {
 
 let books = [];
 let activeCategory = "全部";
+let activeStatus = "all";
 
 function escapeHTML(value = "") {
   return String(value).replace(/[&<>"']/g, char => ({
@@ -41,6 +41,11 @@ function renderStats() {
   elements.total.textContent = books.length;
   elements.read.textContent = readCount;
   elements.unread.textContent = books.length - readCount;
+  document.querySelectorAll("[data-stat-filter]").forEach(button => {
+    const selected = button.dataset.statFilter === activeStatus;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
 }
 
 function renderCategories() {
@@ -53,7 +58,7 @@ function renderCategories() {
 
 function getVisibleBooks() {
   const keyword = elements.search.value.trim().toLocaleLowerCase();
-  const status = elements.status.value;
+  const status = activeStatus;
   return books.filter(book => {
     const matchesCategory = activeCategory === "全部" || book.category === activeCategory;
     const matchesStatus = status === "all" || book.status === status;
@@ -122,7 +127,12 @@ async function loadBooks() {
 }
 
 elements.search.addEventListener("input", renderBooks);
-elements.status.addEventListener("change", renderBooks);
+document.querySelector(".stats").addEventListener("click", event => {
+  const button = event.target.closest("[data-stat-filter]");
+  if (!button) return;
+  activeStatus = button.dataset.statFilter;
+  render();
+});
 elements.grid.addEventListener("click", event => {
   const button = event.target.closest("[data-toggle-reading-status]");
   if (!button) return;
