@@ -5,3 +5,12 @@
 .mark-read-button{display:block;width:100%;margin-top:11px;border:1px solid #cbdcc6;border-radius:10px;padding:9px 10px;background:#edf4e9;color:#365d3f;font:inherit;font-size:.82rem;font-weight:800;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}.mark-read-button:hover{background:#dfeedd;border-color:#9db99a;transform:translateY(-1px)}.mark-read-button:focus-visible{outline:3px solid #91aa8e;outline-offset:2px}
 
 .read-date{margin:7px 0 0;color:#71806f;font-size:.72rem;line-height:1.4}.undo-read-button{background:#f5f1e5;border-color:#e5d9b8;color:#78612f}.undo-read-button:hover{background:#eee5cf;border-color:#d6c493}
+
+/* 首頁閱讀統計同時作為觸控式篩選按鈕 */
+.stat-card{width:100%;min-width:0;text-align:left;color:#fff9e9;font:inherit;cursor:pointer;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;-webkit-tap-highlight-color:transparent}
+.stat-card:hover{background:#527b5b;border-color:#c9d8c5;transform:translateY(-2px)}
+.stat-card:active{transform:scale(.98)}
+.stat-card:focus-visible{outline:3px solid #f4d98b;outline-offset:3px}
+.stat-card.active{background:#e8f0e5;border:2px solid #c9d8c5;color:var(--forest);box-shadow:0 0 0 2px #ffffff35,0 8px 18px #17352422}
+.stat-card.active div span{color:#527b55}
+.stat-card.active .stat-icon{filter:none}
