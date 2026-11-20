@@ -28,10 +28,10 @@
         <span class="book-stack">📚</span><span class="little-flower">✿</span>
       </div>
     </div>
-    <section class="stats wrap" aria-label="閱讀統計">
-      <article class="stat-card"><span class="stat-icon">📚</span><div><strong id="total-count">—</strong><span>收藏書籍</span></div></article>
-      <article class="stat-card"><span class="stat-icon">🌱</span><div><strong id="read-count">—</strong><span>已讀完</span></div></article>
-      <article class="stat-card"><span class="stat-icon">🪴</span><div><strong id="unread-count">—</strong><span>待閱讀</span></div></article>
+    <section class="stats wrap" aria-label="閱讀統計與篩選">
+      <button class="stat-card active" type="button" data-stat-filter="all" aria-pressed="true" aria-label="顯示全部收藏書籍"><span class="stat-icon">📚</span><div><strong id="total-count">—</strong><span>收藏書籍</span></div></button>
+      <button class="stat-card" type="button" data-stat-filter="read" aria-pressed="false" aria-label="只顯示已讀完書籍"><span class="stat-icon">🌱</span><div><strong id="read-count">—</strong><span>已讀完</span></div></button>
+      <button class="stat-card" type="button" data-stat-filter="unread" aria-pressed="false" aria-label="只顯示待閱讀書籍"><span class="stat-icon">🪴</span><div><strong id="unread-count">—</strong><span>待閱讀</span></div></button>
     </section>
   </header>
 
@@ -42,7 +42,6 @@
     </section>
     <div class="toolbar">
       <label class="search-box"><span aria-hidden="true">🔎</span><span class="sr-only">搜尋書名或作者</span><input id="search-input" type="search" placeholder="搜尋書名或作者…" autocomplete="off"></label>
-      <label class="status-select"><span class="sr-only">閱讀狀態</span><select id="status-filter"><option value="all">全部狀態</option><option value="read">已讀完</option><option value="unread">待閱讀</option></select></label>
     </div>
     <div class="category-list" id="category-list" aria-label="書籍分類"></div>
     <section id="book-grid" class="book-grid" aria-live="polite">
