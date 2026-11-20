@@ -22,5 +22,29 @@
     "rating": null,
     "note": "",
     "readDate": ""
+  },
+  {
+    "id": "book003",
+    "title": "Scratch 積木程式教室",
+    "author": "谷口充",
+    "isbn": "9789578799448",
+    "category": "科學知識",
+    "cover": "",
+    "status": "read",
+    "rating": null,
+    "note": "",
+    "readDate": ""
+  },
+  {
+    "id": "book004",
+    "title": "會計地圖：只要一張圖，就能完全看懂金錢的流向！",
+    "author": "近藤哲朗、沖山誠",
+    "isbn": "9789863704294",
+    "category": "理財教育",
+    "cover": "",
+    "status": "read",
+    "rating": null,
+    "note": "",
+    "readDate": ""
   }
 ]
