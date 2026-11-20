@@ -65,7 +65,7 @@
 **小樹爸爸 KIKOPAPA｜KIKO Journey**
 記錄理財、財商教育、圍棋、AI、閱讀與持續成長的第二人生實驗。
 
-* 🌐 部落格：[www.kikopapa.com](https://www.kikopapa.com)
+* 👉 關於我：[www.kikopapa.com/p/about-me](https://www.kikopapa.com](https://www.kikopapa.com/p/about-me.html))
 
 ## 回饋與合作
 
