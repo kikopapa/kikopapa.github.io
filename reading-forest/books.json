@@ -46,5 +46,17 @@
     "rating": null,
     "note": "",
     "readDate": ""
+  },
+  {
+    "id": "book005",
+    "title": "邊玩邊學程式設計：30堂Python創意程式課，輕鬆掌握程式語言，培養運算思維！",
+    "author": "希娜．瓦帝耶納坦（Sheena Vaidyanathan）",
+    "isbn": "9789573285731",
+    "category": "科學知識",
+    "cover": "covers/book005.jpg",
+    "status": "unread",
+    "rating": null,
+    "note": "",
+    "readDate": ""
   }
 ]
