@@ -47,7 +47,7 @@
 
 以卡爾達肖夫指數（Kardashev scale）為基礎的互動工具，從「文明等級」的角度，看人類目前走到哪一步。搭配文章<我們連第 1 級文明都還不是？>。
 **適合**：對科普與宇宙有興趣的人
-https://www.kikopapa.com/2026/11/kardashev-scale-interactive.html
+
 ---
 
 ## 如何使用
