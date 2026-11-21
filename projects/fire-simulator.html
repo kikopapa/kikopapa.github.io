@@ -26,10 +26,25 @@ button.p{background:var(--ac);color:var(--bx)}button:disabled{opacity:.35;cursor
 .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .m{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
 .m .c{max-width:460px;width:100%}
-.ft{padding-top:0}.ftc{display:flex;gap:14px;align-items:center}.lg{width:56px;height:56px;flex:none}
+.m.lose{background:rgba(8,10,16,.9)}.m.win{background:rgba(6,28,20,.85)}.m .c{max-height:92vh;overflow:auto}
+.fg{width:150px;height:auto;display:block;margin:0 auto}
+.orz{width:180px;color:var(--rd);animation:drop .9s ease-out both}
+.cheer{width:110px;color:var(--ac);animation:bn .7s ease-in-out infinite alternate}
+.orzt{font-size:44px;font-weight:800;letter-spacing:4px;animation:drop 1s .25s ease-out both}
+.cloud{font-size:44px;animation:fl 3s ease-in-out infinite alternate}
+.cf{position:fixed;top:-24px;width:8px;height:14px;animation:fall linear infinite;z-index:10;pointer-events:none}
+.fw{position:fixed;width:10px;height:10px;border:3px solid currentColor;border-radius:50%;opacity:0;animation:bst 2s ease-out infinite;z-index:10;pointer-events:none}
+.rain{position:fixed;inset:0;pointer-events:none;opacity:.45;background:repeating-linear-gradient(105deg,transparent 0 16px,#9fb8e0 16px 17px);background-size:44px 130px;animation:rn .45s linear infinite}
+@keyframes drop{0%{transform:translateY(-140px);opacity:0}65%{transform:translateY(10px);opacity:1}82%{transform:translateY(-5px)}100%{transform:none;opacity:1}}
+@keyframes bn{to{transform:translateY(-14px)}}
+@keyframes fl{to{transform:translateX(18px)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes bst{0%{transform:scale(0);opacity:1}100%{transform:scale(14);opacity:0}}
+@keyframes rn{to{background-position:-18px 130px}}
+.ft{padding-top:0}.ftc{display:flex;gap:14px;align-items:center}.lgb{width:64px;height:64px;flex:none;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}.lgb img{max-width:100%;max-height:100%;object-fit:contain}.lgb svg{width:100%;height:100%;display:none}.lgb.nolg img{display:none}.lgb.nolg svg{display:block}
 .ft a{color:var(--ac);font-weight:600;text-decoration:none}.ft a:hover{text-decoration:underline}.ftn{text-align:center;margin:10px 0 18px}
 </style></head><body><div class="w" id="app"></div>
-<footer class="w ft"><div class="c ftc" id="brand"><svg class="lg" viewBox="0 0 48 48" role="img" aria-label="小樹爸爸 logo（暫代）"><rect width="48" height="48" rx="12" style="fill:var(--ac)"/><circle cx="24" cy="20" r="11" style="fill:var(--bx)"/><rect x="22" y="28" width="4" height="12" rx="1" style="fill:var(--bx)"/></svg><div><b>小樹爸爸 KIKOPAPA｜KIKO Journey</b><div class="mu">40+ 中年大叔的第二人生實驗室</div><div class="mu">理財 × 財商教育 × 圍棋 × AI × 閱讀 × 持續成長</div><div><a href="https://www.kikopapa.com" target="_blank" rel="noopener">🌐 www.kikopapa.com</a></div></div></div><p class="mu ftn">本工具為財商教學模擬，數字為簡化設定，不構成投資建議。© 2026 小樹爸爸</p></footer>
+<footer class="w ft"><div class="c ftc" id="brand"><span class="lgb"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxH_TvUQtMQKk-unqcpKvH2M9mxITb-b73cAVgIYkEliXTiT3ae9nnBGewu04EV-jOFBoXfH3RSJ1dY5GFCm5uUf9nfS262xZyqN6gwsbL1hRHJcbzxAPn7fwyo5mNQB1076KvYkQJpfryybc22okP-vtuPOi7-gSzgPAppjO1EiWhJgbZ7IZJv8yXDOpn/s1600-rw/GreenLogo_center_KIKOPAPA.png" alt="小樹爸爸 KIKOPAPA logo" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('nolg')"><svg viewBox="0 0 48 48" role="img" aria-label="小樹爸爸 logo"><rect width="48" height="48" rx="12" style="fill:var(--ac)"/><circle cx="24" cy="20" r="11" style="fill:var(--bx)"/><rect x="22" y="28" width="4" height="12" rx="1" style="fill:var(--bx)"/></svg></span><div><b>小樹爸爸 KIKOPAPA｜KIKO Journey</b><div class="mu">40+ 中年大叔的第二人生實驗室</div><div class="mu">理財 × 財商教育 × 圍棋 × AI × 閱讀 × 持續成長</div><div><a href="https://www.kikopapa.com" target="_blank" rel="noopener">🌐 www.kikopapa.com</a></div></div></div><p class="mu ftn">本工具為財商教學模擬，數字為簡化設定，不構成投資建議。© 2026 小樹爸爸</p></footer>
 <script>
 const f=n=>(n<0?'−':'')+'NT$'+Math.abs(Math.round(n)).toLocaleString('zh-TW');
 const pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -51,6 +66,32 @@ const dic=d=>d.n==='助學貸款'?'🎓':d.n.startsWith('信貸')?'🧾':d.n.end
 const buy=(n,cost,down,pay,inc,tip)=>()=>({k:'投資機會',n,
  desc:`總價 ${f(cost)}｜頭期款 ${f(down)}｜每月收入 +${f(inc)}${pay?`｜貸款月付 −${f(pay)}`:''}｜淨現金流 ${f(inc-pay)}`,tip,
  acts:[{l:`買下（付 ${f(down)}）`,ok:()=>S.cash>=down,f:()=>{S.cash-=down;S.assets.push({n,inc,cost});if(cost>down)S.debts.push({n:n+'貸款',bal:cost-down,pay});return `買入「${n}」，被動收入 +${f(inc)}`}},{l:'放棄',f:()=>'放棄這次機會'}]});
+/* 音效：Web Audio 合成，無外部音檔 */
+const AU={x:null,on:(()=>{try{return localStorage.getItem('cf-snd')!=='0'}catch(e){return true}})()};
+function ax(){if(!AU.x){try{AU.x=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(AU.x.state==='suspended')AU.x.resume();return AU.x}
+function tn(f,t,d,o={}){const c=ax();if(!c)return;const s=c.currentTime+t,g=c.createGain(),n=c.createOscillator(),v=o.v||.18;n.type=o.ty||'sine';n.frequency.setValueAtTime(f,s);if(o.to)n.frequency.exponentialRampToValueAtTime(o.to,s+d);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v,s+.015);g.gain.exponentialRampToValueAtTime(.0001,s+d);if(o.lp){const l=c.createBiquadFilter();l.type='lowpass';l.frequency.value=o.lp;n.connect(l);l.connect(g)}else n.connect(g);if(o.vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=o.vib;lg.gain.value=f*.04;l.connect(lg);lg.connect(n.frequency);l.start(s);l.stop(s+d)}g.connect(c.destination);n.start(s);n.stop(s+d+.02)}
+function nz(t,d,v,lp){const c=ax();if(!c)return;const s=c.currentTime+t,b=c.createBuffer(1,Math.ceil(c.sampleRate*d),c.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;const r=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();r.buffer=b;f.type='lowpass';f.frequency.value=lp;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.0001,s+d);r.connect(f);f.connect(g);g.connect(c.destination);r.start(s)}
+const SFX={
+ start:()=>[523,659,784,1047].forEach((f,i)=>tn(f,i*.12,.25,{ty:'triangle'})),
+ pay:()=>{tn(988,0,.1,{ty:'square',v:.07});tn(1319,.09,.3,{ty:'square',v:.07})},
+ buy:()=>[523,659,784].forEach((f,i)=>tn(f,i*.07,.16,{ty:'triangle'})),
+ house:()=>{tn(900,0,.38,{to:180,v:.1});tn(80,.38,.25,{to:35,v:.5});nz(.38,.18,.5,500);tn(70,.62,.15,{to:35,v:.25});nz(.62,.1,.2,400)},
+ spend:()=>{tn(520,0,.12,{ty:'triangle'});tn(390,.1,.2,{ty:'triangle'})},
+ skip:()=>tn(440,0,.08,{v:.08}),
+ good:()=>[659,784,988,1319].forEach((f,i)=>tn(f,i*.08,.18,{ty:'triangle'})),
+ bad:()=>{tn(220,0,.25,{ty:'sawtooth',to:150,v:.1,lp:900});tn(165,.22,.35,{ty:'sawtooth',to:110,v:.1,lp:900})},
+ baby:()=>[0,.6].forEach(t=>tn(560,t,.5,{ty:'sawtooth',to:430,v:.12,lp:2200,vib:7})),
+ win:()=>{[523,659,784].forEach((f,i)=>tn(f,i*.12,.2,{ty:'triangle'}));tn(1047,.4,.6,{ty:'triangle'});[784,988,1175,1568].forEach((f,i)=>tn(f,1+i*.14,.22,{ty:'triangle'}));[1047,1319,1568].forEach(f=>tn(f,1.7,1.5,{ty:'triangle',v:.1}));[2093,2637,3136,2637,3136,4186].forEach((f,i)=>tn(f,2.3+i*.12,.25,{v:.05}));for(let i=0;i<5;i++)nz(i*.08,.07,.15,3000)},
+ lose:()=>{[[392,370,0],[349,330,.85],[311,294,1.7]].forEach(([a,b,t])=>tn(a,t,.8,{ty:'sawtooth',to:b,v:.1,lp:800,vib:5}));tn(262,2.6,1.8,{ty:'sawtooth',to:165,v:.12,lp:700,vib:4});nz(0,1.4,.08,500);[3.7,4.1].forEach(t=>tn(60,t,.25,{to:38,v:.45}))}
+};
+const sfx=k=>{if(AU.on&&SFX[k]){try{SFX[k]()}catch(e){}}};
+function toggleSnd(){AU.on=!AU.on;try{localStorage.setItem('cf-snd',AU.on?'1':'0')}catch(e){}if(AU.on)sfx('buy');render()}
+const PROP=['老屋小套房出租','市區店面出租','蛋黃區新成屋（投資用）'],GOOD=['年終獎金','升職加薪','進修課程','結婚'];
+function sk(c,a){if(['放棄','拒絕','不買','不報名'].includes(a.l))return 'skip';if(c.k==='投資機會')return c.n.startsWith('朋友')?'bad':PROP.includes(c.n)?'house':'buy';if(c.k==='消費誘惑')return 'spend';return c.n==='迎接新生兒'?'baby':GOOD.includes(c.n)?'good':'bad'}
+const AM={'ETF 定期定額加碼':['有價證券','張'],'高股息 ETF':['有價證券','張'],'線上課程／數位商品':['數位事業','項'],'部落格廣告與聯盟行銷':['數位事業','個'],'老屋小套房出租':['不動產','間'],'早餐店加盟':['實體事業','間'],'市區店面出租':['不動產','間'],'蛋黃區新成屋（投資用）':['不動產','棟']},CR=['不動產','有價證券','實體事業','數位事業','資產'];
+function grp(){const m={};S.assets.forEach(a=>{const t=AM[a.n]||['資產','項'],g=m[a.n]||(m[a.n]={n:a.n,k:0,inc:0,c:t[0],u:t[1]});g.k++;g.inc+=a.inc});return Object.values(m).sort((a,b)=>CR.indexOf(a.c)-CR.indexOf(b.c))}
+const rate=d=>d.r!=null?d.r:d.n.endsWith('分期')?0:d.n==='助學貸款'?.015:d.n.endsWith('貸款')?.025:.08;
+function amort(){const dn=[];S.debts=S.debts.filter(d=>{const i=d.bal*rate(d)/12,p=Math.max(0,d.pay-i);if(d.bal<=p+1){dn.push(d.n);return false}d.bal=Math.round(d.bal-p);return true});return dn}
 const CARFEE=5000;
 const own=n=>n==='換新車'?(S.car=1,`，之後每月另有養車費 ${f(CARFEE)}`):'';
 const sp=(n,amt,mo=24)=>()=>({k:'消費誘惑',n,desc:`標價 ${f(amt)}｜分期月付 −${f(amt/mo)}（${mo} 期）${n==='換新車'?`｜養車費（油、保險、稅、保養）−${f(CARFEE)}/月`:''}`,
@@ -79,7 +120,7 @@ const E=[
  ev('迎接新生兒','家裡添丁，每月支出 +8,000。','人生階段會改變支出，要把被動收入目標一併調高。',()=>{S.kids++;return '每月支出 +8,000'},()=>S.kids<2),
  ev('公司裁員','失業 2 個月，沒有薪水。','只靠薪水最脆弱；被動收入就是你的安全網。',()=>{S.jobless=2;return '接下來 2 個月沒有薪水'},()=>S.jobless===0),
  ev('升職加薪','月薪 +3,000。','加薪後別提高生活水準，把差額投入資產。',()=>{S.sal+=3000;return '月薪 +3,000'}),
- ev('央行升息','貸款利率上調，所有貸款月付 +10%。','槓桿有風險：利率上升會吃掉現金流。',()=>{S.debts.forEach(d=>d.pay=Math.round(d.pay*1.1));return '貸款月付提高 10%'},()=>S.debts.length>0),
+ ev('央行升息','貸款利率上調，所有貸款月付 +10%。','槓桿有風險：利率上升會吃掉現金流。',()=>{S.debts.forEach(d=>{d.pay=Math.round(d.pay*1.1);if(!d.n.endsWith('分期'))d.r=rate(d)+.01});return '貸款月付提高 10%，利率上升 1%'},()=>S.debts.length>0),
  ()=>({k:'人生事件',n:'進修課程',desc:'報名專業進修 −20,000，完成後月薪 +2,500。',tip:'投資自己是報酬率最高的投資之一。',
   acts:[{l:'報名',ok:()=>S.cash>=20000,f:()=>{S.cash-=20000;S.sal+=2500;return '現金 −20,000，月薪 +2,500'}},{l:'不報名',f:()=>'維持現狀'}]})
 ];
@@ -89,14 +130,22 @@ function fixCash(){if(S.cash<0){const a=Math.ceil(-S.cash/10000)*10000;S.cash+=a
 function endCheck(){if(S.over)return;const p=passive(),e=expenses();
  if(p>0&&p>=e)S.over='win';else if(cf()<0&&S.cash<-cf()*2)S.over='lose'}
 function save(){try{localStorage.setItem('cf-v1',JSON.stringify({...S,card:null,res:null}))}catch(e){}}
-function start(k){const p=PROS[k];S={p:k,month:1,cash:p.cash,sal:p.sal,tax:p.tax,live:p.live,home:p.home,kids:0,jobless:0,assets:[],debts:p.debts.map(d=>({...d})),card:null,res:null,over:null,prev:p.cash};S.card=draw();render()}
-function act(i){const c=S.card,a=c.acts[i];if(a.ok&&!a.ok())return;const msg=a.f();S.res={msg,tip:c.tip};S.card=null;fixCash();endCheck();render()}
-function next(){const c=cf();S.prev=S.cash;S.cash+=c;if(S.jobless>0)S.jobless--;S.month++;fixCash();S.res={msg:`領薪結算：本月現金流 ${f(c)}`};S.card=draw();endCheck();render()}
+function start(k){const p=PROS[k];S={p:k,month:1,cash:p.cash,sal:p.sal,tax:p.tax,live:p.live,home:p.home,kids:0,jobless:0,assets:[],debts:p.debts.map(d=>({...d})),card:null,res:null,over:null,prev:p.cash};S.card=draw();sfx('start');render()}
+function act(i){const c=S.card,a=c.acts[i];if(a.ok&&!a.ok())return;const msg=a.f();S.res={msg,tip:c.tip};S.card=null;fixCash();endCheck();sfx(S.over||sk(c,a));render()}
+function next(){const c=cf();S.prev=S.cash;S.cash+=c;if(S.jobless>0)S.jobless--;S.month++;fixCash();const dn=amort();S.res={msg:`領薪結算：本月現金流 ${f(c)}`+(dn.length?`；已還清：${dn.join('、')}`:''),tip:dn.length?'負債還清後，每月支出下降，現金流直接變好。':''};S.card=draw();endCheck();sfx(S.over||(dn.length?'good':'pay'));render()}
 function borrow(){S.cash+=100000;S.debts.push({n:'信貸',bal:100000,pay:1500});render()}
 function payoff(i){const d=S.debts[i];if(S.cash<d.bal)return;S.cash-=d.bal;S.debts.splice(i,1);render()}
 function cashbar(){const a=S.prev==null?S.cash:S.prev,b=S.cash,d=b-a,mx=Math.max(a,b,1),up=d>=0;
 const row=(l,v,c)=>`<div class="r" style="border:0;align-items:center"><span style="width:60px">${l}</span><div class="bar" style="flex:1;margin:2px 0"><i style="width:${v/mx*100}%;background:${c}"></i></div><b style="width:108px;text-align:right">${f(v)}</b></div>`;
 return row('上月底',a,'var(--mu)')+row('目前',b,up?'var(--gn)':'var(--rd)')+`<div class="${up?'pos':'neg'}"><b>${d===0?'本月現金持平':(up?'▲ 本月現金增加 ':'▼ 本月現金減少 ')+f(Math.abs(d))}</b></div>`}
+const SVG_L='<svg class="fg orz" viewBox="0 0 150 95" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="64" r="10"/><path d="M46 62Q70 50 98 50"/><path d="M60 53L52 85"/><path d="M98 50L100 85H132"/><path d="M8 88H142" stroke-width="3" opacity=".4"/></svg>',
+SVG_W='<svg class="fg cheer" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="28" r="11"/><path d="M44 30Q50 36 56 30" stroke-width="3"/><path d="M50 40V70M50 48L24 22M50 48L76 22M50 70L36 94M50 70L64 94"/></svg>';
+function endScreen(p,e,c){const w=S.over==='win',r=(a,b)=>a+Math.random()*(b-a),cl=['#f5c542','#4fc08d','#ff6b5e','#5aa9ff','#c77dff'];let fx='';
+if(w){for(let i=0;i<46;i++)fx+=`<i class="cf" style="left:${r(0,100)}%;background:${cl[i%5]};animation-duration:${r(2.5,5)}s;animation-delay:${r(0,3)}s"></i>`;for(let i=0;i<8;i++)fx+=`<span class="cf" style="left:${r(0,100)}%;width:auto;height:auto;font-size:22px;animation-duration:${r(3,5)}s;animation-delay:${r(0,3)}s">🪙</span>`;for(let i=0;i<4;i++)fx+=`<b class="fw" style="left:${r(10,90)}%;top:${r(8,40)}%;color:${cl[i%5]};animation-delay:${i*.5}s"></b>`}else fx='<div class="rain"></div>';
+const row=(l,v,k)=>`<div class="r"><span>${l}</span><b class="${k||''}">${v}</b></div>`,pct=e?Math.round(p/e*100):0;
+if(w)return `<div class="m win">${fx}<div class="c" style="text-align:center">${SVG_W}<h1>🎉 財富自由！</h1><p>你的被動收入已經養得起你的生活。</p>${row('用了',S.month+' 個月')}${row('被動收入 ÷ 總支出',pct+'%','pos')}${row('每月被動收入',f(p),'pos')}${row('持有資產',S.assets.length+' 件')}${row('現金',f(S.cash))}<h3>這局的觀念</h3><p class="mu">資產＝每月替你帶來現金的東西；負債＝每月從你口袋拿走現金的東西。財富自由不是存到多少錢，而是被動收入覆蓋支出。</p><button class="p" onclick="reset()">再玩一次</button></div></div>`;
+const it=[['稅金',S.tax],['生活開銷',S.live],['房租／房貸',S.home],['子女',S.kids*8000],['養車費',S.car?CARFEE:0],['負債月付',S.debts.reduce((a,x)=>a+x.pay,0)]].sort((a,b)=>b[1]-a[1])[0];
+return `<div class="m lose">${fx}<div class="c" style="text-align:center"><div class="cloud">🌧️</div>${SVG_L}<h1>財務破產</h1><p>現金撐不過兩個月，每月現金流為 ${f(c)}。</p>${row('撐了',S.month+' 個月')}${row('被動收入 ÷ 總支出',pct+'%')}${row('最大支出項目',it[0]+' '+f(it[1])+'/月','neg')}<h3>這局的教訓</h3><p class="mu">${it[0]==='負債月付'?'負債月付是最大壓力：借錢與分期前，先算清楚每月現金流撐不撐得住。':'先建立緊急預備金，避免被動負債堆高；買資產前，先算淨現金流。'}</p><button class="p" onclick="reset()">再玩一次</button></div></div>`}
 let rc=false,rt;
 function askReset(){if(rc){rc=false;clearTimeout(rt);reset();return}rc=true;render();rt=setTimeout(()=>{rc=false;if(S)render()},4000)}
 function reset(){try{localStorage.removeItem('cf-v1')}catch(e){}S=null;render()}
@@ -109,18 +158,18 @@ function render(){
   A.innerHTML=h+'</div>';return}
  save();
  const p=passive(),e=expenses(),pct=Math.min(100,p/e*100),c=cf();
- let h=`<div class="top"><h1>第 ${S.month} 個月｜${PROS[S.p].n}</h1><button onclick="askReset()"${rc?' class="p"':''}>${rc?'再按一次，確認重新開始':'重新開始'}</button></div>
+ let h=`<div class="top"><h1>第 ${S.month} 個月｜${PROS[S.p].n}</h1><span><button onclick="toggleSnd()" title="音效開關">${AU.on?'🔊':'🔇'}</button><button onclick="askReset()"${rc?' class="p"':''}>${rc?'再按一次，確認重新開始':'重新開始'}</button></span></div>
  <div class="c"><div class="top"><b>財富自由進度</b><b>${pct.toFixed(1)}%</b></div><div class="bar"><i style="width:${pct}%"></i></div>
  <div class="mu">被動收入 ${f(p)} ÷ 總支出 ${f(e)}｜現金 <b class="${cl(S.cash)}">${f(S.cash)}</b>｜月現金流 <b class="${cl(c)}">${f(c)}</b></div></div><div class="c" style="margin-top:12px"><b>現金總量（本月變化）</b>${cashbar()}</div><div class="g" style="margin-top:12px"><div>`;
  if(S.card){const k=S.card;h+=`<div class="c"><span class="tag">${k.k}</span><h3 style="margin:0;color:var(--tx);font-size:17px"><span style="font-size:30px;vertical-align:middle">${IC[k.n]||''}</span> ${k.n}</h3><p>${k.desc}</p>`;
   k.acts.forEach((a,i)=>h+=`<button class="p" ${a.ok&&!a.ok()?'disabled':''} onclick="act(${i})">${a.l}</button>`);h+='</div>'}
  else h+=`<div class="c"><p>本月決策完成。</p><button class="p" onclick="next()">領薪，進入下個月 ▶</button></div>`;
  if(S.res)h+=`<div class="res">${S.res.msg}${S.res.tip?`<div class="mu">💡 ${S.res.tip}</div>`:''}</div>`;
- h+=`<div class="c" style="margin-top:12px"><b>資產</b>${S.assets.length?S.assets.map(a=>`<div class="r"><span>${IC[a.n]||''} ${a.n}</span><b class="pos">+${f(a.inc)}/月</b></div>`).join(''):'<div class="mu">尚無資產，去抓住第一個機會</div>'}</div></div><div>
+ h+=`<div class="c" style="margin-top:12px"><b>資產</b>${S.assets.length?grp().map(g=>`<div class="r"><span>${IC[g.n]||''} （${g.c}）${g.n} ${g.k}${g.u}</span><b class="pos">+${f(g.inc)}/月</b></div>`).join(''):'<div class="mu">尚無資產，去抓住第一個機會</div>'}</div></div><div>
  <div class="c"><b>收入表</b><div class="r"><span>薪資${S.jobless?'（失業中）':''}</span><b>${f(salNow())}</b></div><div class="r"><span>被動收入</span><b class="pos">${f(p)}</b></div><div class="r"><span>總收入</span><b>${f(income())}</b></div></div>
  <div class="c" style="margin-top:12px"><b>支出表</b><div class="r"><span>稅金</span><b>${f(S.tax)}</b></div><div class="r"><span>生活開銷</span><b>${f(S.live)}</b></div><div class="r"><span>房租／房貸</span><b>${f(S.home)}</b></div>${S.kids?`<div class="r"><span>子女（${S.kids} 位）</span><b>${f(S.kids*8000)}</b></div>`:''}${S.car?`<div class="r"><span>🚗 養車費用（油、保險、稅、保養）</span><b>${f(CARFEE)}</b></div>`:''}<div class="r"><span>負債月付</span><b>${f(S.debts.reduce((a,x)=>a+x.pay,0))}</b></div><div class="r"><span>總支出</span><b>${f(e)}</b></div></div>
  <div class="c" style="margin-top:12px"><b>負債</b>${S.debts.length?S.debts.map((d,i)=>`<div class="r"><span>${dic(d)} ${d.n}<span class="mu">（餘 ${f(d.bal)}）</span></span><span class="neg">−${f(d.pay)}/月 <button style="padding:2px 8px;margin:0 0 0 6px" ${S.cash<d.bal?'disabled':''} onclick="payoff(${i})">還清</button></span></div>`).join(''):'<div class="mu">無</div>'}<button onclick="borrow()">借 100,000（月付 −1,500）</button></div></div></div>`;
- if(S.over){const w=S.over==='win';h+=`<div class="m"><div class="c"><h1>${w?'🎉 財富自由！':'💥 財務破產'}</h1><p>${w?`第 ${S.month} 個月，被動收入 ${f(p)} ≥ 總支出 ${f(e)}。你的資產已經養得起你的生活。`:`現金撐不過兩個月，且每月現金流為 ${f(c)}。`}</p><h3>這局的觀念</h3><p class="mu">${w?'資產＝每月替你帶來現金的東西；負債＝每月從你口袋拿走現金的東西。財富自由不是存到多少錢，而是被動收入覆蓋支出。':'先建立緊急預備金，避免被動負債堆高；買資產前，先算淨現金流。'}</p><button class="p" onclick="reset()">再玩一次</button></div></div>`}
+ if(S.over)h+=endScreen(p,e,c);
  A.innerHTML=h}
 function load(){try{S=JSON.parse(localStorage.getItem('cf-v1'));S.card=draw();render()}catch(e){reset()}}
 render();
