@@ -38,14 +38,14 @@
 把兒童圍棋的學習路徑做成地圖，讓孩子看得到自己走到哪裡、下一站去哪。
 **適合**：學圍棋的孩子與家長
 
-### ♟️ [士林橋圍棋小測驗](https://kikopapa.github.io/projects/shilin-bridge-go-quiz.html)
+### ♟️ [圍棋棋風小測驗](https://kikopapa.github.io/projects/shilin-bridge-go-quiz.html)
 
-搭配文章〈士林橋下的圍棋時光〉製作的圍棋互動測驗，邊玩邊認識台北免費下圍棋的好去處。
+搭配文章[士林橋下的圍棋時光](https://www.kikopapa.com/2026/10/shilin-bridge-go-players.html)製作的圍棋互動測驗，邊玩邊認識台北免費下圍棋的好去處。
 **適合**：圍棋愛好者、想挑戰的朋友
 
 ### 🌌 [宇宙能源尺](https://kikopapa.github.io/projects/kardashev-scale-interactive.html)
 
-以卡爾達肖夫指數（Kardashev scale）為基礎的互動工具，從「文明等級」的角度，看人類目前走到哪一步。搭配文章〈我們連第 1 級文明都還不是？〉。
+以卡爾達肖夫指數（Kardashev scale）為基礎的互動工具，從「文明等級」的角度，看人類目前走到哪一步。搭配文章[我們連第 1 級文明都還不是？](https://www.kikopapa.com/2026/11/kardashev-scale-interactive.html)。
 **適合**：對科普與宇宙有興趣的人
 
 ---
