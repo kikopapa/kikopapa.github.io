@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>小樹成長記：種出我的錢果樹</title>
+<style>
+:root{--bg:#f4f6f8;--cd:#fff;--tx:#1b2430;--mu:#6b7686;--bd:#dde1e8;--ac:#2a7a57;--rd:#c0392b;--gn:#1b8548;--bx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141a;--cd:#18202a;--tx:#e6ebf2;--mu:#8f9bad;--bd:#2a3442;--ac:#4fc08d;--rd:#ff6b5e;--gn:#4fd08a;--bx:#0b1410;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f141a;--cd:#18202a;--tx:#e6ebf2;--mu:#8f9bad;--bd:#2a3442;--ac:#4fc08d;--rd:#ff6b5e;--gn:#4fd08a;--bx:#0b1410;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 -apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+.w{max-width:1000px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:4px 0 12px}h3{font-size:14px;margin:14px 0 6px;color:var(--mu)}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.g{grid-template-columns:1fr}}
+.c{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.r{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px dashed var(--bd)}
+.r:last-child{border:0}.r b{font-variant-numeric:tabular-nums}
+.pos{color:var(--gn)}.neg{color:var(--rd)}.mu{color:var(--mu);font-size:13px}
+button{font:inherit;cursor:pointer;border:1px solid var(--ac);background:transparent;color:var(--ac);border-radius:8px;padding:8px 14px;margin:4px 6px 0 0}
+button.p{background:var(--ac);color:var(--bx)}button:disabled{opacity:.35;cursor:not-allowed}
+.bar{height:16px;background:var(--bd);border-radius:8px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--ac);transition:width .4s}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;border:1px solid var(--ac);color:var(--ac);margin-bottom:6px}
+.res{border-left:3px solid var(--ac);padding:6px 10px;margin-top:10px;background:var(--bg);border-radius:0 8px 8px 0}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.m{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
+.m .c{max-width:460px;width:100%}
+.m.lose{background:rgba(8,10,16,.9)}.m.win{background:rgba(6,28,20,.85)}.m .c{max-height:92vh;overflow:auto}
+.fg{width:150px;height:auto;display:block;margin:0 auto}
+.orz{width:180px;color:var(--rd);animation:drop .9s ease-out both}
+.cheer{width:110px;color:var(--ac);animation:bn .7s ease-in-out infinite alternate}
+.orzt{font-size:44px;font-weight:800;letter-spacing:4px;animation:drop 1s .25s ease-out both}
+.cloud{font-size:44px;animation:fl 3s ease-in-out infinite alternate}
+.cf{position:fixed;top:-24px;width:8px;height:14px;animation:fall linear infinite;z-index:10;pointer-events:none}
+.fw{position:fixed;width:10px;height:10px;border:3px solid currentColor;border-radius:50%;opacity:0;animation:bst 2s ease-out infinite;z-index:10;pointer-events:none}
+.rain{position:fixed;inset:0;pointer-events:none;opacity:.45;background:repeating-linear-gradient(105deg,transparent 0 16px,#9fb8e0 16px 17px);background-size:44px 130px;animation:rn .45s linear infinite}
+@keyframes drop{0%{transform:translateY(-140px);opacity:0}65%{transform:translateY(10px);opacity:1}82%{transform:translateY(-5px)}100%{transform:none;opacity:1}}
+@keyframes bn{to{transform:translateY(-14px)}}
+@keyframes fl{to{transform:translateX(18px)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes bst{0%{transform:scale(0);opacity:1}100%{transform:scale(14);opacity:0}}
+@keyframes rn{to{background-position:-18px 130px}}
+.ft{padding-top:0}.ftc{display:flex;gap:14px;align-items:center}.lgb{width:64px;height:64px;flex:none;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}.lgb img{max-width:100%;max-height:100%;object-fit:contain}.lgb svg{width:100%;height:100%;display:none}.lgb.nolg img{display:none}.lgb.nolg svg{display:block}
+.ft a{color:var(--ac);font-weight:600;text-decoration:none}.ft a:hover{text-decoration:underline}.ftn{text-align:center;margin:10px 0 18px}
+</style></head><body><div class="w" id="app"></div>
+<footer class="w ft"><div class="c ftc" id="brand"><span class="lgb"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxH_TvUQtMQKk-unqcpKvH2M9mxITb-b73cAVgIYkEliXTiT3ae9nnBGewu04EV-jOFBoXfH3RSJ1dY5GFCm5uUf9nfS262xZyqN6gwsbL1hRHJcbzxAPn7fwyo5mNQB1076KvYkQJpfryybc22okP-vtuPOi7-gSzgPAppjO1EiWhJgbZ7IZJv8yXDOpn/s1600-rw/GreenLogo_center_KIKOPAPA.png" alt="小樹爸爸 KIKOPAPA logo" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('nolg')"><svg viewBox="0 0 48 48" role="img" aria-label="小樹爸爸 logo"><rect width="48" height="48" rx="12" style="fill:var(--ac)"/><circle cx="24" cy="20" r="11" style="fill:var(--bx)"/><rect x="22" y="28" width="4" height="12" rx="1" style="fill:var(--bx)"/></svg></span><div><b>小樹爸爸 KIKOPAPA｜KIKO Journey</b><div class="mu">40+ 中年大叔的第二人生實驗室</div><div class="mu">理財 × 財商教育 × 圍棋 × AI × 閱讀 × 持續成長</div><div><a href="https://www.kikopapa.com" target="_blank" rel="noopener">🌐 www.kikopapa.com</a></div></div></div><p class="mu ftn">本遊戲為親子財商教學，數字為簡化設定，不構成投資建議。© 2026 小樹爸爸</p></footer>
+<script>
+/* 音效：Web Audio 合成，無外部音檔 */
+const AU={x:null,on:(()=>{try{return localStorage.getItem('cf-snd')!=='0'}catch(e){return true}})()};
+function ax(){if(!AU.x){try{AU.x=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(AU.x.state==='suspended')AU.x.resume();return AU.x}
+function tn(f,t,d,o={}){const c=ax();if(!c)return;const s=c.currentTime+t,g=c.createGain(),n=c.createOscillator(),v=o.v||.18;n.type=o.ty||'sine';n.frequency.setValueAtTime(f,s);if(o.to)n.frequency.exponentialRampToValueAtTime(o.to,s+d);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v,s+.015);g.gain.exponentialRampToValueAtTime(.0001,s+d);if(o.lp){const l=c.createBiquadFilter();l.type='lowpass';l.frequency.value=o.lp;n.connect(l);l.connect(g)}else n.connect(g);if(o.vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=o.vib;lg.gain.value=f*.04;l.connect(lg);lg.connect(n.frequency);l.start(s);l.stop(s+d)}g.connect(c.destination);n.start(s);n.stop(s+d+.02)}
+function nz(t,d,v,lp){const c=ax();if(!c)return;const s=c.currentTime+t,b=c.createBuffer(1,Math.ceil(c.sampleRate*d),c.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;const r=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();r.buffer=b;f.type='lowpass';f.frequency.value=lp;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.0001,s+d);r.connect(f);f.connect(g);g.connect(c.destination);r.start(s)}
+const SFX={
+ start:()=>[523,659,784,1047].forEach((f,i)=>tn(f,i*.12,.25,{ty:'triangle'})),
+ pay:()=>{tn(988,0,.1,{ty:'square',v:.07});tn(1319,.09,.3,{ty:'square',v:.07})},
+ buy:()=>[523,659,784].forEach((f,i)=>tn(f,i*.07,.16,{ty:'triangle'})),
+ house:()=>{tn(900,0,.38,{to:180,v:.1});tn(80,.38,.25,{to:35,v:.5});nz(.38,.18,.5,500);tn(70,.62,.15,{to:35,v:.25});nz(.62,.1,.2,400)},
+ spend:()=>{tn(520,0,.12,{ty:'triangle'});tn(390,.1,.2,{ty:'triangle'})},
+ skip:()=>tn(440,0,.08,{v:.08}),
+ good:()=>[659,784,988,1319].forEach((f,i)=>tn(f,i*.08,.18,{ty:'triangle'})),
+ bad:()=>{tn(220,0,.25,{ty:'sawtooth',to:150,v:.1,lp:900});tn(165,.22,.35,{ty:'sawtooth',to:110,v:.1,lp:900})},
+ baby:()=>[0,.6].forEach(t=>tn(560,t,.5,{ty:'sawtooth',to:430,v:.12,lp:2200,vib:7})),
+ win:()=>{[523,659,784].forEach((f,i)=>tn(f,i*.12,.2,{ty:'triangle'}));tn(1047,.4,.6,{ty:'triangle'});[784,988,1175,1568].forEach((f,i)=>tn(f,1+i*.14,.22,{ty:'triangle'}));[1047,1319,1568].forEach(f=>tn(f,1.7,1.5,{ty:'triangle',v:.1}));[2093,2637,3136,2637,3136,4186].forEach((f,i)=>tn(f,2.3+i*.12,.25,{v:.05}));for(let i=0;i<5;i++)nz(i*.08,.07,.15,3000)},
+ lose:()=>{[[392,370,0],[349,330,.85],[311,294,1.7]].forEach(([a,b,t])=>tn(a,t,.8,{ty:'sawtooth',to:b,v:.1,lp:800,vib:5}));tn(262,2.6,1.8,{ty:'sawtooth',to:165,v:.12,lp:700,vib:4});nz(0,1.4,.08,500);[3.7,4.1].forEach(t=>tn(60,t,.25,{to:38,v:.45}))}
+};
+const sfx=k=>{if(AU.on&&SFX[k]){try{SFX[k]()}catch(e){}}};
+function toggleSnd(){AU.on=!AU.on;try{localStorage.setItem('cf-snd',AU.on?'1':'0')}catch(e){}if(AU.on)sfx('buy');render()}
+const SVG_L='<svg class="fg orz" viewBox="0 0 150 95" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="64" r="10"/><path d="M46 62Q70 50 98 50"/><path d="M60 53L52 85"/><path d="M98 50L100 85H132"/><path d="M8 88H142" stroke-width="3" opacity=".4"/></svg>',
+SVG_W='<svg class="fg cheer" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="28" r="11"/><path d="M44 30Q50 36 56 30" stroke-width="3"/><path d="M50 40V70M50 48L24 22M50 48L76 22M50 70L36 94M50 70L64 94"/></svg>';
+const f=n=>(n<0?'−':'')+'NT$'+Math.abs(Math.round(n)).toLocaleString('zh-TW');
+const pick=a=>a[Math.floor(Math.random()*a.length)],cc=n=>n>=0?'pos':'neg';
+const FIX=100,DMAX=2000;
+const CH={mi:{n:'小樹',lv:'簡單',al:200,cash:1000,e:'👧'},yu:{n:'小宇',lv:'普通',al:150,cash:600,e:'👦'},an:{n:'小安',lv:'困難',al:100,cash:300,e:'🧒'}};
+const AD={garden:['小菜園','果樹','塊',400,3,40,'🌱'],jar:['銀行存款','果樹','筆',500,2,4,'🏦'],comic:['漫畫出租','金蛋鵝','套',600,2,45,'📚'],used:['二手書攤','金蛋鵝','攤',800,3,60,'📖'],craft:['手作小舖','金蛋鵝','間',500,3,40,'✂️'],juice:['果汁攤','金蛋鵝','攤',1500,4,110,'🍹']};
+const TIP={garden:'種子要時間長大，越早種越早收成。',jar:'最安全，但利息很少，要等很久。',comic:'把東西租給別人，也能賺錢。',used:'便宜進貨，慢慢賣出去。',craft:'你的手作也能變成收入。',juice:'收入最高，但下雨天沒生意。'};
+const AT={garden:'種菜賣菜',jar:'把錢存進銀行',comic:'出租漫畫書',used:'擺攤賣二手書',craft:'做手作來賣',juice:'開果汁攤'},DS={garden:'種菜，收成後賣給鄰居',jar:'把錢存進爸媽銀行，每週領一點利息',comic:'買漫畫書租給同學，同學付你租金',used:'買便宜的二手書，擺攤賣給別人',craft:'用材料做手作，賣給同學和鄰居',juice:'準備材料開果汁攤，賣給路人'};
+SFX.egg=()=>{tn(1319,0,.12,{ty:'triangle',v:.1});tn(1760,.1,.25,{ty:'triangle',v:.1})};
+const TIPB='利息就像借錢的租金：借越多、欠越久，多還的越多。';
+let S=null;
+const mat=a=>a.age>=AD[a.k][4],tree=k=>AD[k][1]==='果樹';
+const passive=z=>S.assets.reduce((t,a)=>t+(mat(a)&&!(z&&S.zero.includes(a.k))?AD[a.k][5]:0),0);
+const dpay=()=>S.debts.reduce((t,d)=>t+d.pay,0),dbal=()=>S.debts.reduce((t,d)=>t+d.bal,0);
+const cf=z=>CH[S.c].al+passive(z)-FIX-dpay();
+const hasM=id=>S.assets.some(a=>a.k===id&&mat(a));
+/* 卡牌 */
+const AC=id=>()=>{const [n,cat,u,cost,g,inc,ic]=AD[id];return {k:'資產',s:'buy',n:AT[id],ic,desc:`${DS[id]}<br>${cat==='果樹'?'🌳 果樹':'🪿 金蛋鵝'}｜成本 ${f(cost)}｜要養 ${g} 週，長大後每週 +${f(inc)}${id==='juice'?'｜下雨天沒收入':''}`,tip:TIP[id],acts:[{l:`買下（${f(cost)}）`,ok:()=>S.cash>=cost,f:()=>{S.cash-=cost;S.assets.push({k:id,age:0});return `買下「${n}」，先養 ${g} 週，長大後每週 +${f(inc)}`}},{l:'先不要',s:'skip',f:()=>'再想想看'}]}};
+const JB=(n,ic,v)=>()=>({k:'打工',s:'pay',n,ic,desc:`這週做一次，領 ${f(v)}`,tip:'用時間換錢：做了才有，不做就沒有。',acts:[{l:'接下來',f:()=>{S.cash+=v;return `領到 ${f(v)}`}},{l:'不接',s:'skip',f:()=>'這週休息'}]});
+const bor=v=>Math.max(0,Math.ceil((v-S.cash)/500)*500);
+const WT=(n,ic,v0)=>()=>{const v=Math.round(v0*1.5/10)*10,b=bor(v);return {k:'想要',s:'spend',n,ic,desc:`標價 ${f(v)}`+(b?`<br>⚠️ 你的現金不夠，要向爸媽借 ${f(b)}，之後要還 ${f(b*1.1)}（多還 ${f(b*.1)} 利息）。想借錢來買嗎？`+(dbal()+b*1.1>DMAX?`<br>🚨 借了這筆，你欠爸媽的錢會超過 ${f(DMAX)}，你會破產喔！`:''):''),tip:'先問自己：這是「想要」還是「需要」？',acts:[{l:b?`用借的買（借 ${f(b)}，多還 ${f(b*.1)}）`:`買（${f(v)}）`,f:()=>{S.cash-=v;return `花了 ${f(v)} 買「${n}」`}},{l:'不買',s:'skip',f:()=>`忍住了，省下 ${f(v)}`}]}};
+const EV=(k,n,ic,desc,tip,fn,ok,s,l)=>()=>({k,s:s||'good',n,ic,desc,tip,ok,acts:[{l:l||'知道了',f:fn}]});
+const YN=(k,n,ic,desc,tip,yl,yok,yf,ys,ok)=>()=>({k,s:ys,n,ic,desc,tip,ok,acts:[{l:yl,ok:yok,f:yf},{l:'不要',s:'skip',f:()=>'你做了安全的選擇'}]});
+const BL=Object.keys(AD).map(AC),JL=[JB('幫人溜狗','🐕',80),JB('送報紙','📰',100),JB('教同學彈鋼琴','🎹',90)],WL=[WT('玩具盲盒','🎁',300),WT('手搖飲','🧋',60),WT('遊樂園','🎡',400),WT('零食大禮包','🍬',150),WT('遊戲儲值','🎮',100)];
+const pay=v=>()=>{S.cash-=v;return `付了 ${f(v)}`},get=v=>()=>{S.cash+=v;return `現金 +${f(v)}`};
+const EL=[
+ EV('必要','文具用完','✏️','必須付 NT$80','必要的花費一定要付，所以要留一些備用金。',pay(80),0,'spend','付錢'),
+ EV('必要','鞋壞了','👟','必須付 NT$500','必要的花費一定要付，所以要留一些備用金。',pay(500),0,'spend','付錢'),
+ EV('必要','校外教學','🚌','必須付 NT$300','必要的花費一定要付，所以要留一些備用金。',pay(300),0,'spend','付錢'),
+ EV('好事','生日紅包','🧧','收到紅包 +NT$600','意外的錢要先存起來，別一下花光。',()=>{S.gift=1;return get(600)()},()=>!S.gift),
+ EV('好事','考試進步獎金','📝','獎金 +NT$200','努力會有回報。',get(200)),
+ EV('好事','幫忙家事獎勵','🧹','獎勵 +NT$100','用勞力也能賺錢。',get(100)),
+ EV('壞事','弄丟零錢','🪙','掉了 NT$100','錢要保管好。',pay(100),0,'bad'),
+ EV('壞事','生病看醫生','🤒','醫藥費 NT$150','備用金能幫你度過意外。',pay(150),0,'bad'),
+ EV('風險','下雨天','🌧️','下雨沒人買果汁，下週果汁攤沒有收入','事業會受天氣影響，不要只靠一種收入。',()=>{S.zero.push('juice');return '下週果汁攤收入 0'},()=>hasM('juice'),'bad'),
+ EV('風險','同學把你的漫畫弄壞了','💥','租出去的漫畫被弄壞了，下週漫畫出租沒有收入','資產要好好維護。',()=>{S.zero.push('comic');return '下週漫畫出租收入 0'},()=>hasM('comic'),'bad'),
+ YN('風險','朋友跟你借錢','🤝','朋友想跟你借 NT$200，說約 4 週後會還你','借錢給別人有風險，可能拿不回來。','借他 200',()=>S.cash>=200,()=>{S.cash-=200;S.back.push({wk:S.wk+4,v:200});return '借出 NT$200'},'spend'),
+ YN('風險','加好友送遊戲幣','⚠️','陌生人說：先給我 NT$200，就送你很多遊戲幣！','「免費」「保證」常常是詐騙的警訊。','給 200',()=>S.cash>=200,()=>{S.cash-=200;return '被騙了！錢拿不回來'},'bad'),
+ YN('選擇','把會下金蛋的鵝賣掉？','🪿','同學出 NT$800 想買你的果汁攤（賣掉就沒有每週收入了）','一次拿到錢很誘人，但每週的收入才是長久的。','賣掉一攤（+800）',0,()=>{S.assets.splice(S.assets.findIndex(a=>a.k==='juice'&&mat(a)),1);S.cash+=800;return '賣掉一攤果汁攤，現金 +NT$800，但每週少了 NT$110'},'buy',()=>hasM('juice')),
+ YN('分享','捐款給愛心','💝','想捐 NT$100 幫助別人','分享讓你變得更富足。','捐 100',()=>S.cash>=100,()=>{S.cash-=100;S.star++;return '得到 1 顆愛心星星 ⭐'},'good')
+];
+function draw(){for(let i=0;i<30;i++){const r=Math.random(),c=pick(r<.35?BL:r<.5?JL:r<.7?WL:EL)();if(!c.ok||c.ok())return c}return pick(BL)()}
+function fixCash(){if(S.cash<0){const a=Math.ceil(-S.cash/500)*500;S.cash+=a;S.debts.push({bal:a*1.1,pay:a*1.1/10});return `現金不夠了，向爸媽借了 ${f(a)}。借錢要付利息（借錢費），多還 ${f(a*.1)}，一共還 ${f(a*1.1)}，分 10 週，每週還 ${f(a*.11)}。`}return ''}
+function amort(){const n=S.debts.length;S.debts=S.debts.filter(d=>{d.bal-=d.pay;return d.bal>.5});return n-S.debts.length}
+function endCheck(){if(S.over)return;if(dbal()>DMAX)S.over='lose';else if(passive()>=FIX)S.over='win'}
+function save(){try{localStorage.setItem('kmt-v1',JSON.stringify({...S,card:null,res:null}))}catch(e){}}
+function start(k){const c=CH[k];S={c:k,wk:1,cash:c.cash,prev:c.cash,assets:[],debts:[],back:[],zero:[],star:0,gift:0,card:null,res:null,over:null};S.card=draw();sfx('start');render()}
+function load(){try{S=JSON.parse(localStorage.getItem('kmt-v1'));S.back=S.back||[];S.zero=S.zero||[];S.card=draw();render()}catch(e){reset()}}
+function act(i){const c=S.card,a=c.acts[i];if(a.ok&&!a.ok())return;const m=a.f(),d=fixCash();S.res={msg:m+(d?'；'+d:''),tip:d?TIPB:c.tip};S.card=null;endCheck();sfx(S.over||a.s||c.s);render()}
+function next(){const z=cf(true),p=passive(true);S.prev=S.cash;S.cash+=z;S.zero=[];const full=[];S.assets.forEach(a=>{a.age++;if(a.age===AD[a.k][4])full.push(AD[a.k][0])});const dn=amort();S.wk++;
+ let m=`第 ${S.wk-1} 週結算：${z>=0?'+':''}${f(z)}`;if(full.length)m+=`；🎉 ${full.join('、')} 長大了！`;if(dn)m+='；還清一筆欠款';
+ S.back=S.back.filter(b=>{if(b.wk>S.wk)return true;if(Math.random()<.5){S.cash+=b.v;m+=`；朋友還你 ${f(b.v)}`}else m+='；朋友沒有還錢…';return false});
+ const d=fixCash();S.res={msg:m+(d?'；'+d:''),tip:d?TIPB:(full.length?'長大後每週都有收入，這就是「讓錢幫你工作」。':'')};S.card=draw();endCheck();sfx(S.over||(full.length?'good':p>0?'egg':'pay'));render()}
+function payoff(i){const d=S.debts[i];if(S.cash<d.bal)return;S.cash-=d.bal;S.debts.splice(i,1);render()}
+function cashbar(){const a=S.prev,b=S.cash,d=b-a,mx=Math.max(a,b,1),up=d>=0;const row=(l,v,c)=>`<div class="r" style="border:0;align-items:center"><span style="width:60px">${l}</span><div class="bar" style="flex:1;margin:2px 0"><i style="width:${v/mx*100}%;background:${c}"></i></div><b style="width:96px;text-align:right">${f(v)}</b></div>`;
+ return row('上週底',a,'var(--mu)')+row('現在',b,up?'var(--gn)':'var(--rd)')+`<div class="${up?'pos':'neg'}"><b>${d===0?'本週現金持平':(up?'▲ 本週現金增加 ':'▼ 本週現金減少 ')+f(Math.abs(d))}</b></div>`}
+function grp(){const m={};S.assets.forEach(a=>{const g=m[a.k]||(m[a.k]={k:a.k,t:0,m:0,left:0});g.t++;if(mat(a))g.m++;else g.left=Math.max(g.left,AD[a.k][4]-a.age)});return Object.values(m)}
+function endScreen(p){const w=S.over==='win',r=(a,b)=>a+Math.random()*(b-a),cl=['#f5c542','#4fc08d','#ff6b5e','#5aa9ff','#c77dff'];let fx='';
+ if(w){for(let i=0;i<46;i++)fx+=`<i class="cf" style="left:${r(0,100)}%;background:${cl[i%5]};animation-duration:${r(2.5,5)}s;animation-delay:${r(0,3)}s"></i>`;for(let i=0;i<8;i++)fx+=`<span class="cf" style="left:${r(0,100)}%;width:auto;height:auto;font-size:22px;animation-duration:${r(3,5)}s;animation-delay:${r(0,3)}s">🥚</span>`;for(let i=0;i<4;i++)fx+=`<b class="fw" style="left:${r(10,90)}%;top:${r(8,40)}%;color:${cl[i%5]};animation-delay:${i*.5}s"></b>`}else fx='<div class="rain"></div>';
+ const row=(l,v,k)=>`<div class="r"><span>${l}</span><b class="${k||''}">${v}</b></div>`;
+ if(w)return `<div class="m win">${fx}<div class="c" style="text-align:center">${SVG_W}<h1>🎉 你種出了錢果樹！</h1><p>果子和金蛋的收入，已經比每週花費還多，不用打工也夠花了！</p>${row('用了',S.wk+' 週')}${row('每週果子＋金蛋收入',f(p),'pos')}${row('養大的樹和鵝',S.assets.filter(mat).length+' 個')}${row('愛心星星','⭐ '+S.star)}<h3>這局的觀念</h3><p class="mu">資產像會結果的樹、會下金蛋的鵝，要先花時間養大；等牠們長大，錢就會自己跑進你的口袋。</p><button class="p" onclick="reset()">再玩一次</button></div></div>`;
+ return `<div class="m lose">${fx}<div class="c" style="text-align:center"><div class="cloud">🌧️</div>${SVG_L}<h1>破產了…</h1><p>欠爸媽的錢太多，爸媽不能再借你了。借錢要多還利息，先存一點備用金會更划算。</p>${row('撐了',S.wk+' 週')}${row('欠爸媽',f(dbal()),'neg')}${row('果子＋金蛋收入',f(passive()))}<h3>這局的教訓</h3><p class="mu">先存一些備用金，再慢慢養樹養鵝；不要把錢都花在「想要」的東西上。失敗也是學習，再種一次吧！</p><button class="p" onclick="reset()">再玩一次</button></div></div>`}
+let rc=false,rt;
+function askReset(){if(rc){rc=false;clearTimeout(rt);reset();return}rc=true;render();rt=setTimeout(()=>{rc=false;if(S)render()},4000)}
+function reset(){try{localStorage.removeItem('kmt-v1')}catch(e){}S=null;render()}
+function render(){const A=document.getElementById('app');document.getElementById('brand').style.display=S?'none':'';
+ if(!S){let h='<h1>🌳 小樹成長記：種出我的錢果樹</h1><div class="c"><p><b>目標：</b>讓「果子和金蛋」每週的收入，比你每週的基本花費還多，這樣你不用打工也夠花！</p><p>樹和鵝都要<b>慢慢養大</b>，越早種越早收成。</p><p>現金不夠時，可以向爸媽借錢，但要付<b>利息（借錢費）</b>：借 100 元，要多還 10 元。欠太多，爸媽就不借你了。</p><p class="mu">金額為簡化設定，僅供學習，不是投資建議。</p><h3>選一位角色</h3>';
+  for(const k in CH){const c=CH[k];h+=`<button class="p" onclick="start('${k}')">${c.e} ${c.n}（每週零用錢 ${f(c.al)}）</button><span class="mu">${c.lv}</span><br>`}
+  try{if(localStorage.getItem('kmt-v1'))h+='<br><button onclick="load()">繼續上次進度</button>'}catch(e){}
+  A.innerHTML=h+'</div>';return}
+ save();const p=passive(),pc=Math.min(100,p/FIX*100),c=cf(true),ch=CH[S.c];
+ let h=`<div class="top"><h1>第 ${S.wk} 週｜${ch.e} ${ch.n}</h1><span><button onclick="toggleSnd()" title="音效開關">${AU.on?'🔊':'🔇'}</button><button onclick="askReset()"${rc?' class="p"':''}>${rc?'再按一次，確認重新開始':'重新開始'}</button></span></div>
+ <div class="c"><div class="top"><b>不用打工也夠花　進度</b><b>${pc.toFixed(0)}%</b></div><div class="bar"><i style="width:${pc}%"></i></div><div class="mu">果子＋金蛋收入 ${f(p)} ÷ 每週基本花費 ${f(FIX)}｜現金 <b class="${cc(S.cash)}">${f(S.cash)}</b></div></div>
+ <div class="c" style="margin-top:12px"><b>我的現金（本週變化）</b>${cashbar()}</div><div class="g" style="margin-top:12px"><div>`;
+ if(S.card){const k=S.card;h+=`<div class="c"><span class="tag">${k.k}</span><h3 style="margin:0;color:var(--tx);font-size:17px"><span style="font-size:30px;vertical-align:middle">${k.ic}</span> ${k.n}</h3><p>${k.desc}</p>`;k.acts.forEach((a,i)=>h+=`<button class="p" ${a.ok&&!a.ok()?'disabled':''} onclick="act(${i})">${a.l}</button>`);h+='</div>'}
+ else h+='<div class="c"><p>這週的決定完成了。</p><button class="p" onclick="next()">領零用錢，進入下一週 ▶</button></div>';
+ if(S.res)h+=`<div class="res">${S.res.msg}${S.res.tip?`<div class="mu">💡 ${S.res.tip}</div>`:''}</div>`;
+ h+=`<div class="c" style="margin-top:12px"><b>我的果樹和金蛋鵝</b>${S.assets.length?grp().map(g=>{const d=AD[g.k],t=tree(g.k),i1=t?'🌳':'🪿',i0=t?'🌱':'🐣';return `<div class="r"><span>${g.m?i1:i0} ${d[0]} ${g.t}${d[2]}</span><b class="pos">+${f(g.m*d[5])}/週</b></div>`+(g.t>g.m?`<div class="mu">${i0} 成長中 ${g.t-g.m}${d[2]}，還要 ${g.left} 週</div>`:'')}).join(''):'<div class="mu">還沒有，去種下第一棵樹或養第一隻鵝吧</div>'}</div></div><div>
+ <div class="c"><b>我的錢包</b><div class="r"><span>每週零用錢</span><b>${f(ch.al)}</b></div><div class="r"><span>每週基本花費</span><b>${f(FIX)}</b></div><div class="r"><span>果子＋金蛋收入</span><b class="pos">${f(p)}</b></div><div class="r"><span>還錢給爸媽（每週）</span><b>${f(dpay())}</b></div><div class="r"><span>每週剩下</span><b class="${cc(c)}">${f(c)}</b></div><div class="r"><span>愛心星星</span><b>⭐ ${S.star}</b></div></div>
+ <div class="c" style="margin-top:12px"><b>欠爸媽的錢</b>${S.debts.length?S.debts.map((d,i)=>`<div class="r"><span>💸 還欠 ${f(d.bal)}<span class="mu">，每週還 ${f(d.pay)}</span></span><button style="padding:2px 8px;margin:0" ${S.cash<d.bal?'disabled':''} onclick="payoff(${i})">還清</button></div>`).join(''):'<div class="mu">沒有欠款</div>'}<div class="mu">💡 什麼是利息（借錢費）？借 100 元，要多還 10 元。欠爸媽超過 ${f(DMAX)}，爸媽就不借你了，你會破產喔。</div></div></div></div>`;
+ if(S.over)h+=endScreen(p);A.innerHTML=h}
+render();
+</script></body></html>
