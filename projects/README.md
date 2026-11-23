@@ -24,12 +24,11 @@
 > 數字為簡化設定，僅供教學，不構成投資建議。
 
 ### 🎮 [FIRE 模擬器-小孩版本 ( 種出我的錢果樹 ) ](https://kikopapa.github.io/projects/kids-money-tree.html)
-
-### 🎯 [2030 願景畫布](https://kikopapa.github.io/projects/fire-target-2030.html)
 * 每週抽一張卡 → 決定買資產、打工、買想要的東西，或先存起來
 * 你會看到：我的錢包、樹和鵝的成長進度、本週現金變化、欠爸媽的錢
 * 可學到：資產要慢慢養大、用時間換錢 vs 讓錢幫你工作、想要 vs 需要、借錢要付利息、遇到詐騙怎麼辦
 
+### 🎯 [2030 願景畫布](https://kikopapa.github.io/projects/fire-target-2030.html)
 把 2030 年的目標視覺化，放在部落格選單中，幫助自己持續對焦。
 **適合**：想盤點人生與財務目標的人
 
