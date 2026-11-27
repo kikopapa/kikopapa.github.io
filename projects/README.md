@@ -32,7 +32,7 @@
 把 2030 年的目標視覺化，放在部落格選單中，幫助自己持續對焦。
 **適合**：想盤點人生與財務目標的人
 
-### 🎯 [數位游牧新手清單]([https://kikopapa.github.io/projects/fire-target-2030.html)
+### 🎯 [數位游牧新手清單](https://kikopapa.github.io/projects/fire-target-2030.html)
 自由工作者新手清單，36 個檢查項，勾選進度
 **適合**：想從上班族轉為自由工作者
 
